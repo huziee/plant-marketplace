@@ -1,0 +1,108 @@
+@extends('layouts.admin')
+
+@section('title', 'Create Plant Problem')
+
+@section('content')
+<div class="mb-4">
+    <a href="{{ route('admin.plant-problems.index') }}" class="text-decoration-none text-muted small fw-bold">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Problems
+    </a>
+    <h2 class="fw-bold mt-2" style="font-family:'Playfair Display',serif">Create Plant Problem</h2>
+</div>
+
+<form action="{{ route('admin.plant-problems.store') }}" method="POST">
+    @csrf
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card card-custom">
+                <h5 class="fw-bold mb-3">Problem Information</h5>
+                
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Problem Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" placeholder="e.g. Yellow Leaves" required>
+                        @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold small">Type <span class="text-danger">*</span></label>
+                        <select name="problem_type" class="form-select">
+                            <option value="disease" {{ old('problem_type') === 'disease' ? 'selected' : '' }}>Fungal / Bacterial Disease</option>
+                            <option value="pest" {{ old('problem_type') === 'pest' ? 'selected' : '' }}>Pest / Insect Infestation</option>
+                            <option value="watering" {{ old('problem_type') === 'watering' ? 'selected' : '' }}>Watering Issue (Over/Under)</option>
+                            <option value="nutrient" {{ old('problem_type') === 'nutrient' ? 'selected' : '' }}>Nutrient Deficiency</option>
+                            <option value="environment" {{ old('problem_type') === 'environment' ? 'selected' : '' }}>Environmental Stress</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Short Overview</label>
+                    <textarea name="short_description" class="form-control" rows="2">{{ old('short_description') }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Full Explanation</label>
+                    <textarea name="description" class="form-control" rows="5">{{ old('description') }}</textarea>
+                </div>
+            </div>
+
+            <!-- Dynamic Symptoms & Treatments Card -->
+            <div class="card card-custom">
+                <h5 class="fw-bold mb-3">Symptoms & Step-by-Step Treatment</h5>
+                
+                <div class="mb-4">
+                    <label class="form-label fw-bold small">Symptoms (One per line)</label>
+                    <textarea name="symptoms[]" class="form-control" rows="3" placeholder="Soft yellowing lower leaves&#10;Stunted growth&#10;Wet soil smell">{{ is_array(old('symptoms')) ? implode("\n", old('symptoms')) : '' }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small">Causes (One per line)</label>
+                    <textarea name="causes[]" class="form-control" rows="3" placeholder="Overwatering&#10;Poor soil drainage">{{ is_array(old('causes')) ? implode("\n", old('causes')) : '' }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small">Treatment Instructions (One step per line)</label>
+                    <textarea name="treatments[]" class="form-control" rows="4" placeholder="1. Allow soil to dry out completely.&#10;2. Trim yellowed foliage.&#10;3. Repot into fresh well-draining soil.">{{ is_array(old('treatments')) ? implode("\n", old('treatments')) : '' }}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Prevention Measures (One per line)</label>
+                    <textarea name="preventions[]" class="form-control" rows="3" placeholder="Always check top 3cm of soil before watering.">{{ is_array(old('preventions')) ? implode("\n", old('preventions')) : '' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card card-custom">
+                <h5 class="fw-bold mb-3">Status & Severity</h5>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Status <span class="text-danger">*</span></label>
+                    <select name="status" class="form-select">
+                        <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Severity <span class="text-danger">*</span></label>
+                    <select name="severity" class="form-select">
+                        <option value="low" {{ old('severity') === 'low' ? 'selected' : '' }}>Low</option>
+                        <option value="medium" {{ old('severity', 'medium') === 'medium' ? 'selected' : '' }}>Medium</option>
+                        <option value="high" {{ old('severity') === 'high' ? 'selected' : '' }}>High (Urgent)</option>
+                    </select>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input type="checkbox" name="is_featured" value="1" class="form-check-input" id="isFeatured" {{ old('is_featured') ? 'checked' : '' }}>
+                    <label class="form-check-label fw-bold small" for="isFeatured">Featured on Plant Doctor</label>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 py-2 fw-bold" style="border-radius:12px;background:var(--green-900)">
+                    Save Problem Guide
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+@endsection
