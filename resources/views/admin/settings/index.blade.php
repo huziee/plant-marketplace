@@ -38,11 +38,11 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Site Name</label>
-                        <input type="text" name="site_name" value="{{ old('site_name', $settings['site_name'] ?? 'Plantora') }}" class="form-control" required>
+                        <input type="text" name="site_name" value="{{ old('site_name', $settings['site_name'] ?? 'Plantaric') }}" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Tagline</label>
-                        <input type="text" name="tagline" value="{{ old('tagline', $settings['tagline'] ?? 'Plants, Nurseries & Garden Care') }}" class="form-control">
+                        <input type="text" name="tagline" value="{{ old('tagline', $settings['tagline'] ?? 'Agriculture, Plants & Garden Care') }}" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Default Currency</label>
@@ -60,7 +60,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Contact Email</label>
-                        <input type="email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? 'support@plantora.com') }}" class="form-control">
+                        <input type="email" name="contact_email" value="{{ old('contact_email', $settings['contact_email'] ?? 'support@plantaric.com') }}" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Contact Phone</label>
@@ -82,11 +82,11 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Facebook URL</label>
-                        <input type="url" name="facebook_url" value="{{ old('facebook_url', $settings['facebook_url'] ?? '') }}" class="form-control" placeholder="https://facebook.com/plantora">
+                        <input type="url" name="facebook_url" value="{{ old('facebook_url', $settings['facebook_url'] ?? '') }}" class="form-control" placeholder="https://facebook.com/plantaric">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">Instagram URL</label>
-                        <input type="url" name="instagram_url" value="{{ old('instagram_url', $settings['instagram_url'] ?? '') }}" class="form-control" placeholder="https://instagram.com/plantora">
+                        <input type="url" name="instagram_url" value="{{ old('instagram_url', $settings['instagram_url'] ?? '') }}" class="form-control" placeholder="https://instagram.com/plantaric">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold small">YouTube URL</label>
@@ -112,7 +112,7 @@
                 <div class="row g-3">
                     <div class="col-md-12">
                         <label class="form-label fw-bold small">Default SEO Title</label>
-                        <input type="text" name="seo_title" value="{{ old('seo_title', $settings['seo_title'] ?? 'Plantora — Plants, Nurseries & Garden Care') }}" class="form-control" required>
+                        <input type="text" name="seo_title" value="{{ old('seo_title', $settings['seo_title'] ?? 'Plantaric — Agriculture, Plants & Botanical Care') }}" class="form-control" required>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label fw-bold small">Default Meta Description</label>

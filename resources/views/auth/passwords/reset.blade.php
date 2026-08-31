@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Set New Password — Plantora')
+@section('title', 'Set New Password — Plantaric')
 
 @section('content')
 <div class="container section">
@@ -10,7 +10,7 @@
                 <div class="text-center mb-4">
                     <span class="brand-mark mx-auto mb-3" style="width:48px;height:48px;font-size:22px"><i class="fa-solid fa-lock"></i></span>
                     <h2 style="font-family:'Playfair Display',serif;font-weight:700">Set New Password</h2>
-                    <p class="text-muted small mb-0">Create a secure new password for your Plantora account.</p>
+                    <p class="text-muted small mb-0">Create a secure new password for your Plantaric account.</p>
                 </div>
 
                 <form method="POST" action="{{ route('password.update') }}">

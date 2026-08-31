@@ -37,6 +37,10 @@ class ProductReviewController extends Controller
             ]
         );
 
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Thank you! Your product review has been published.']);
+        }
+
         return redirect()->back()->with('success', 'Thank you! Your product review has been published.');
     }
 }

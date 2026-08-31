@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '419 Page Expired — Plantora')
+@section('title', '419 Page Expired — Plantaric')
 
 @section('content')
 <div class="container section">

@@ -26,23 +26,32 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
+        $categoryImagesMap = [
+            'indoor-plants' => asset('images/categories/indoor_plants.jpg'),
+            'outdoor-plants' => asset('images/categories/outdoor_plants.jpg'),
+            'flowering-plants' => asset('images/categories/flowering_plants.jpg'),
+            'succulents-cacti' => asset('images/categories/succulents_cacti.jpg'),
+            'herbs' => asset('images/categories/herbs.jpg'),
+            'vegetables' => asset('images/categories/vegetables.jpg'),
+        ];
+
         if ($dbCategories->count() > 0) {
-            $categories = $dbCategories->map(function ($cat) {
+            $categories = $dbCategories->map(function ($cat) use ($categoryImagesMap) {
                 return [
                     'name' => $cat->name,
                     'slug' => $cat->slug,
                     'count' => $cat->plants_count . ' plants',
-                    'image' => $cat->image ? asset('storage/' . $cat->image->file_path) : 'https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=500&q=80',
+                    'image' => $categoryImagesMap[$cat->slug] ?? ($cat->image ? asset('storage/' . $cat->image->file_path) : asset('images/categories/indoor_plants.jpg')),
                 ];
             })->toArray();
         } else {
             $categories = [
-                ['name' => 'Indoor Plants', 'slug' => 'indoor-plants', 'count' => '184 plants', 'image' => 'https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=500&q=80'],
-                ['name' => 'Outdoor Plants', 'slug' => 'outdoor-plants', 'count' => '226 plants', 'image' => 'https://images.unsplash.com/photo-1591857177580-dc82b9ac4e1e?auto=format&fit=crop&w=500&q=80'],
-                ['name' => 'Flowering Plants', 'slug' => 'flowering-plants', 'count' => '96 plants', 'image' => 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=500&q=80'],
-                ['name' => 'Succulents & Cacti', 'slug' => 'succulents-cacti', 'count' => '312 plants', 'image' => 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80'],
-                ['name' => 'Herbs', 'slug' => 'herbs', 'count' => '124 plants', 'image' => 'https://images.unsplash.com/photo-1599685315640-9ceab2f581ca?auto=format&fit=crop&w=500&q=80'],
-                ['name' => 'Vegetables', 'slug' => 'vegetables', 'count' => '168 plants', 'image' => 'https://images.unsplash.com/photo-1604762512526-b7ce049b5764?auto=format&fit=crop&w=500&q=80'],
+                ['name' => 'Indoor Plants', 'slug' => 'indoor-plants', 'count' => '184 plants', 'image' => asset('images/categories/indoor_plants.jpg')],
+                ['name' => 'Outdoor Plants', 'slug' => 'outdoor-plants', 'count' => '226 plants', 'image' => asset('images/categories/outdoor_plants.jpg')],
+                ['name' => 'Flowering Plants', 'slug' => 'flowering-plants', 'count' => '96 plants', 'image' => asset('images/categories/flowering_plants.jpg')],
+                ['name' => 'Succulents & Cacti', 'slug' => 'succulents-cacti', 'count' => '312 plants', 'image' => asset('images/categories/succulents_cacti.jpg')],
+                ['name' => 'Herbs', 'slug' => 'herbs', 'count' => '124 plants', 'image' => asset('images/categories/herbs.jpg')],
+                ['name' => 'Vegetables', 'slug' => 'vegetables', 'count' => '168 plants', 'image' => asset('images/categories/vegetables.jpg')],
             ];
         }
 
@@ -53,8 +62,19 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        $tableImagesList = [
+            asset('images/products/monstera_table.jpg'),
+            asset('images/products/snake_table.jpg'),
+            asset('images/products/fiddle_table.jpg'),
+            asset('images/products/peace_table.jpg'),
+            asset('images/products/pothos_table.jpg'),
+            asset('images/products/rubber_table.jpg'),
+            asset('images/products/zz_table.jpg'),
+            asset('images/products/calathea_table.jpg'),
+        ];
+
         if ($dbPlants->count() > 0) {
-            $trendingProducts = $dbPlants->map(function ($plant) {
+            $trendingProducts = $dbPlants->values()->map(function ($plant, $index) use ($tableImagesList) {
                 return [
                     'name' => $plant->name,
                     'slug' => $plant->slug,
@@ -62,18 +82,22 @@ class HomeController extends Controller
                     'price' => 'Explore Care',
                     'original_price' => null,
                     'rating' => 5,
-                    'reviews' => 98,
+                    'reviews' => 85 + ($index * 12),
                     'light' => $plant->care?->sunlight_label ?: 'Medium Light',
                     'water' => $plant->care?->watering_label ?: 'Weekly',
-                    'image' => $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85',
+                    'image' => $tableImagesList[$index % count($tableImagesList)],
                 ];
             })->toArray();
         } else {
             $trendingProducts = [
-                ['name' => 'Monstera Deliciosa', 'slug' => 'monstera-deliciosa', 'badge' => 'Easy Care', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 128, 'light' => 'Medium light', 'water' => 'Weekly', 'image' => 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85'],
-                ['name' => 'Snake Plant', 'slug' => 'snake-plant', 'badge' => 'Low Light', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 96, 'light' => 'Low light', 'water' => '2–3 weeks', 'image' => 'https://images.unsplash.com/photo-1593482892290-f54927ae2b7f?auto=format&fit=crop&w=700&q=85'],
-                ['name' => 'Fiddle Leaf Fig', 'slug' => 'fiddle-leaf-fig', 'badge' => 'Moderate Care', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 4, 'reviews' => 74, 'light' => 'Bright light', 'water' => 'Weekly', 'image' => 'https://images.unsplash.com/photo-1601985705806-5b9a71f6004f?auto=format&fit=crop&w=700&q=85'],
-                ['name' => 'Peace Lily', 'slug' => 'peace-lily', 'badge' => 'Air Purifying', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 110, 'light' => 'Indirect', 'water' => 'Weekly', 'image' => 'https://images.unsplash.com/photo-1597055181300-e3633a207517?auto=format&fit=crop&w=700&q=85'],
+                ['name' => 'Monstera Deliciosa', 'slug' => 'monstera-deliciosa', 'badge' => 'Easy Care', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 128, 'light' => 'Medium light', 'water' => 'Weekly', 'image' => $tableImagesList[0]],
+                ['name' => 'Snake Plant', 'slug' => 'snake-plant', 'badge' => 'Low Light', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 96, 'light' => 'Low light', 'water' => '2–3 weeks', 'image' => $tableImagesList[1]],
+                ['name' => 'Fiddle Leaf Fig', 'slug' => 'fiddle-leaf-fig', 'badge' => 'Moderate Care', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 4, 'reviews' => 74, 'light' => 'Bright light', 'water' => 'Weekly', 'image' => $tableImagesList[2]],
+                ['name' => 'Peace Lily', 'slug' => 'peace-lily', 'badge' => 'Air Purifying', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 110, 'light' => 'Indirect', 'water' => 'Weekly', 'image' => $tableImagesList[3]],
+                ['name' => 'Golden Pothos', 'slug' => 'golden-pothos', 'badge' => 'Beginner Friendly', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 142, 'light' => 'Low to Bright', 'water' => 'Weekly', 'image' => $tableImagesList[4]],
+                ['name' => 'Rubber Tree Plant', 'slug' => 'rubber-plant', 'badge' => 'Glossy Leaves', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 88, 'light' => 'Bright light', 'water' => '1–2 weeks', 'image' => $tableImagesList[5]],
+                ['name' => 'ZZ Plant', 'slug' => 'zz-plant', 'badge' => 'Drought Tolerant', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 5, 'reviews' => 105, 'light' => 'Low light', 'water' => '2–3 weeks', 'image' => $tableImagesList[6]],
+                ['name' => 'Calathea Orbifolia', 'slug' => 'calathea-orbifolia', 'badge' => 'Pet Friendly', 'price' => 'Explore Care', 'original_price' => null, 'rating' => 4, 'reviews' => 69, 'light' => 'Medium light', 'water' => 'Twice weekly', 'image' => $tableImagesList[7]],
             ];
         }
 

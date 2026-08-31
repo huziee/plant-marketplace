@@ -16,9 +16,9 @@ class SeoService
 
     public function __construct()
     {
-        $this->title = setting('seo_title', 'Plantora — Plants, Nurseries & Garden Care');
-        $this->description = setting('seo_description', 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.');
-        $this->ogImage = setting('og_image', asset('images/plantora-og.jpg'));
+        $this->title = setting('seo_title', 'Plantaric — Agriculture, Plants & Botanical Care');
+        $this->description = setting('seo_description', 'Discover agricultural plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert botanical advice.');
+        $this->ogImage = setting('og_image', asset('images/plantaric-og.jpg'));
     }
 
     public function setJsonLd(array $schema): self
@@ -52,7 +52,7 @@ class SeoService
 
     public function setTitle(string $title): self
     {
-        $siteName = setting('site_name', 'Plantora');
+        $siteName = setting('site_name', 'Plantaric');
         $this->title = str_contains($title, $siteName) ? $title : "{$title} | {$siteName}";
         return $this;
     }

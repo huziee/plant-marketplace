@@ -14,7 +14,7 @@
           <span class="badge bg-success-subtle text-success text-uppercase mb-2"><i class="fa-regular fa-user me-1"></i> Author Profile</span>
           <h1 class="fw-bold mb-1" style="font-family:'Playfair Display',serif">{{ $user->name }}</h1>
           <p class="text-muted fw-bold mb-3">{{ $user->authorProfile?->job_title ?: 'Botanical Editor & Plant Specialist' }}</p>
-          <p class="text-secondary mb-4">{{ $user->authorProfile?->bio ?: "Horticulturist and botanical author sharing expert indoor plant care guides, soil treatment advice, and gardening tutorials on Plantora." }}</p>
+          <p class="text-secondary mb-4">{{ $user->authorProfile?->bio ?: "Horticulturist and botanical author sharing expert indoor plant care guides, soil treatment advice, and gardening tutorials on Plantaric." }}</p>
           
           <div class="d-flex justify-content-center justify-content-md-start gap-3">
             @if($user->authorProfile?->website)

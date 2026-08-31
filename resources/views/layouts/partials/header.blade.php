@@ -3,7 +3,7 @@
         <nav>
             <a class="brand" href="{{ url('/') }}">
                 <span class="brand-mark"><i class="fa-solid fa-seedling"></i></span>
-                Plantora
+                Plantaric
             </a>
 
             <div class="nav-links">

@@ -11,7 +11,7 @@
       <div class="hero-copy" style="padding:48px 42px">
         <span class="eyebrow" style="background:rgba(255,255,255,.1);color:#dff2ca"><i class="fa-regular fa-newspaper me-1"></i> Botanical Knowledge</span>
         <h1 style="font-size:clamp(32px,4vw,52px)">Discover expert <span>gardening articles.</span></h1>
-        <p>In-depth guides, plant care insights, indoor foliage tips, and organic gardening strategies written by Plantora horticulturists.</p>
+        <p>In-depth guides, plant care insights, indoor foliage tips, and organic gardening strategies written by Plantaric horticulturists.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
         <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=85" alt="Gardening Articles" class="skeleton-img">

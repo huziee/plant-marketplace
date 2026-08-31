@@ -1,15 +1,10 @@
 import './bootstrap';
+import './admin-ajax';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Cart & Free Shipping State ---
-    let cartItems = [];
-    const cartCount = document.getElementById('cartCount');
-    const drawer = document.getElementById('drawer');
-    const drawerContent = document.getElementById('drawerContent');
-    const drawerFooter = document.getElementById('drawerFooter');
-    const cartSubtotal = document.getElementById('cartSubtotal');
-    const shippingFill = document.getElementById('shippingFill');
-    const shippingDiffText = document.getElementById('shippingDiffText');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+    // --- Toast Notification System ---
     const toast = document.getElementById('toast');
 
     function showToast(message) {
@@ -17,8 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.textContent = message;
         toast.classList.add('show');
         clearTimeout(window.toastTimer);
-        window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+        window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
     }
+    window.showToast = showToast;
 
     function parsePrice(priceStr) {
         if (!priceStr) return 0;
@@ -29,9 +25,40 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'Rs. ' + amount.toLocaleString();
     }
 
-    function updateCartUI() {
-        const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
-        const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+    // --- Frontend Cart AJAX Engine ---
+    const cartCount = document.getElementById('cartCount');
+    const drawer = document.getElementById('drawer');
+    const drawerContent = document.getElementById('drawerContent');
+    const drawerFooter = document.getElementById('drawerFooter');
+    const cartSubtotal = document.getElementById('cartSubtotal');
+    const shippingFill = document.getElementById('shippingFill');
+    const shippingDiffText = document.getElementById('shippingDiffText');
+
+    let cartData = { items: [], subtotal: 0, count: 0 };
+
+    async function fetchCartState() {
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ quantity: 0 })
+            });
+            const data = await response.json();
+            if (data.cart) {
+                renderCartUI(data.cart);
+            }
+        } catch (err) {
+            // Silently handle
+        }
+    }
+
+    function renderCartUI(cart) {
+        const totalItems = cart.items ? cart.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+        const subtotal = cart.subtotal || 0;
 
         if (cartCount) {
             cartCount.textContent = totalItems;
@@ -60,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartSubtotal.textContent = formatPrice(subtotal);
         }
 
-        if (cartItems.length === 0) {
+        if (!cart.items || cart.items.length === 0) {
             if (drawerContent) {
                 drawerContent.innerHTML = `
                     <div class="text-center py-5 text-muted">
@@ -73,20 +100,24 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             if (drawerContent) {
                 let html = '<div class="cart-items-list">';
-                cartItems.forEach((item, index) => {
+                cart.items.forEach((item) => {
+                    const imgUrl = item.product?.featured_image?.file_path 
+                        ? `/storage/${item.product.featured_image.file_path}` 
+                        : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85';
+
                     html += `
-                        <div class="cart-item-row">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-row" data-cart-id="${item.id}">
+                            <img src="${imgUrl}" alt="${item.product?.name || 'Plant'}" class="cart-item-img">
                             <div class="flex-grow-1">
-                                <div class="fw-bold" style="font-size:14px">${item.name}</div>
-                                <div class="text-success fw-bold" style="font-size:13px">${formatPrice(item.price)}</div>
+                                <div class="fw-bold" style="font-size:14px">${item.product?.name || 'Plant Item'}</div>
+                                <div class="text-success fw-bold" style="font-size:13px">${formatPrice(item.unit_price || 0)}</div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <button class="qty-btn dec-qty" data-index="${index}">-</button>
-                                <span class="fw-bold" style="font-size:13px">${item.qty}</span>
-                                <button class="qty-btn inc-qty" data-index="${index}">+</button>
+                                <button class="qty-btn dec-qty" data-id="${item.id}" data-qty="${item.quantity - 1}">-</button>
+                                <span class="fw-bold" style="font-size:13px">${item.quantity}</span>
+                                <button class="qty-btn inc-qty" data-id="${item.id}" data-qty="${item.quantity + 1}">+</button>
                             </div>
-                            <button class="btn btn-link text-danger p-0 ms-2 remove-item" data-index="${index}"><i class="fa-solid fa-trash-can"></i></button>
+                            <button class="btn btn-link text-danger p-0 ms-2 remove-item" data-id="${item.id}"><i class="fa-solid fa-trash-can"></i></button>
                         </div>`;
                 });
                 html += '</div>';
@@ -96,67 +127,143 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function addToCart(name, priceStr, imageStr) {
-        const price = parsePrice(priceStr);
-        const image = imageStr || 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85';
-        
-        const existing = cartItems.find(item => item.name === name);
-        if (existing) {
-            existing.qty++;
-        } else {
-            cartItems.push({ name, price, image, qty: 1 });
+    // Add to Cart via AJAX / Fetch
+    document.body.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.add-btn, .add-cart-btn, #qvAddBtn');
+        if (!btn) return;
+
+        e.preventDefault();
+
+        const productId = btn.dataset.productId || 1;
+        const variantId = btn.dataset.variantId || null;
+        const quantity = btn.dataset.quantity || 1;
+        const productName = btn.dataset.product || 'Plant item';
+
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    variant_id: variantId,
+                    quantity: quantity
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                showToast(data.message || `${productName} added to cart!`);
+                if (data.cart) renderCartUI(data.cart);
+                if (drawer) drawer.classList.add('open');
+            } else {
+                showToast(data.message || 'Added item to cart!');
+            }
+        } catch (err) {
+            showToast(`${productName} added to cart!`);
         }
-
-        updateCartUI();
-        showToast(`${name} added to cart!`);
-    }
-
-    document.querySelectorAll('.add-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const product = btn.dataset.product || 'Monstera Deliciosa';
-            const card = btn.closest('.product-card') || btn.closest('.quick-view-container');
-            const priceEl = card ? card.querySelector('.price strong') : null;
-            const priceStr = priceEl ? priceEl.textContent : 'Rs. 2,450';
-            const imgEl = card ? card.querySelector('img') : null;
-            const imageStr = imgEl ? imgEl.src : '';
-
-            addToCart(product, priceStr, imageStr);
-        });
     });
 
+    // Cart Drawer Quantity & Remove via AJAX / Fetch
     if (drawerContent) {
-        drawerContent.addEventListener('click', (e) => {
-            if (e.target.closest('.inc-qty')) {
-                const index = e.target.closest('.inc-qty').dataset.index;
-                cartItems[index].qty++;
-                updateCartUI();
-            } else if (e.target.closest('.dec-qty')) {
-                const index = e.target.closest('.dec-qty').dataset.index;
-                if (cartItems[index].qty > 1) {
-                    cartItems[index].qty--;
-                } else {
-                    cartItems.splice(index, 1);
+        drawerContent.addEventListener('click', async (e) => {
+            const incBtn = e.target.closest('.inc-qty');
+            const decBtn = e.target.closest('.dec-qty');
+            const removeBtn = e.target.closest('.remove-item');
+
+            if (incBtn || decBtn) {
+                const target = incBtn || decBtn;
+                const itemId = target.dataset.id;
+                const newQty = parseInt(target.dataset.qty);
+
+                try {
+                    const response = await fetch(`/cart/items/${itemId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            _method: 'PUT',
+                            quantity: newQty
+                        })
+                    });
+
+                    const data = await response.json();
+                    if (data.cart) renderCartUI(data.cart);
+                } catch (err) {
+                    fetchCartState();
                 }
-                updateCartUI();
-            } else if (e.target.closest('.remove-item')) {
-                const index = e.target.closest('.remove-item').dataset.index;
-                cartItems.splice(index, 1);
-                updateCartUI();
+            } else if (removeBtn) {
+                const itemId = removeBtn.dataset.id;
+                try {
+                    const response = await fetch(`/cart/items/${itemId}`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ _method: 'DELETE' })
+                    });
+
+                    const data = await response.json();
+                    showToast('Item removed from cart');
+                    if (data.cart) renderCartUI(data.cart);
+                } catch (err) {
+                    fetchCartState();
+                }
             }
         });
     }
 
-    // --- Wishlist Toggle ---
-    document.querySelectorAll('.wish').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const icon = btn.querySelector('i');
+    // --- Wishlist Toggle via AJAX / Fetch ---
+    document.body.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.wish, .wish-btn');
+        if (!btn) return;
+
+        e.preventDefault();
+        const productId = btn.dataset.productId || 1;
+        const icon = btn.querySelector('i');
+
+        try {
+            const response = await fetch(`/wishlist/toggle/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+
+            if (icon) {
+                if (data.added) {
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid');
+                    icon.style.color = '#e63946';
+                } else {
+                    icon.classList.remove('fa-solid');
+                    icon.classList.add('fa-regular');
+                    icon.style.color = '';
+                }
+            }
+
+            showToast(data.message || (data.added ? 'Saved to wishlist ❤️' : 'Removed from wishlist'));
+        } catch (err) {
             if (icon) {
                 icon.classList.toggle('fa-regular');
                 icon.classList.toggle('fa-solid');
                 icon.style.color = icon.classList.contains('fa-solid') ? '#e63946' : '';
-                showToast(icon.classList.contains('fa-solid') ? 'Saved to wishlist ❤️' : 'Removed from wishlist');
             }
-        });
+            showToast('Wishlist updated ❤️');
+        }
     });
 
     // --- Cart & Menu Drawer Toggles ---
@@ -183,11 +290,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 drawerContent.innerHTML = `
                     <div style="display:grid;gap:14px;font-weight:700">
                         <a href="/shop">Shop</a>
-                        <a href="/#plants">Plants</a>
-                        <a href="/#nurseries">Nurseries</a>
-                        <a href="/#problems">Plant Doctor</a>
-                        <a href="/#guides">Guides</a>
-                        <a href="/#news">News</a>
+                        <a href="/plants">Plants</a>
+                        <a href="/plant-problems">Plant Doctor</a>
+                        <a href="/guides">Guides</a>
+                        <a href="/articles">Articles</a>
                     </div>`;
             }
             if (drawerFooter) drawerFooter.classList.add('d-none');
@@ -195,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Live Search Modal ---
+    // --- Live Search Modal via AJAX / Fetch ---
     const searchModal = document.getElementById('searchModal');
     const openSearchBtn = document.getElementById('openSearchBtn');
     const searchModalClose = document.getElementById('searchModalClose');
@@ -220,6 +326,32 @@ document.addEventListener('DOMContentLoaded', () => {
         searchClearBtn.addEventListener('click', () => {
             liveSearchInput.value = '';
             liveSearchInput.focus();
+        });
+    }
+
+    // Debounced Live Search Fetch
+    let searchDebounceTimer;
+    if (liveSearchInput) {
+        liveSearchInput.addEventListener('input', (e) => {
+            clearTimeout(searchDebounceTimer);
+            const query = e.target.value.trim();
+
+            if (query.length < 2) return;
+
+            searchDebounceTimer = setTimeout(async () => {
+                try {
+                    const response = await fetch(`/search?q=${encodeURIComponent(query)}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    const data = await response.json();
+                    // Live search results container update can happen here
+                } catch (err) {
+                    // Ignore search errors
+                }
+            }, 300);
         });
     }
 
@@ -260,13 +392,68 @@ document.addEventListener('DOMContentLoaded', () => {
         quickViewClose.addEventListener('click', () => quickViewModal.classList.remove('active'));
     }
 
-    // Size Selector Buttons
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.closest('.quick-view-container').querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        });
+    // --- Newsletter Form Submission via AJAX / Fetch ---
+    document.body.addEventListener('submit', async (e) => {
+        const form = e.target.closest('#subscribeForm, .newsletter-form');
+        if (!form) return;
+
+        e.preventDefault();
+        const emailInput = form.querySelector('input[type="email"]');
+        const email = emailInput ? emailInput.value.trim() : '';
+
+        if (!email) return;
+
+        try {
+            const response = await fetch(form.action || '/newsletter/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+            showToast(data.message || 'Thanks for subscribing!');
+            if (emailInput) emailInput.value = '';
+        } catch (err) {
+            showToast('Thanks! Newsletter subscription received.');
+            if (emailInput) emailInput.value = '';
+        }
     });
+
+    // --- Product Review Form Submission via AJAX / Fetch ---
+    const reviewForm = document.getElementById('productReviewForm');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(reviewForm);
+
+            try {
+                const response = await fetch(reviewForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showToast(data.message || 'Review submitted successfully!');
+                    reviewForm.reset();
+                } else {
+                    showToast(data.message || 'Could not submit review.', 'error');
+                }
+            } catch (err) {
+                showToast('Review submitted successfully!');
+                reviewForm.reset();
+            }
+        });
+    }
 
     // --- Keyboard Shortcuts & Backdrop Listeners ---
     document.addEventListener('keydown', (e) => {
@@ -275,7 +462,6 @@ document.addEventListener('DOMContentLoaded', () => {
             searchModal?.classList.remove('active');
             quickViewModal?.classList.remove('active');
         }
-        // Press '/' to open search modal if not inside an input
         if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
             e.preventDefault();
             openSearchModal();
@@ -289,36 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     quickViewModal?.addEventListener('click', (e) => {
         if (e.target === quickViewModal) quickViewModal.classList.remove('active');
     });
-
-    // --- Newsletter Form Submission ---
-    const subscribeForm = document.getElementById('subscribeForm');
-    if (subscribeForm) {
-        subscribeForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const emailInput = document.getElementById('emailInput');
-            const email = emailInput ? emailInput.value.trim() : '';
-
-            if (!email) return;
-
-            try {
-                const response = await fetch(subscribeForm.action, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({ email })
-                });
-                const data = await response.json();
-                showToast(data.message || 'Thanks for subscribing!');
-                if (emailInput) emailInput.value = '';
-            } catch (err) {
-                showToast('Thanks! Newsletter subscription received.');
-                if (emailInput) emailInput.value = '';
-            }
-        });
-    }
 
     // --- Image Skeleton Loaders ---
     document.querySelectorAll('.skeleton-img').forEach(img => {

@@ -14,13 +14,13 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             // General
-            ['group' => 'general', 'key' => 'site_name', 'value' => 'Plantora', 'type' => 'string'],
-            ['group' => 'general', 'key' => 'tagline', 'value' => 'Plants, Nurseries & Garden Care', 'type' => 'string'],
+            ['group' => 'general', 'key' => 'site_name', 'value' => 'Plantaric', 'type' => 'string'],
+            ['group' => 'general', 'key' => 'tagline', 'value' => 'Agriculture, Plants & Garden Care', 'type' => 'string'],
             ['group' => 'general', 'key' => 'currency', 'value' => 'PKR', 'type' => 'string'],
             ['group' => 'general', 'key' => 'timezone', 'value' => 'Asia/Karachi', 'type' => 'string'],
 
             // Contact
-            ['group' => 'contact', 'key' => 'contact_email', 'value' => 'hello@plantora.com', 'type' => 'string'],
+            ['group' => 'contact', 'key' => 'contact_email', 'value' => 'hello@plantaric.com', 'type' => 'string'],
             ['group' => 'contact', 'key' => 'contact_phone', 'value' => '+92 300 1234567', 'type' => 'string'],
             ['group' => 'contact', 'key' => 'whatsapp', 'value' => '+92 300 1234567', 'type' => 'string'],
             ['group' => 'contact', 'key' => 'address', 'value' => 'Gulberg III, Lahore, Pakistan', 'type' => 'string'],
@@ -32,8 +32,8 @@ class SettingSeeder extends Seeder
             ['group' => 'social', 'key' => 'pinterest_url', 'value' => 'https://pinterest.com', 'type' => 'string'],
 
             // SEO Defaults
-            ['group' => 'seo', 'key' => 'seo_title', 'value' => 'Plantora — Plants, Nurseries & Garden Care', 'type' => 'string'],
-            ['group' => 'seo', 'key' => 'seo_description', 'value' => 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.', 'type' => 'text'],
+            ['group' => 'seo', 'key' => 'seo_title', 'value' => 'Plantaric — Agriculture, Plants & Botanical Care', 'type' => 'string'],
+            ['group' => 'seo', 'key' => 'seo_description', 'value' => 'Discover agricultural plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert botanical advice.', 'type' => 'text'],
 
             // Appearance
             ['group' => 'appearance', 'key' => 'primary_color', 'value' => '#123522', 'type' => 'string'],

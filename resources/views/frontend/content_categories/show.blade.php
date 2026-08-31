@@ -9,7 +9,7 @@
   <div class="container text-center">
     <span class="badge bg-success text-white text-uppercase mb-3"><i class="fa-solid fa-folder-tree me-1"></i> Category</span>
     <h1 class="fw-bold mb-2" style="font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px)">{{ $category->name }}</h1>
-    <p class="text-muted lead max-w-700 mx-auto">{{ $category->description ?: "Explore all published articles, guides, and news under {$category->name} on Plantora." }}</p>
+    <p class="text-muted lead max-w-700 mx-auto">{{ $category->description ?: "Explore all published articles, guides, and news under {$category->name} on Plantaric." }}</p>
   </div>
 </section>
 

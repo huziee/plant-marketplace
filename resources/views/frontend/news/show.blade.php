@@ -10,19 +10,19 @@
   "@type": "NewsArticle",
   "headline": "{{ e($post->title) }}",
   "description": "{{ e($post->excerpt ?: str($post->content)->stripTags()->limit(150)) }}",
-  "image": "{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/plantora-og.jpg') }}",
+  "image": "{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/plantaric-og.jpg') }}",
   "datePublished": "{{ $post->published_at ? $post->published_at->toIso8601String() : now()->toIso8601String() }}",
   "dateModified": "{{ $post->updated_at->toIso8601String() }}",
   "author": {
     "@type": "Person",
-    "name": "{{ e($post->author?->name ?: 'Plantora Newsroom') }}"
+    "name": "{{ e($post->author?->name ?: 'Plantaric Newsroom') }}"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ setting('site_name', 'Plantora') }}",
+    "name": "{{ setting('site_name', 'Plantaric') }}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ asset('images/plantora-logo.png') }}"
+      "url": "{{ asset('images/plantaric-logo.png') }}"
     }
   }
 }

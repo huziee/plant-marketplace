@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->seo_title ?: $product->name . ' - Plantora Store')
+@section('title', $product->seo_title ?: $product->name . ' - Plantaric Store')
 
 @section('content')
 <div class="bg-light py-3 border-bottom mb-4">

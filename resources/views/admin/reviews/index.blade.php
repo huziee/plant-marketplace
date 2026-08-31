@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Product Reviews - Plantora Admin')
+@section('title', 'Product Reviews - Plantaric Admin')
 
 @section('content')
 <div class="mb-4">
@@ -65,9 +65,16 @@
                                 @endif
                             </td>
                             <td>
-                                <span class="badge {{ $review->status === 'approved' ? 'bg-success' : ($review->status === 'pending' ? 'bg-warning text-dark' : 'bg-danger') }}">
-                                    {{ ucfirst($review->status) }}
-                                </span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge {{ $review->status === 'approved' ? 'bg-success' : ($review->status === 'pending' ? 'bg-warning text-dark' : 'bg-danger') }}">
+                                        {{ ucfirst($review->status) }}
+                                    </span>
+                                    <select class="form-select form-select-sm ajax-review-status-select" data-review-id="{{ $review->id }}" style="width:110px;font-size:12px">
+                                        <option value="pending" {{ $review->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="approved" {{ $review->status === 'approved' ? 'selected' : '' }}>Approved</option>
+                                        <option value="rejected" {{ $review->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                    </select>
+                                </div>
                             </td>
                             <td class="text-end pe-4">
                                 @if($review->status !== 'approved')

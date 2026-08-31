@@ -319,7 +319,7 @@
                 <h5 class="fw-bold mb-3">Search Engine Optimization</h5>
                 <div class="mb-3">
                     <label class="form-label fw-bold small">SEO Title</label>
-                    <input type="text" name="seo_title" class="form-control" value="{{ old('seo_title') }}" placeholder="Fallback: Plant Name Care Guide | Plantora">
+                    <input type="text" name="seo_title" class="form-control" value="{{ old('seo_title') }}" placeholder="Fallback: Plant Name Care Guide | Plantaric">
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold small">Meta Description</label>

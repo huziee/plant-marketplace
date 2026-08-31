@@ -59,7 +59,7 @@
                     <div class="col-md-8">
                         <label class="form-label fw-bold">Post Title <span class="text-danger">*</span></label>
                         <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $post->title) }}" required>
-                        @error('title') <div class="invalid-feedback">{{ $message }}</div> @error
+                        @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="col-md-4">
@@ -97,7 +97,7 @@
                     <div class="col-md-12">
                         <label class="form-label fw-bold">Main Content Body (HTML Supported) <span class="text-danger">*</span></label>
                         <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="18" required>{{ old('content', $post->content) }}</textarea>
-                        @error('content') <div class="invalid-feedback">{{ $message }}</div> @error
+                        @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>
@@ -121,7 +121,7 @@
         <!-- Tab 2: Relationships -->
         <div class="tab-pane fade" id="relations-pane" role="tabpanel">
             <div class="card-custom">
-                <h5 class="fw-bold mb-3" style="font-family:'Playfair Display',serif">Connect Content to Plantora Taxonomy</h5>
+                <h5 class="fw-bold mb-3" style="font-family:'Playfair Display',serif">Connect Content to Plantaric Taxonomy</h5>
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label fw-bold"><i class="fa-solid fa-leaf text-success me-1"></i> Related Plants</label>

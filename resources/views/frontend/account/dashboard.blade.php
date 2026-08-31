@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Customer Account Dashboard - Plantora')
+@section('title', 'Customer Account Dashboard - Plantaric')
 
 @section('content')
 <div class="bg-light py-4 border-bottom mb-4">

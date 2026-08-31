@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Verify Email — Plantora')
+@section('title', 'Verify Email — Plantaric')
 
 @section('content')
 <div class="container section">

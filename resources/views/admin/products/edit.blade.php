@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Product - Plantora Admin')
+@section('title', 'Edit Product - Plantaric Admin')
 
 @section('content')
 <div class="mb-4 d-flex justify-content-between align-items-center">

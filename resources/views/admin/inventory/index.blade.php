@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Inventory Audit Log - Plantora Admin')
+@section('title', 'Inventory Audit Log - Plantaric Admin')
 
 @section('content')
 <div class="mb-4">

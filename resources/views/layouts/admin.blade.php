@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Dashboard') — {{ setting('site_name', 'Plantora') }}</title>
+    <title>@yield('title', 'Admin Dashboard') — {{ setting('site_name', 'Plantaric') }}</title>
     
     <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -165,7 +165,7 @@
     <aside class="admin-sidebar" id="adminSidebar">
         <div class="admin-brand">
             <span class="brand-mark me-2" style="width:32px;height:32px;font-size:16px"><i class="fa-solid fa-seedling"></i></span>
-            Plantora Admin
+            Plantaric Admin
         </div>
         <div class="admin-nav">
             <a href="{{ route('admin.dashboard') }}" class="admin-nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -183,9 +183,12 @@
                 <i class="fa-solid fa-user-doctor"></i> Plant Problems
             </a>
 
-            <div class="admin-nav-header">CONTENT</div>
+            <div class="admin-nav-header">CONTENT & PAGES</div>
             <a href="{{ route('admin.posts.index') }}" class="admin-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                 <i class="fa-regular fa-newspaper"></i> All Content & Posts
+            </a>
+            <a href="{{ route('admin.pages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-file-contract"></i> Pages & Policy CMS
             </a>
             <a href="{{ route('admin.content-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-categories.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-folder-tree"></i> Content Categories
@@ -225,7 +228,10 @@
                 <i class="fa-solid fa-location-dot"></i> Nursery Sellers
             </a>
 
-            <div class="admin-nav-header">MARKETING</div>
+            <div class="admin-nav-header">MARKETING & INQUIRIES</div>
+            <a href="{{ route('admin.contact-messages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-inbox"></i> Contact Messages
+            </a>
             <a href="{{ route('admin.subscribers.index') }}" class="admin-nav-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
                 <i class="fa-regular fa-envelope"></i> Subscribers
             </a>

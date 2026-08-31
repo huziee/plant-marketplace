@@ -95,16 +95,29 @@ class CartController extends Controller
         $res = $this->couponService->validateCoupon($request->input('coupon_code'), $cart->subtotal, auth()->user());
 
         if (!$res['valid']) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => $res['message']], 422);
+            }
             return redirect()->back()->with('error', $res['message']);
         }
 
         session(['coupon_code' => $res['coupon']->code]);
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => $res['message'], 'coupon_code' => $res['coupon']->code, 'discount' => $res['discount']]);
+        }
+
         return redirect()->back()->with('success', $res['message']);
     }
 
-    public function removeCoupon()
+    public function removeCoupon(Request $request)
     {
         session()->forget('coupon_code');
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Coupon removed.']);
+        }
+
         return redirect()->back()->with('success', 'Coupon removed.');
     }
 }

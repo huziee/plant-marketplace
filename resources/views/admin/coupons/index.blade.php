@@ -1,25 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'Coupons - Plantora Admin')
+@section('title', 'Coupons - Plantaric Admin')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-ticket text-success me-2"></i>Discount Coupons</h1>
-        <p class="text-muted small mb-0">Create promotional codes, percentage discounts, and fixed amount coupons.</p>
+        <h1 class="h3 mb-0 text-gray-800"><i class="fa-solid fa-ticket text-success me-2"></i>Coupons & Promotional Discounts</h1>
+        <p class="text-muted small mb-0">Create and manage coupon codes for store discounts.</p>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-4">
-        <div class="card shadow-sm border-0 mb-4">
-            <div class="card-header bg-white font-weight-bold">Create Coupon</div>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0">
             <div class="card-body">
-                <form method="POST" action="{{ route('admin.coupons.store') }}">
+                <h5 class="card-title mb-3">Create New Coupon</h5>
+                <form action="{{ route('admin.coupons.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Coupon Code <span class="text-danger">*</span></label>
-                        <input type="text" name="code" class="form-control text-uppercase" placeholder="e.g. PLANTORA10" required>
+                        <label class="form-label fw-bold">Coupon Code <span class="text-danger">*</span></label>
+                        <input type="text" name="code" class="form-control text-uppercase" placeholder="e.g. PLANTARIC10" required>
                     </div>
                     <div class="row">
                         <div class="col-6 mb-3">

@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Order Management - Plantora Admin')
+@section('title', 'Order Management - Plantaric Admin')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -70,9 +70,16 @@
                             <td>{{ $order->items->sum('quantity') }} items</td>
                             <td class="fw-bold text-dark">Rs. {{ number_format($order->grand_total, 0) }}</td>
                             <td>
-                                <span class="badge {{ $order->status->badgeClass() }}">
-                                    {{ $order->status->label() }}
-                                </span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge {{ $order->status->badgeClass() }} status-badge">
+                                        {{ $order->status->label() }}
+                                    </span>
+                                    <select class="form-select form-select-sm ajax-order-status-select" data-order-id="{{ $order->id }}" style="width:130px;font-size:12px">
+                                        @foreach($statuses as $st)
+                                            <option value="{{ $st->value }}" {{ $order->status->value === $st->value ? 'selected' : '' }}>{{ $st->label() }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </td>
                             <td>
                                 <span class="badge {{ $order->payment_status->value === 'paid' ? 'bg-success' : 'bg-warning text-dark' }}">

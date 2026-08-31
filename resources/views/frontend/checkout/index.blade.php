@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Checkout - Plantora Store')
+@section('title', 'Checkout - Plantaric Store')
 
 @section('content')
 <div class="bg-light py-4 border-bottom mb-4">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '404 Page Not Found — Plantora')
+@section('title', '404 Page Not Found — Plantaric')
 
 @section('content')
 <div class="container section">

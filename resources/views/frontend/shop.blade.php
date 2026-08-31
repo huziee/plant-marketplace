@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Plantora Shop — Plants, Seeds, Pots & Care')
+@section('title', 'Plantaric Shop — Plants, Seeds, Pots & Care')
 @section('meta_description', 'Browse nursery-grown indoor plants, outdoor shrubs, seeds, terracotta pots, fertilizers and plant care products.')
 
 @section('content')
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="hero-image" style="min-height:480px">
-        <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=1200&q=85" alt="Plantora Shop Collection" class="skeleton-img">
+        <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=1200&q=85" alt="Plantaric Shop Collection" class="skeleton-img">
       </div>
     </div>
   </div>

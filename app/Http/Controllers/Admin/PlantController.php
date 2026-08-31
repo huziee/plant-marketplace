@@ -88,16 +88,29 @@ class PlantController extends Controller
         return redirect()->route('admin.plants.index')->with('success', 'Plant updated successfully.');
     }
 
-    public function duplicate(Plant $plant, PlantService $plantService)
+    public function duplicate(Request $request, Plant $plant, PlantService $plantService)
     {
         $newPlant = $plantService->duplicatePlant($plant);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Plant '{$plant->name}' duplicated successfully as draft.",
+                'new_id' => $newPlant->id,
+                'edit_url' => route('admin.plants.edit', $newPlant->id)
+            ]);
+        }
 
         return redirect()->route('admin.plants.edit', $newPlant->id)->with('success', 'Plant duplicated successfully as draft.');
     }
 
-    public function destroy(Plant $plant)
+    public function destroy(Request $request, Plant $plant)
     {
         $plant->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => "Plant '{$plant->name}' deleted successfully."]);
+        }
 
         return back()->with('success', 'Plant soft deleted successfully.');
     }

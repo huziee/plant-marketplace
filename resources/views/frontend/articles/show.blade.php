@@ -10,19 +10,19 @@
   "@type": "Article",
   "headline": "{{ e($post->title) }}",
   "description": "{{ e($post->excerpt ?: str($post->content)->stripTags()->limit(150)) }}",
-  "image": "{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/plantora-og.jpg') }}",
+  "image": "{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/plantaric-og.jpg') }}",
   "datePublished": "{{ $post->published_at ? $post->published_at->toIso8601String() : now()->toIso8601String() }}",
   "dateModified": "{{ $post->updated_at->toIso8601String() }}",
   "author": {
     "@type": "Person",
-    "name": "{{ e($post->author?->name ?: 'Plantora Team') }}"
+    "name": "{{ e($post->author?->name ?: 'Plantaric Team') }}"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "{{ setting('site_name', 'Plantora') }}",
+    "name": "{{ setting('site_name', 'Plantaric') }}",
     "logo": {
       "@type": "ImageObject",
-      "url": "{{ asset('images/plantora-logo.png') }}"
+      "url": "{{ asset('images/plantaric-logo.png') }}"
     }
   }
 }
@@ -152,7 +152,7 @@
               <span class="eyebrow"><i class="fa-regular fa-user"></i> Written By</span>
               <h4 class="fw-bold mb-1">{{ $post->author->name }}</h4>
               <p class="text-muted small mb-2">{{ $post->author->authorProfile?->job_title ?: 'Botanical Editor & Plant Enthusiast' }}</p>
-              <p class="text-secondary small mb-3">{{ $post->author->authorProfile?->bio ?: "Horticulturist sharing plant care advice, indoor gardening tips, and botanical guides on Plantora." }}</p>
+              <p class="text-secondary small mb-3">{{ $post->author->authorProfile?->bio ?: "Horticulturist sharing plant care advice, indoor gardening tips, and botanical guides on Plantaric." }}</p>
               <a href="{{ route('authors.show', $post->author_id) }}" class="btn btn-sm btn-outline-success" style="border-radius:10px">View Author Profile <i class="fa-solid fa-arrow-right ms-1"></i></a>
             </div>
           </div>

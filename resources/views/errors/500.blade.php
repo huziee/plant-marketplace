@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '500 Server Error — Plantora')
+@section('title', '500 Server Error — Plantaric')
 
 @section('content')
 <div class="container section">

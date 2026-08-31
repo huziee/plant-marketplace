@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order ' . $order->order_number . ' - Plantora')
+@section('title', 'Order ' . $order->order_number . ' - Plantaric')
 
 @section('content')
 <div class="bg-light py-4 border-bottom mb-4">

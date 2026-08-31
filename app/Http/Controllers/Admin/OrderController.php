@@ -59,6 +59,16 @@ class OrderController extends Controller
         $status = OrderStatus::from($request->input('status'));
         $this->orderService->updateStatus($order, $status, $request->input('notes'), auth()->user());
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Order #{$order->order_number} status updated to {$status->label()}.",
+                'status' => $status->value,
+                'status_label' => $status->label(),
+                'status_badge' => $status->badgeClass()
+            ]);
+        }
+
         return redirect()->route('admin.orders.show', $order)->with('success', 'Order status updated successfully.');
     }
 }

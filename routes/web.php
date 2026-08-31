@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes - Plantora Frontend & Auth
+| Web Routes - Plantaric Frontend & Auth
 |--------------------------------------------------------------------------
 */
 
@@ -60,6 +60,22 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/authors/{user}', [AuthorController::class, 'show'])->name('authors.show');
+
+use App\Http\Controllers\Frontend\PageController;
+
+// Public Trust, Legal & Informational Routes
+Route::get('/about-us', [PageController::class, 'about'])->name('frontend.about');
+Route::get('/contact-us', [PageController::class, 'contact'])->name('frontend.contact');
+Route::post('/contact-us', [PageController::class, 'submitContact'])->middleware('throttle:5,1')->name('frontend.contact.submit');
+Route::get('/privacy-policy', function() { return app(PageController::class)->show('privacy-policy'); })->name('frontend.privacy');
+Route::get('/terms-and-conditions', function() { return app(PageController::class)->show('terms-and-conditions'); })->name('frontend.terms');
+Route::get('/cookie-policy', function() { return app(PageController::class)->show('cookie-policy'); })->name('frontend.cookie-policy');
+Route::get('/disclaimer', function() { return app(PageController::class)->show('disclaimer'); })->name('frontend.disclaimer');
+Route::get('/editorial-policy', function() { return app(PageController::class)->show('editorial-policy'); })->name('frontend.editorial-policy');
+Route::get('/shipping-policy', function() { return app(PageController::class)->show('shipping-policy'); })->name('frontend.shipping-policy');
+Route::get('/return-refund-policy', function() { return app(PageController::class)->show('return-refund-policy'); })->name('frontend.return-refund-policy');
+Route::get('/advertising-disclosure', function() { return app(PageController::class)->show('advertising-disclosure'); })->name('frontend.advertising-disclosure');
+Route::get('/page/{slug}', [PageController::class, 'show'])->name('frontend.page.show');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

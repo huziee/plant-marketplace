@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Shipping Methods - Plantora Admin')
+@section('title', 'Shipping Methods - Plantaric Admin')
 
 @section('content')
 <div class="mb-4">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', setting('seo_title', 'Plantora — Plants, Nurseries & Garden Care'))
+@section('title', setting('seo_title', 'Plantaric — Agriculture, Plants & Botanical Care'))
 @section('meta_description', setting('seo_description', 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.'))
 
 @section('content')
@@ -91,6 +91,62 @@
             </a>
           @endforeach
         </div>
+      </div>
+    </section>
+
+    <!-- About Us Section (Matches Reference Design) -->
+    <section class="about-us-section" id="about">
+      <!-- Decorative background grid lines -->
+      <div class="about-bg-grid" aria-hidden="true">
+        <div class="grid-line"><span class="line-bar bar-top"></span></div>
+        <div class="grid-line"><span class="line-bar bar-bottom"></span></div>
+        <div class="grid-line"><span class="line-bar bar-top-mid"></span></div>
+        <div class="grid-line"><span class="line-bar bar-mid"></span></div>
+        <div class="grid-line"><span class="line-bar bar-bottom-right"></span></div>
+      </div>
+
+      <!-- Soft light green semi-circle backdrop on left -->
+      <div class="about-left-backdrop" aria-hidden="true"></div>
+
+      <!-- Organic decorative swoosh curve -->
+      <svg class="about-swoosh" viewBox="0 0 1000 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 120,240 C 320,130 440,360 490,190 C 520,90 470,10 440,110 C 410,210 510,310 640,230 C 770,150 820,360 920,300" stroke="#e1ebd9" stroke-width="1.5" />
+      </svg>
+
+      <div class="container about-container">
+        <div class="about-grid">
+          <!-- Left area with full unbroken plant pot -->
+          <div class="about-spacer">
+            <div class="about-plant-wrap">
+              <img src="{{ asset('images/about-plant.png') }}" alt="Snake plant in white pot" class="about-plant-img">
+            </div>
+          </div>
+
+          <!-- Right content area -->
+          <div class="about-content">
+            <div class="about-title-row">
+              <div class="about-vertical-tag">About Us</div>
+              <h2 class="about-heading">
+                Keep your<br>
+                plants <span class="text-accent-green">alive</span>
+              </h2>
+            </div>
+
+            <div class="about-text-body">
+              <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
+              <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.</p>
+            </div>
+
+            <div class="about-action">
+              <a href="{{ route('frontend.about') }}" class="btn-know-more">Know More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom right floating leaves -->
+      <div class="about-floating-leaves" aria-hidden="true">
+        <img src="{{ asset('images/floating-leaves.png') }}" alt="Floating leaves decorative accent">
       </div>
     </section>
 
@@ -187,7 +243,7 @@
           <div>
             <span class="eyebrow">Learn & grow</span>
             <h2 style="margin-top:14px">Plant care guides people actually use.</h2>
-            <p>Step-by-step botanical guides and care tutorials written by Plantora horticulturists.</p>
+            <p>Step-by-step botanical guides and care tutorials written by Plantaric horticulturists.</p>
           </div>
           <a class="link-arrow" href="{{ route('guides.index') }}">Browse all guides <i class="fa-solid fa-arrow-right"></i></a>
         </div>

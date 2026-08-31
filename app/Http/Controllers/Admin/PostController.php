@@ -106,17 +106,30 @@ class PostController extends Controller
             ->with('success', "Post '{$post->title}' updated successfully.");
     }
 
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
         $post->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => "Post '{$post->title}' deleted successfully."]);
+        }
 
         return redirect()->route('admin.posts.index')
             ->with('success', "Post '{$post->title}' deleted successfully.");
     }
 
-    public function duplicate(Post $post)
+    public function duplicate(Request $request, Post $post)
     {
         $newPost = $this->postService->duplicatePost($post, auth()->user());
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Post duplicated as draft.",
+                'new_id' => $newPost->id,
+                'edit_url' => route('admin.posts.edit', $newPost->id)
+            ]);
+        }
 
         return redirect()->route('admin.posts.edit', $newPost->id)
             ->with('success', "Post duplicated as draft. You can now edit '{$newPost->title}'.");

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Order Placed - Plantora')
+@section('title', 'Order Placed - Plantaric')
 
 @section('content')
 <div class="container py-5 text-center">

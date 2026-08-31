@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class SettingsService
 {
-    protected const CACHE_KEY = 'plantora_settings_cache';
+    protected const CACHE_KEY = 'plantaric_settings_cache';
 
     /**
      * Get setting value by key (e.g., 'general.site_name' or 'site_name').

@@ -63,6 +63,15 @@ Route::middleware(['auth', 'role:admin,editor,author'])
         Route::put('media/{media}', [MediaController::class, 'update'])->name('media.update');
         Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
 
+        // Pages CMS System
+        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+
+        // Contact Messages Management
+        Route::get('contact-messages', [\App\Http\Controllers\Admin\ContactMessageController::class, 'index'])->name('contact-messages.index');
+        Route::get('contact-messages/{message}', [\App\Http\Controllers\Admin\ContactMessageController::class, 'show'])->name('contact-messages.show');
+        Route::patch('contact-messages/{message}/status', [\App\Http\Controllers\Admin\ContactMessageController::class, 'updateStatus'])->name('contact-messages.update-status');
+        Route::delete('contact-messages/{message}', [\App\Http\Controllers\Admin\ContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
+
         // Newsletter Subscribers
         Route::get('newsletter-subscribers', [NewsletterSubscriberController::class, 'index'])->name('subscribers.index');
         Route::delete('newsletter-subscribers/{subscriber}', [NewsletterSubscriberController::class, 'destroy'])->name('subscribers.destroy');

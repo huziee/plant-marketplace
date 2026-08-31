@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Search Results for '{$query}' — Plantora")
+@section('title', "Search Results for '{$query}' — Plantaric")
 
 @section('content')
 <div class="container section">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register — Plantora')
+@section('title', 'Register — Plantaric')
 
 @section('content')
 <div class="container section">
@@ -10,7 +10,7 @@
                 <div class="text-center mb-4">
                     <span class="brand-mark mx-auto mb-3" style="width:48px;height:48px;font-size:22px"><i class="fa-solid fa-seedling"></i></span>
                     <h2 style="font-family:'Playfair Display',serif;font-weight:700">Create Account</h2>
-                    <p class="text-muted small mb-0">Join the Plantora community of plant lovers and growers</p>
+                    <p class="text-muted small mb-0">Join the Plantaric community of plant lovers and growers</p>
                 </div>
 
                 <form method="POST" action="{{ route('register') }}">
