@@ -4,35 +4,100 @@
 @section('meta_description', setting('seo_description', 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.'))
 
 @section('content')
-    <section class="hero">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <span class="eyebrow"><i class="fa-solid fa-sun"></i> Grow better, every season</span>
-            <h1>Everything your plants need to <span>thrive.</span></h1>
-            <p>Shop healthy plants, discover trusted nurseries, solve plant problems and learn how to grow with practical care guides made for your climate.</p>
-
-            <div class="hero-actions">
-              <a href="{{ route('shop.index') }}" class="btn btn-primary">Shop Plants <i class="fa-solid fa-arrow-right"></i></a>
-              <a href="#nurseries" class="btn btn-outline">Find Nearby Nurseries</a>
+    <section class="home-hero">
+      <div class="container home-hero-container">
+        <div class="home-hero-layout">
+          <!-- Left Content Column -->
+          <div class="home-hero-copy">
+            <div class="home-hero-eyebrow">
+              <i class="fa-solid fa-leaf"></i> GREENER HOMES, HAPPIER LIVES
             </div>
 
-            <div class="hero-stats">
-              <div class="hero-stat"><strong>1,200+</strong><span>Plant varieties</span></div>
-              <div class="hero-stat"><strong>80+</strong><span>Verified nurseries</span></div>
-              <div class="hero-stat"><strong>500+</strong><span>Care guides</span></div>
+            <h1 class="home-hero-title">
+              Bring Nature<br>
+              <span class="title-accent">Home</span> <span class="title-leaf"><i class="fa-solid fa-leaf"></i></span>
+            </h1>
+
+            <p class="home-hero-desc">
+              Shop healthy plants, discover trusted nurseries, and get expert advice to grow a greener, healthier tomorrow.
+            </p>
+
+            <div class="home-hero-actions">
+              <a href="{{ route('shop.index') }}" class="home-btn-primary">
+                Shop Plants <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="{{ route('guides.index') }}" class="home-btn-outline">
+                <i class="fa-solid fa-book-open"></i> Explore Guides
+              </a>
+            </div>
+
+            <div class="home-hero-stats">
+              <div class="home-stat-item">
+                <div class="home-stat-icon">
+                  <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="home-stat-info">
+                  <strong>1,200+</strong>
+                  <span>Plant varieties</span>
+                </div>
+              </div>
+
+              <div class="home-stat-divider"></div>
+
+              <div class="home-stat-item">
+                <div class="home-stat-icon">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+                <div class="home-stat-info">
+                  <strong>80+</strong>
+                  <span>Verified nurseries</span>
+                </div>
+              </div>
+
+              <div class="home-stat-divider"></div>
+
+              <div class="home-stat-item">
+                <div class="home-stat-icon">
+                  <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="home-stat-info">
+                  <strong>500+</strong>
+                  <span>Care guides</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=1400&q=85" alt="Beautiful indoor plants in a bright interior" class="skeleton-img">
-            <div class="floating-card one">
-              <span class="float-icon"><i class="fa-solid fa-droplet"></i></span>
-              <div><strong>Smart care reminders</strong><span>Never miss a watering day</span></div>
+          <!-- Right Floating Feature Cards Column -->
+          <div class="home-hero-features">
+            <div class="hero-feature-card">
+              <div class="feature-card-icon">
+                <i class="fa-solid fa-leaf"></i>
+              </div>
+              <div class="feature-card-text">
+                <strong>Healthy Plants</strong>
+                <span>Quality assured</span>
+              </div>
             </div>
-            <div class="floating-card two">
-              <span class="float-icon"><i class="fa-solid fa-location-dot"></i></span>
-              <div><strong>Nurseries near you</strong><span>Verified local sellers</span></div>
+
+            <div class="hero-feature-card">
+              <div class="feature-card-icon">
+                <i class="fa-solid fa-truck"></i>
+              </div>
+              <div class="feature-card-text">
+                <strong>Fast Delivery</strong>
+                <span>Across Pakistan</span>
+              </div>
+            </div>
+
+            <div class="hero-feature-card">
+              <div class="feature-card-icon">
+                <i class="fa-solid fa-heart"></i>
+              </div>
+              <div class="feature-card-text">
+                <strong>Expert Support</strong>
+                <span>Always here to help</span>
+              </div>
             </div>
           </div>
         </div>

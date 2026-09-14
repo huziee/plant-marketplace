@@ -14,8 +14,37 @@ class HomeController extends Controller
 {
     public function index(SeoService $seoService)
     {
-        $seoService->setTitle(setting('seo_title', 'Plantora — Plants, Nurseries & Garden Care'))
-                   ->setDescription(setting('seo_description', 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.'));
+        $siteName = setting('site_name', 'Plantaric');
+        $seoService->setTitle(setting('seo_title', 'Plantaric — Agriculture, Plants & Botanical Care'))
+                   ->setDescription(setting('seo_description', 'Discover agricultural plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert botanical advice.'))
+                   ->setCanonical(url('/'));
+
+        // Organization & WebSite JSON-LD
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'Organization',
+            'name' => $siteName,
+            'url' => url('/'),
+            'logo' => asset('images/plantaric-logo.png'),
+            'sameAs' => array_values(array_filter([
+                setting('facebook_url'),
+                setting('instagram_url'),
+                setting('youtube_url'),
+                setting('pinterest_url'),
+            ])),
+        ]);
+
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => $siteName,
+            'url' => url('/'),
+            'potentialAction' => [
+                '@type' => 'SearchAction',
+                'target' => url('/search') . '?q={search_term_string}',
+                'query-input' => 'required name=search_term_string',
+            ],
+        ]);
 
         // Query real categories with published plant count
         $dbCategories = PlantCategory::active()

@@ -483,4 +483,83 @@ document.addEventListener('DOMContentLoaded', () => {
             img.addEventListener('load', () => img.classList.remove('loading'));
         }
     });
+
+    // --- Hero Smooth Scroll Fade-Out & Footer Scroll Fade-In ---
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+        document.body.classList.add('js-scroll-effects');
+
+        // 1. Hero Smooth Scroll Fade-Out
+        const heroEl = document.querySelector('.home-hero') || document.querySelector('.hero');
+        if (heroEl) {
+            let heroTicking = false;
+
+            const updateHeroFade = () => {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const heroHeight = heroEl.offsetHeight || 520;
+                const fadeThreshold = 30; // starts fading slightly after user begins scrolling
+                const fadeDistance = heroHeight * 0.85; // fully faded near the bottom of hero
+
+                if (scrollY <= fadeThreshold) {
+                    heroEl.style.opacity = '1';
+                    heroEl.style.transform = 'translateY(0)';
+                    heroEl.style.filter = 'none';
+                    heroEl.style.pointerEvents = 'auto';
+                } else if (scrollY >= fadeDistance) {
+                    heroEl.style.opacity = '0';
+                    heroEl.style.transform = `translateY(${Math.round((fadeDistance - fadeThreshold) * 0.16)}px)`;
+                    heroEl.style.filter = 'blur(4px)';
+                    heroEl.style.pointerEvents = 'none';
+                } else {
+                    const progress = (scrollY - fadeThreshold) / (fadeDistance - fadeThreshold);
+                    const opacity = Math.max(0, 1 - progress);
+                    const translateY = Math.round(progress * 32);
+                    const blur = (progress * 3).toFixed(1);
+
+                    heroEl.style.opacity = opacity.toFixed(3);
+                    heroEl.style.transform = `translateY(${translateY}px)`;
+                    heroEl.style.filter = blur > 0.3 ? `blur(${blur}px)` : 'none';
+                    heroEl.style.pointerEvents = opacity < 0.1 ? 'none' : 'auto';
+                }
+                heroTicking = false;
+            };
+
+            window.addEventListener('scroll', () => {
+                if (!heroTicking) {
+                    window.requestAnimationFrame(updateHeroFade);
+                    heroTicking = true;
+                }
+            }, { passive: true });
+
+            updateHeroFade();
+        }
+
+        // 2. Footer Smooth Scroll Fade-In
+        const footerEl = document.querySelector('footer');
+        if (footerEl) {
+            if ('IntersectionObserver' in window) {
+                const footerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            footerEl.classList.add('footer-visible');
+                        } else {
+                            const rect = footerEl.getBoundingClientRect();
+                            if (rect.top > window.innerHeight) {
+                                footerEl.classList.remove('footer-visible');
+                            }
+                        }
+                    });
+                }, {
+                    threshold: [0, 0.05, 0.15],
+                    rootMargin: '0px 0px 50px 0px'
+                });
+
+                footerObserver.observe(footerEl);
+            } else {
+                footerEl.classList.add('footer-visible');
+            }
+        }
+    }
 });
+

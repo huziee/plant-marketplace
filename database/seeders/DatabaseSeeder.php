@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SettingSeeder::class,
             UserSeeder::class,
+            ContentCategorySeeder::class,
             PlantCategorySeeder::class,
             PlantProblemSeeder::class,
             PlantSeeder::class,
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ShippingMethodSeeder::class,
             ProductSeeder::class,
             PageSeeder::class,
+            ArticleSeeder::class,
         ]);
     }
 }

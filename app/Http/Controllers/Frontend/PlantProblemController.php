@@ -13,6 +13,14 @@ class PlantProblemController extends Controller
     {
         $query = PlantProblem::active()->with('featuredImage');
 
+        $seoService->setTitle('Plant Doctor — Symptoms, Causes & Treatments')
+                   ->setDescription('Identify plant diseases, leaf yellowing, pests, and root problems with expert treatment and prevention steps.')
+                   ->setCanonical(route('problems.index'));
+
+        if ($request->anyFilled(['type', 'severity', 'search'])) {
+            $seoService->setRobots('noindex,follow');
+        }
+
         if ($request->filled('type')) {
             $query->where('problem_type', $request->input('type'));
         }
@@ -31,13 +39,22 @@ class PlantProblemController extends Controller
 
         $problems = $query->latest()->paginate(12)->withQueryString();
 
-        $seo = $seoService->generate(
-            'Plant Doctor — Symptoms, Causes & Treatments | Plantora',
-            'Identify plant diseases, leaf yellowing, pests, and root problems with expert treatment and prevention steps.',
-            url('/plant-problems')
-        );
+        // Breadcrumbs Schema
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Plant Problems', 'item' => route('problems.index')],
+            ],
+        ]);
 
-        return view('frontend.problems.index', compact('problems', 'seo'));
+        $seo = [
+            'title' => $seoService->getTitle(),
+            'description' => $seoService->getDescription(),
+        ];
+
+        return view('frontend.problems.index', compact('problems', 'seo', 'seoService'));
     }
 
     public function show(PlantProblem $plantProblem, SeoService $seoService)
@@ -48,16 +65,45 @@ class PlantProblemController extends Controller
 
         $plantProblem->load(['symptoms', 'causes', 'treatments', 'preventions', 'featuredImage', 'plants.featuredImage']);
 
-        $seoTitle = $plantProblem->seo_title ?: "{$plantProblem->name}: Causes, Treatment & Prevention | Plantora";
-        $metaDesc = $plantProblem->meta_description ?: ($plantProblem->short_description ?: "How to fix {$plantProblem->name}. Learn symptoms, underlying causes, step-by-step treatment guidance, and prevention tips.");
+        $seoService->forModel(
+            $plantProblem,
+            "{$plantProblem->name}: Causes, Treatment & Prevention",
+            $plantProblem->short_description ?: "How to fix {$plantProblem->name}. Learn symptoms, underlying causes, treatment guidance, and prevention tips."
+        )->setCanonical($plantProblem->canonical_url ?: route('problems.show', $plantProblem->slug))
+         ->setOgType('article');
 
-        $seo = $seoService->generate(
-            $seoTitle,
-            $metaDesc,
-            $plantProblem->canonical_url ?: url("/plant-problems/{$plantProblem->slug}"),
-            $plantProblem->featuredImage ? asset('storage/' . $plantProblem->featuredImage->file_path) : null
-        );
+        // WebPage / Article Schema
+        $problemImage = $plantProblem->featuredImage ? asset('storage/' . $plantProblem->featuredImage->file_path) : null;
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => "{$plantProblem->name} Solution & Care Guide",
+            'description' => strip_tags($plantProblem->short_description ?: $plantProblem->description ?: $plantProblem->name),
+            'image' => $problemImage ? [$problemImage] : [],
+            'datePublished' => $plantProblem->created_at->toIso8601String(),
+            'dateModified' => $plantProblem->updated_at->toIso8601String(),
+            'author' => [
+                '@type' => 'Organization',
+                'name' => setting('site_name', 'Plantaric'),
+            ],
+        ]);
 
-        return view('frontend.problems.show', compact('plantProblem', 'seo'));
+        // Breadcrumbs Schema
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Plant Problems', 'item' => route('problems.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $plantProblem->name, 'item' => route('problems.show', $plantProblem->slug)],
+            ],
+        ]);
+
+        $seo = [
+            'title' => $seoService->getTitle(),
+            'description' => $seoService->getDescription(),
+        ];
+
+        return view('frontend.problems.show', compact('plantProblem', 'seo', 'seoService'));
     }
 }

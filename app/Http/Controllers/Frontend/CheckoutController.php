@@ -20,8 +20,13 @@ class CheckoutController extends Controller
         protected CheckoutService $checkoutService
     ) {}
 
-    public function index()
+    public function index(\App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('Secure Checkout')
+                   ->setDescription('Complete your order securely.')
+                   ->setCanonical(route('frontend.checkout.index'))
+                   ->setRobots('noindex,nofollow');
+
         $user = auth()->user();
         $cart = $this->cartService->getCart($user);
 
@@ -43,7 +48,7 @@ class CheckoutController extends Controller
             }
         }
 
-        return view('frontend.checkout.index', compact('cart', 'shippingMethods', 'userAddresses', 'defaultAddress', 'couponCode', 'discountAmount'));
+        return view('frontend.checkout.index', compact('cart', 'shippingMethods', 'userAddresses', 'defaultAddress', 'couponCode', 'discountAmount', 'seoService'));
     }
 
     public function process(CheckoutRequest $request)
@@ -64,13 +69,18 @@ class CheckoutController extends Controller
         }
     }
 
-    public function success(string $orderNumber)
+    public function success(string $orderNumber, \App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('Order Confirmation')
+                   ->setDescription('Thank you for your order.')
+                   ->setCanonical(route('frontend.checkout.success', $orderNumber))
+                   ->setRobots('noindex,nofollow');
+
         $order = Order::where('order_number', $orderNumber)
             ->where('user_id', auth()->id())
             ->with(['items.product.featuredImage'])
             ->firstOrFail();
 
-        return view('frontend.checkout.success', compact('order'));
+        return view('frontend.checkout.success', compact('order', 'seoService'));
     }
 }

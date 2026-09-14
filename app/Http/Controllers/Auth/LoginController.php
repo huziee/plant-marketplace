@@ -8,9 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
+    public function showLoginForm(\App\Services\SEO\SeoService $seoService)
     {
-        return view('auth.login');
+        $seoService->setTitle('Account Login')
+                   ->setDescription('Sign in to your Plantaric account.')
+                   ->setCanonical(route('login'))
+                   ->setRobots('noindex,follow');
+
+        return view('auth.login', compact('seoService'));
     }
 
     public function login(Request $request)

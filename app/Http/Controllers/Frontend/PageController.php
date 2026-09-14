@@ -16,22 +16,59 @@ class PageController extends Controller
 
     public function about()
     {
-        $page = Page::published()->where('slug', 'about-us')->firstOrFail();
+        $page = Page::published()->where('slug', 'about-us')->first();
+        if ($page) {
+            $this->seoService->forModel(
+                $page,
+                'About Us — Plantaric',
+                'Learn about Plantaric, an all-in-one platform combining a plant marketplace, botanical encyclopedia, diagnostic plant doctor, and growing guides.'
+            )->setCanonical(route('frontend.about'));
+        } else {
+            $this->seoService->setTitle('About Us — Plantaric')
+                             ->setDescription('Learn about Plantaric, an all-in-one platform combining a plant marketplace, botanical encyclopedia, diagnostic plant doctor, and growing guides.')
+                             ->setCanonical(route('frontend.about'));
+        }
 
-        $this->seoService->setTitle($page->meta_title ?: 'About Us — Plantora')
-                         ->setDescription($page->meta_description ?: 'Learn about Plantora, an all-in-one platform combining a plant marketplace, botanical encyclopedia, diagnostic plant doctor, and growing guides.');
+        $this->seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'About Us', 'item' => route('frontend.about')],
+            ],
+        ]);
 
-        return view('frontend.pages.about', compact('page'));
+        $seoService = $this->seoService;
+        return view('frontend.pages.about', compact('page', 'seoService'));
     }
 
     public function contact()
     {
         $page = Page::published()->where('slug', 'contact-us')->first();
 
-        $this->seoService->setTitle('Contact Us — Plantora Support')
-                         ->setDescription('Get in touch with the Plantora team for order inquiries, plant care questions, partnership opportunities, or feedback.');
+        if ($page) {
+            $this->seoService->forModel(
+                $page,
+                'Contact Us — Plantaric Support',
+                'Get in touch with the Plantaric team for order inquiries, plant care questions, partnership opportunities, or feedback.'
+            )->setCanonical(route('frontend.contact'));
+        } else {
+            $this->seoService->setTitle('Contact Us — Plantaric Support')
+                             ->setDescription('Get in touch with the Plantaric team for order inquiries, plant care questions, partnership opportunities, or feedback.')
+                             ->setCanonical(route('frontend.contact'));
+        }
 
-        return view('frontend.pages.contact', compact('page'));
+        $this->seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Contact Us', 'item' => route('frontend.contact')],
+            ],
+        ]);
+
+        $seoService = $this->seoService;
+        return view('frontend.pages.contact', compact('page', 'seoService'));
     }
 
     public function submitContact(Request $request)
@@ -75,9 +112,22 @@ class PageController extends Controller
     {
         $page = Page::published()->where('slug', $slug)->firstOrFail();
 
-        $this->seoService->setTitle($page->meta_title ?: "{$page->title} — Plantora")
-                         ->setDescription($page->meta_description ?: "Read the official {$page->title} on Plantora.");
+        $this->seoService->forModel(
+            $page,
+            "{$page->title} — Plantaric",
+            "Read the official {$page->title} policy documentation on Plantaric."
+        )->setCanonical(route('frontend.page.show', $page->slug));
 
-        return view('frontend.pages.show', compact('page'));
+        $this->seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => $page->title, 'item' => route('frontend.page.show', $page->slug)],
+            ],
+        ]);
+
+        $seoService = $this->seoService;
+        return view('frontend.pages.show', compact('page', 'seoService'));
     }
 }

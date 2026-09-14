@@ -1,9 +1,15 @@
 User-agent: *
 Allow: /
 
-Disallow: /admin
-Disallow: /account
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
 Disallow: /login
 Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password/
+Disallow: /email/verify
+Disallow: /search
 
-Sitemap: https://plantora.com/sitemap.xml
+Sitemap: {{ config('app.url') }}/sitemap.xml

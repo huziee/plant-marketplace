@@ -22,13 +22,28 @@ class ContentCategoryController extends Controller
             ->latest('published_at')
             ->paginate(12);
 
-        $seo = $seoService->generate(
-            $category->seo_title ?: "{$category->name} Articles & Guides | Plantora",
-            $category->meta_description ?: ($category->description ?: "Browse all published articles, guides, and news under {$category->name} on Plantora."),
-            $category->canonical_url ?: url("/articles/category/{$category->slug}"),
-            $category->featuredImage ? asset('storage/' . $category->featuredImage->file_path) : null
-        );
+        $seoService->forModel(
+            $category,
+            "{$category->name} Articles & Guides",
+            $category->description ?: "Browse all published articles, guides, and news under {$category->name} on Plantaric."
+        )->setCanonical($category->canonical_url ?: route('content-categories.show', $category->slug));
 
-        return view('frontend.content_categories.show', compact('category', 'posts', 'seo'));
+        // Breadcrumbs Schema
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Articles', 'item' => route('articles.index')],
+                ['@type' => 'ListItem', 'position' => 3, 'name' => $category->name, 'item' => route('content-categories.show', $category->slug)],
+            ],
+        ]);
+
+        $seo = [
+            'title' => $seoService->getTitle(),
+            'description' => $seoService->getDescription(),
+        ];
+
+        return view('frontend.content_categories.show', compact('category', 'posts', 'seo', 'seoService'));
     }
 }

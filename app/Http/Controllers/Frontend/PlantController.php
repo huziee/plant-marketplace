@@ -15,6 +15,14 @@ class PlantController extends Controller
     {
         $query = Plant::published()->with(['category', 'care', 'featuredImage']);
 
+        $seoService->setTitle('Plant Encyclopedia — Discover & Care Guides')
+                   ->setDescription('Explore our comprehensive botanical encyclopedia with care guides, watering rules, light requirements and troubleshooting.')
+                   ->setCanonical(route('plants.index'));
+
+        if ($request->anyFilled(['category', 'difficulty', 'environment', 'sunlight', 'pet_safe', 'search'])) {
+            $seoService->setRobots('noindex,follow');
+        }
+
         if ($request->filled('category')) {
             $query->whereHas('category', function ($q) use ($request) {
                 $q->where('slug', $request->input('category'));
@@ -59,13 +67,32 @@ class PlantController extends Controller
         $categories = PlantCategory::active()->orderBy('name')->get();
         $sunlightOptions = PlantCare::sunlightLabels();
 
-        $seo = $seoService->generate(
-            'Plant Encyclopedia — Discover & Grow Healthy Plants',
-            'Search the comprehensive Plantora Plant Encyclopedia for care guides, watering schedules, sunlight requirements, and growing tips.',
-            url('/plants')
-        );
+        // Breadcrumbs Schema
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Home',
+                    'item' => url('/'),
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => 'Plants',
+                    'item' => route('plants.index'),
+                ],
+            ],
+        ]);
 
-        return view('frontend.plants.index', compact('plants', 'categories', 'sunlightOptions', 'seo'));
+        $seo = [
+            'title' => $seoService->getTitle(),
+            'description' => $seoService->getDescription(),
+        ];
+
+        return view('frontend.plants.index', compact('plants', 'categories', 'sunlightOptions', 'seo', 'seoService'));
     }
 
     public function show(Plant $plant, SeoService $seoService)
@@ -89,16 +116,68 @@ class PlantController extends Controller
             ->limit(4)
             ->get();
 
-        $seoTitle = $plant->seo_title ?: "{$plant->name} Care Guide, Growing Tips & Problems | Plantora";
-        $metaDesc = $plant->meta_description ?: ($plant->short_description ?: "Complete care guide for {$plant->name} ({$plant->scientific_name}). Learn watering, sunlight, soil requirements, and how to treat common problems.");
+        $seoService->forModel(
+            $plant,
+            "{$plant->name} Care Guide, Watering & Growing Tips",
+            $plant->short_description ?: "Learn how to care for {$plant->name} ({$plant->scientific_name}) including watering, lighting, soil and common problems."
+        )->setCanonical($plant->canonical_url ?: route('plants.show', $plant->slug))
+         ->setOgType('article');
 
-        $seo = $seoService->generate(
-            $seoTitle,
-            $metaDesc,
-            $plant->canonical_url ?: url("/plants/{$plant->slug}"),
-            $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : null
-        );
+        // Plant / WebPage JSON-LD Schema
+        $plantImage = $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : null;
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'WebPage',
+            'name' => "{$plant->name} Care Guide",
+            'description' => strip_tags($plant->short_description ?: $plant->description ?: $plant->name),
+            'url' => route('plants.show', $plant->slug),
+            'image' => $plantImage,
+        ]);
 
-        return view('frontend.plants.show', compact('plant', 'relatedPlants', 'seo'));
+        // BreadcrumbList Schema
+        $breadcrumbs = [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => url('/'),
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Plants',
+                'item' => route('plants.index'),
+            ],
+        ];
+
+        $pos = 3;
+        if ($plant->category) {
+            $breadcrumbs[] = [
+                '@type' => 'ListItem',
+                'position' => $pos++,
+                'name' => $plant->category->name,
+                'item' => route('plants.index', ['category' => $plant->category->slug]),
+            ];
+        }
+
+        $breadcrumbs[] = [
+            '@type' => 'ListItem',
+            'position' => $pos,
+            'name' => $plant->name,
+            'item' => route('plants.show', $plant->slug),
+        ];
+
+        $seoService->addJsonLd([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $breadcrumbs,
+        ]);
+
+        $seo = [
+            'title' => $seoService->getTitle(),
+            'description' => $seoService->getDescription(),
+        ];
+
+        return view('frontend.plants.show', compact('plant', 'relatedPlants', 'seo', 'seoService'));
     }
 }

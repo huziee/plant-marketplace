@@ -15,9 +15,11 @@ class SearchController extends Controller
     public function index(Request $request, SeoService $seoService)
     {
         $query = trim($request->input('q', ''));
-        
-        $seoService->setTitle("Search Results for '{$query}' | Plantora")
-                   ->setDescription("Find plants, care guides, articles, and plant doctor solutions matching '{$query}'.");
+
+        $seoService->setTitle($query !== '' ? "Search Results for '{$query}'" : "Search")
+                   ->setDescription("Search plants, care guides, articles, and products on Plantaric.")
+                   ->setCanonical(route('search.index'))
+                   ->setRobots('noindex,follow');
 
         $plants = collect();
         $categories = collect();

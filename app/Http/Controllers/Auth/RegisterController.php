@@ -12,9 +12,14 @@ use Illuminate\Validation\Rules;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
+    public function showRegistrationForm(\App\Services\SEO\SeoService $seoService)
     {
-        return view('auth.register');
+        $seoService->setTitle('Create Account')
+                   ->setDescription('Register for a Plantaric account to start shopping and managing your plants.')
+                   ->setCanonical(route('register'))
+                   ->setRobots('noindex,follow');
+
+        return view('auth.register', compact('seoService'));
     }
 
     public function register(Request $request)

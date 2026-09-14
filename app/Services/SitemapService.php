@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\PostType;
 use App\Models\ContentCategory;
+use App\Models\Page;
 use App\Models\Plant;
 use App\Models\PlantCategory;
 use App\Models\PlantProblem;
@@ -45,20 +46,37 @@ class SitemapService
     }
 
     /**
-     * Generate static pages sitemap XML.
+     * Generate static and CMS pages sitemap XML.
      */
     public function generatePages(): string
     {
         $urls = [
-            ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily'],
-            ['loc' => url('/plants'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['loc' => url('/plant-problems'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['loc' => url('/articles'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['loc' => url('/guides'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['loc' => url('/news'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['loc' => url('/shop'), 'priority' => '0.8', 'changefreq' => 'daily'],
-            ['loc' => url('/search'), 'priority' => '0.5', 'changefreq' => 'weekly'],
+            ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/plants'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/plant-problems'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/articles'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/guides'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/news'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/shop'), 'priority' => '0.8', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/about-us'), 'priority' => '0.7', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/contact-us'), 'priority' => '0.7', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
         ];
+
+        // Published CMS Pages
+        $cmsPages = Page::published()
+            ->where('robots_index', true)
+            ->get();
+
+        foreach ($cmsPages as $page) {
+            if (!in_array($page->slug, ['about-us', 'contact-us'])) {
+                $urls[] = [
+                    'loc' => url("/page/{$page->slug}"),
+                    'lastmod' => $page->updated_at->toIso8601String(),
+                    'priority' => '0.6',
+                    'changefreq' => 'monthly',
+                ];
+            }
+        }
 
         return $this->buildUrlSet($urls);
     }

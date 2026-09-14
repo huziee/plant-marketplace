@@ -15,6 +15,12 @@ class Page extends Model
         'content',
         'meta_title',
         'meta_description',
+        'canonical_url',
+        'og_title',
+        'og_description',
+        'og_image_id',
+        'robots_index',
+        'robots_follow',
         'status',
         'show_in_footer',
         'is_system',
@@ -23,7 +29,14 @@ class Page extends Model
     protected $casts = [
         'show_in_footer' => 'boolean',
         'is_system' => 'boolean',
+        'robots_index' => 'boolean',
+        'robots_follow' => 'boolean',
     ];
+
+    public function ogImage()
+    {
+        return $this->belongsTo(Media::class, 'og_image_id');
+    }
 
     public function scopePublished($query)
     {

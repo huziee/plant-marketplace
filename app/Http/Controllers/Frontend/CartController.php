@@ -18,8 +18,13 @@ class CartController extends Controller
         protected CouponService $couponService
     ) {}
 
-    public function index(Request $request)
+    public function index(Request $request, \App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('Shopping Cart')
+                   ->setDescription('Review your selected plants and garden supplies in your shopping cart.')
+                   ->setCanonical(route('frontend.cart.index'))
+                   ->setRobots('noindex,follow');
+
         $cart = $this->cartService->getCart(auth()->user());
         $shippingMethods = $this->shippingService->getAvailableMethods($cart->subtotal);
 
@@ -36,7 +41,7 @@ class CartController extends Controller
             }
         }
 
-        return view('frontend.cart.index', compact('cart', 'shippingMethods', 'appliedCoupon', 'discountAmount'));
+        return view('frontend.cart.index', compact('cart', 'shippingMethods', 'appliedCoupon', 'discountAmount', 'seoService'));
     }
 
     public function add(Request $request)

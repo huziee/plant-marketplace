@@ -4,8 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Plantaric — Agriculture, Plants & Garden Care')</title>
-    <meta name="description" content="@yield('meta_description', 'Discover plants, nearby nurseries, seeds, gardening supplies, plant care guides and expert growing advice.')" />
+    @php
+        $currentSeo = $seoService ?? app(\App\Services\SEO\SeoService::class);
+        $legacyTitle = trim(View::yieldContent('title'));
+        if ($legacyTitle !== '') {
+            $currentSeo->setTitle($legacyTitle);
+        }
+        $legacyDescription = trim(View::yieldContent('meta_description'));
+        if ($legacyDescription !== '') {
+            $currentSeo->setDescription($legacyDescription);
+        }
+    @endphp
+    <x-seo :seo-service="$currentSeo" />
 
     <!-- Favicon & Brand Icons -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">

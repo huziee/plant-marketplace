@@ -15,30 +15,39 @@ class CustomerAccountController extends Controller
         protected OrderService $orderService
     ) {}
 
-    public function dashboard()
+    public function dashboard(\App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('My Account Dashboard')
+                   ->setRobots('noindex,nofollow');
+
         $user = auth()->user();
         $recentOrders = Order::where('user_id', $user->id)->with('items')->latest()->take(5)->get();
         $totalOrders = Order::where('user_id', $user->id)->count();
         $defaultAddress = $user->addresses()->where('is_default_shipping', true)->first();
 
-        return view('frontend.account.dashboard', compact('user', 'recentOrders', 'totalOrders', 'defaultAddress'));
+        return view('frontend.account.dashboard', compact('user', 'recentOrders', 'totalOrders', 'defaultAddress', 'seoService'));
     }
 
-    public function orders()
+    public function orders(\App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('My Orders')
+                   ->setRobots('noindex,nofollow');
+
         $orders = Order::where('user_id', auth()->id())->latest()->paginate(10);
-        return view('frontend.account.orders.index', compact('orders'));
+        return view('frontend.account.orders.index', compact('orders', 'seoService'));
     }
 
-    public function showOrder(string $orderNumber)
+    public function showOrder(string $orderNumber, \App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle("Order #{$orderNumber}")
+                   ->setRobots('noindex,nofollow');
+
         $order = Order::where('order_number', $orderNumber)
             ->where('user_id', auth()->id())
             ->with(['items.product.featuredImage', 'statusHistories', 'payments'])
             ->firstOrFail();
 
-        return view('frontend.account.orders.show', compact('order'));
+        return view('frontend.account.orders.show', compact('order', 'seoService'));
     }
 
     public function cancelOrder(Request $request, string $orderNumber)
@@ -55,10 +64,13 @@ class CustomerAccountController extends Controller
         }
     }
 
-    public function addresses()
+    public function addresses(\App\Services\SEO\SeoService $seoService)
     {
+        $seoService->setTitle('My Saved Addresses')
+                   ->setRobots('noindex,nofollow');
+
         $addresses = auth()->user()->addresses;
-        return view('frontend.account.addresses.index', compact('addresses'));
+        return view('frontend.account.addresses.index', compact('addresses', 'seoService'));
     }
 
     public function storeAddress(StoreAddressRequest $request)

@@ -23,7 +23,7 @@
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
                 @if($product->featuredImage)
-                    <img src="{{ asset('storage/' . $product->featuredImage->file_path) }}" alt="{{ $product->name }}" class="w-100" style="max-height: 450px; object-fit: cover;">
+                    <img src="{{ asset('storage/' . $product->featuredImage->file_path) }}" alt="{{ $product->featuredImage->alt_text ?: $product->name }}" width="800" height="600" class="w-100" style="max-height: 450px; object-fit: cover;">
                 @else
                     <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 400px;">
                         <i class="fa-solid fa-leaf fa-4x"></i>
