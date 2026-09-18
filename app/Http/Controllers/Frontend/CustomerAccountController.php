@@ -8,6 +8,7 @@ use App\Models\CustomerAddress;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerAccountController extends Controller
 {
@@ -100,5 +101,34 @@ class CustomerAccountController extends Controller
 
         $address->delete();
         return redirect()->back()->with('success', 'Address deleted successfully.');
+    }
+
+    public function editPassword(\App\Services\SEO\SeoService $seoService)
+    {
+        $seoService->setTitle('Change Password - My Account')
+                   ->setRobots('noindex,nofollow');
+
+        $user = auth()->user();
+        return view('frontend.account.password', compact('user', 'seoService'));
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = auth()->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->withErrors(['current_password' => 'The provided current password does not match our records.']);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('success', 'Password changed successfully!');
     }
 }

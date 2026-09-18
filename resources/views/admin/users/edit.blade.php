@@ -74,6 +74,21 @@
                 @endif
                 @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
+        <hr class="my-4 text-muted">
+        <h6 class="fw-bold mb-2"><i class="fa-solid fa-key me-1 text-success"></i> Change Password (Optional)</h6>
+        <p class="text-muted small mb-3">Leave blank if you do not wish to change this user's password.</p>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-6">
+                <label class="form-label fw-bold small">New Password</label>
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Min 8 characters">
+                @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-bold small">Confirm New Password</label>
+                <input type="password" name="password_confirmation" class="form-control" placeholder="Repeat new password">
+            </div>
         </div>
 
         <button type="submit" class="btn btn-success fw-bold px-4"><i class="fa-solid fa-save me-1"></i> Update User</button>

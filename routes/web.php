@@ -126,6 +126,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/account/addresses', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'addresses'])->name('frontend.account.addresses');
     Route::post('/account/addresses', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'storeAddress'])->name('frontend.account.addresses.store');
     Route::delete('/account/addresses/{address}', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'deleteAddress'])->name('frontend.account.addresses.delete');
+    Route::get('/account/password', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'editPassword'])->name('frontend.account.password');
+    Route::put('/account/password', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'updatePassword'])->name('frontend.account.password.update');
     Route::get('/account/wishlist', [\App\Http\Controllers\Frontend\WishlistController::class, 'index'])->name('frontend.account.wishlist');
 
     // Reviews

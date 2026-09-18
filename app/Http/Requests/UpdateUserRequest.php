@@ -23,6 +23,7 @@ class UpdateUserRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:30'],
             'role' => ['required', 'string', Rule::in(['admin', 'customer', 'nursery_owner', 'editor', 'author'])],
             'status' => ['required', 'string', Rule::in(['active', 'inactive', 'suspended'])],
+            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
         ];
     }
 }

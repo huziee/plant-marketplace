@@ -22,6 +22,9 @@
                 <a href="{{ route('frontend.account.addresses') }}" class="list-group-item list-group-item-action py-3">
                     <i class="fa-solid fa-location-dot me-2"></i> Addresses
                 </a>
+                <a href="{{ route('frontend.account.password') }}" class="list-group-item list-group-item-action py-3">
+                    <i class="fa-solid fa-key me-2"></i> Security & Password
+                </a>
                 <a href="{{ route('frontend.account.wishlist') }}" class="list-group-item list-group-item-action py-3">
                     <i class="fa-solid fa-heart me-2"></i> Wishlist
                 </a>

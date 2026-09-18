@@ -65,14 +65,6 @@
         <p class="lead text-secondary mb-4">{{ $post->excerpt }}</p>
 
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 bg-light rounded-4 border">
-          <div class="d-flex align-items-center gap-3">
-            <img src="{{ $post->author?->avatar_url }}" alt="{{ $post->author?->name }}" class="rounded-circle" style="width:44px;height:44px;object-fit:cover">
-            <div>
-              <a href="{{ route('authors.show', $post->author_id) }}" class="fw-bold text-dark text-decoration-none d-block">{{ $post->author?->name }}</a>
-              <span class="small text-muted">{{ $post->author?->authorProfile?->job_title ?: 'Botanical Editor' }}</span>
-            </div>
-          </div>
-
           <div class="d-flex align-items-center gap-4 text-muted small">
             <span><i class="fa-regular fa-calendar me-1"></i> {{ $post->published_at ? $post->published_at->format('M d, Y') : 'Draft' }}</span>
             <span><i class="fa-regular fa-clock me-1"></i> {{ $post->reading_time ?: 5 }} min read</span>
@@ -139,22 +131,6 @@
                 </div>
               </div>
             @endforeach
-          </div>
-        </div>
-      @endif
-
-      <!-- Author Profile Box -->
-      @if($post->author)
-        <div class="p-4 bg-white border rounded-4 shadow-sm mb-5">
-          <div class="d-flex align-items-start gap-4">
-            <img src="{{ $post->author->avatar_url }}" alt="{{ $post->author->name }}" class="rounded-circle" style="width:72px;height:72px;object-fit:cover">
-            <div>
-              <span class="eyebrow"><i class="fa-regular fa-user"></i> Written By</span>
-              <h4 class="fw-bold mb-1">{{ $post->author->name }}</h4>
-              <p class="text-muted small mb-2">{{ $post->author->authorProfile?->job_title ?: 'Botanical Editor & Plant Enthusiast' }}</p>
-              <p class="text-secondary small mb-3">{{ $post->author->authorProfile?->bio ?: "Horticulturist sharing plant care advice, indoor gardening tips, and botanical guides on Plantaric." }}</p>
-              <a href="{{ route('authors.show', $post->author_id) }}" class="btn btn-sm btn-outline-success" style="border-radius:10px">View Author Profile <i class="fa-solid fa-arrow-right ms-1"></i></a>
-            </div>
           </div>
         </div>
       @endif

@@ -29,13 +29,6 @@
         <p class="lead text-secondary mb-4">{{ $post->excerpt }}</p>
 
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 p-3 bg-light rounded-4 border">
-          <div class="d-flex align-items-center gap-3">
-            <img src="{{ $post->author?->avatar_url }}" alt="{{ $post->author?->name }}" class="rounded-circle" style="width:44px;height:44px;object-fit:cover">
-            <div>
-              <a href="{{ route('authors.show', $post->author_id) }}" class="fw-bold text-dark text-decoration-none d-block">{{ $post->author?->name }}</a>
-              <span class="small text-muted">Botanical Guide Author</span>
-            </div>
-          </div>
           <div class="d-flex align-items-center gap-4 text-muted small">
             <span><i class="fa-regular fa-clock me-1"></i> {{ $post->reading_time ?: 6 }} min read</span>
             <span><i class="fa-regular fa-eye me-1"></i> {{ number_format($post->views) }} views</span>

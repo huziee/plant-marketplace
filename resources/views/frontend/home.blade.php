@@ -198,8 +198,8 @@
             </div>
 
             <div class="about-text-body">
-              <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.</p>
-              <p>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document.</p>
+              <p>Plantaric is your all-in-one botanical marketplace and digital plant care ecosystem. We connect plant lovers, home gardeners, and horticulture experts with healthy nursery plants, curated shop supplies, and real-time plant doctor diagnostics.</p>
+              <p>Whether you are nurturing your first indoor succulent or building a lush outdoor haven, our scientific encyclopedia, expert-written care guides, and automated health tracking empower you to cultivate thriving green spaces with confidence.</p>
             </div>
 
             <div class="about-action">
