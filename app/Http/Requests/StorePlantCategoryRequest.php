@@ -20,6 +20,7 @@ class StorePlantCategoryRequest extends FormRequest
             'parent_id' => ['nullable', 'exists:plant_categories,id'],
             'description' => ['nullable', 'string'],
             'short_description' => ['nullable', 'string', 'max:500'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:4096'],
             'image_id' => ['nullable', 'exists:media,id'],
             'icon' => ['nullable', 'string', 'max:100'],
             'sort_order' => ['nullable', 'integer', 'min:0'],

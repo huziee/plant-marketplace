@@ -18,10 +18,10 @@
     </form>
 </div>
 
-<form action="{{ route('admin.plants.update', $plant->id) }}" method="POST">
+<form action="{{ route('admin.plants.update', $plant->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
-    
+
     <!-- Tabbed Navigation -->
     <ul class="nav nav-pills mb-4 gap-2 border-bottom pb-3" id="plantTabs" role="tablist">
         <li class="nav-item">
@@ -97,6 +97,31 @@
                 </div>
 
                 <div class="col-md-4">
+                    <!-- Featured Image Upload -->
+                    <div class="card card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-image text-success me-1"></i> Featured Plant Image</h5>
+                        <div class="mb-3 text-center">
+                            <div class="p-3 border rounded-3 bg-light mb-2 d-flex align-items-center justify-content-center" style="min-height:160px;max-height:180px;overflow:hidden">
+                                @if($plant->featuredImage)
+                                    <img id="plantImgPreview" src="{{ asset('storage/' . $plant->featuredImage->file_path) }}" alt="{{ $plant->name }}" class="rounded w-100 h-100 object-fit-cover">
+                                    <div id="plantImgPlaceholder" class="text-muted small d-none">
+                                        <i class="fa-solid fa-cloud-arrow-up fa-2x mb-1 text-success opacity-75"></i>
+                                        <div>No image selected</div>
+                                    </div>
+                                @else
+                                    <img id="plantImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                                    <div id="plantImgPlaceholder" class="text-muted small">
+                                        <i class="fa-solid fa-cloud-arrow-up fa-2x mb-1 text-success opacity-75"></i>
+                                        <div>No image selected</div>
+                                    </div>
+                                @endif
+                            </div>
+                            <input type="file" name="image" id="plantImageInput" class="form-control form-control-sm @error('image') is-invalid @enderror" accept="image/*" onchange="previewPlantImage(this)">
+                            <div class="form-text text-muted small">JPG, PNG, WebP up to 5MB.</div>
+                            @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+
                     <div class="card card-custom">
                         <h5 class="fw-bold mb-3">Category & Status</h5>
 
@@ -337,4 +362,22 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+<script>
+function previewPlantImage(input) {
+    const preview = document.getElementById('plantImgPreview');
+    const placeholder = document.getElementById('plantImgPlaceholder');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

@@ -7,11 +7,11 @@
             </a>
 
             <div class="nav-links">
+                <a href="{{ route('frontend.home') }}">Home</a>
+                <a href="{{ route('frontend.about') }}">About</a>
                 <a href="{{ route('shop.index') }}">Shop</a>
                 <a href="{{ route('plants.index') }}">Plants</a>
-                <a href="{{ route('problems.index') }}">Plant Doctor</a>
                 <a href="{{ route('articles.index') }}">Articles</a>
-                <a href="{{ route('guides.index') }}">Guides</a>
                 <a href="{{ route('news.index') }}">News</a>
             </div>
 

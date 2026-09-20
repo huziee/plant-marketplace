@@ -102,7 +102,17 @@ class PlantController extends Controller
             abort(404);
         }
 
-        $plant->load(['category', 'care', 'images.media', 'commonNames', 'seasons', 'problems.featuredImage', 'featuredImage']);
+        $plant->load([
+            'category',
+            'care',
+            'images.media',
+            'commonNames',
+            'seasons',
+            'problems' => function ($q) {
+                $q->active()->with(['featuredImage', 'symptoms', 'causes', 'treatments', 'preventions', 'products.featuredImage']);
+            },
+            'featuredImage'
+        ]);
 
         // Related Plants based on same category or environment
         $relatedPlants = Plant::published()

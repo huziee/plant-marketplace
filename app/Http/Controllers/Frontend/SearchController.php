@@ -61,13 +61,6 @@ class SearchController extends Controller
                 ->take(6)
                 ->get();
 
-            // Search Problems
-            $problems = PlantProblem::active()
-                ->where('name', 'like', "%{$query}%")
-                ->orWhere('short_description', 'like', "%{$query}%")
-                ->take(6)
-                ->get();
-
             // Search Posts (Articles, Guides, News)
             $posts = Post::published()
                 ->with(['author', 'category', 'featuredImage'])

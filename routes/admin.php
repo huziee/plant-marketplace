@@ -39,6 +39,18 @@ Route::middleware(['auth', 'role:admin,editor,author'])
         Route::resource('content-categories', ContentCategoryController::class)->except(['show']);
         Route::resource('tags', TagController::class)->only(['index', 'store', 'update', 'destroy']);
 
+        // Content Automation Suite (GDELT News & OpenAlex Articles)
+        Route::get('content-automation', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'index'])->name('content-automation.index');
+        Route::get('content-automation/settings', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'settings'])->name('content-automation.settings');
+        Route::post('content-automation/settings', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'updateSettings'])->name('content-automation.settings.update');
+        Route::post('content-automation/topics', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'storeTopic'])->name('content-automation.topics.store');
+        Route::delete('content-automation/topics/{topic}', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'deleteTopic'])->name('content-automation.topics.destroy');
+        Route::get('content-automation/{candidate}', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'show'])->name('content-automation.show');
+        Route::post('content-automation/{candidate}/select', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'select'])->name('content-automation.select');
+        Route::post('content-automation/{candidate}/reject', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'reject'])->name('content-automation.reject');
+        Route::post('content-automation/{candidate}/generate', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'generate'])->name('content-automation.generate');
+        Route::post('content-automation/{candidate}/retry', [\App\Http\Controllers\Admin\ContentAutomationController::class, 'retry'])->name('content-automation.retry');
+
         // Ecommerce Admin System
         Route::resource('product-categories', \App\Http\Controllers\Admin\ProductCategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);

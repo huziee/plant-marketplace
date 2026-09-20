@@ -8,6 +8,53 @@
     <p class="text-muted small mb-0">Approve or reject customer reviews and ratings.</p>
 </div>
 
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small fw-bold">TOTAL REVIEWS</div>
+                    <div class="h3 fw-bold mb-0 text-dark">{{ number_format($totalCount) }}</div>
+                </div>
+                <div class="p-3 bg-light rounded-circle text-primary"><i class="fa-solid fa-comments fa-lg"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small fw-bold">PENDING MODERATION</div>
+                    <div class="h3 fw-bold mb-0 text-warning">{{ number_format($pendingCount) }}</div>
+                </div>
+                <div class="p-3 bg-warning-subtle text-warning rounded-circle"><i class="fa-solid fa-clock fa-lg"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small fw-bold">APPROVED REVIEWS</div>
+                    <div class="h3 fw-bold mb-0 text-success">{{ number_format($approvedCount) }}</div>
+                </div>
+                <div class="p-3 bg-success-subtle text-success rounded-circle"><i class="fa-solid fa-check-circle fa-lg"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div>
+                    <div class="text-muted small fw-bold">AVG RATING</div>
+                    <div class="h3 fw-bold mb-0 text-dark">{{ $avgRating }} <span class="text-warning fs-6">★</span></div>
+                </div>
+                <div class="p-3 bg-light text-warning rounded-circle"><i class="fa-solid fa-star fa-lg"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
         <form method="GET" action="{{ route('admin.reviews.index') }}" class="row g-3">
@@ -44,7 +91,20 @@
                 <tbody>
                     @forelse($reviews as $review)
                         <tr>
-                            <td class="ps-4 font-weight-bold">{{ $review->product ? $review->product->name : 'Deleted Product' }}</td>
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center gap-2">
+                                    @if($review->product?->featuredImage)
+                                        <img src="{{ asset('storage/' . $review->product->featuredImage->file_path) }}" alt="{{ $review->product->name }}" class="rounded" style="width:40px;height:40px;object-fit:cover">
+                                    @else
+                                        <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width:40px;height:40px;font-size:12px">
+                                            <i class="fa-solid fa-box"></i>
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <strong class="d-block text-dark">{{ $review->product ? $review->product->name : 'Deleted Product' }}</strong>
+                                    </div>
+                                </div>
+                            </td>
                             <td>{{ $review->user ? $review->user->name : 'Anonymous' }}</td>
                             <td>
                                 <span class="text-warning">

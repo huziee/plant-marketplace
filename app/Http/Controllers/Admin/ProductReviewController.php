@@ -10,7 +10,7 @@ class ProductReviewController extends Controller
 {
     public function index(Request $request)
     {
-        $query = ProductReview::with(['product', 'user']);
+        $query = ProductReview::with(['product.featuredImage', 'user']);
 
         if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
@@ -18,7 +18,18 @@ class ProductReviewController extends Controller
 
         $reviews = $query->latest()->paginate(15)->withQueryString();
 
-        return view('admin.reviews.index', compact('reviews'));
+        $totalCount = ProductReview::count();
+        $pendingCount = ProductReview::where('status', 'pending')->count();
+        $approvedCount = ProductReview::where('status', 'approved')->count();
+        $avgRating = number_format(ProductReview::where('status', 'approved')->avg('rating') ?: 0, 1);
+
+        return view('admin.reviews.index', compact(
+            'reviews',
+            'totalCount',
+            'pendingCount',
+            'approvedCount',
+            'avgRating'
+        ));
     }
 
     public function updateStatus(Request $request, ProductReview $review)

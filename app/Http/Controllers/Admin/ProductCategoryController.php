@@ -42,6 +42,11 @@ class ProductCategoryController extends Controller
         $data['slug'] = !empty($data['slug']) ? Str::slug($data['slug']) : Str::slug($data['name']);
         $data['is_featured'] = !empty($data['is_featured']);
 
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['image_id'] = $media->id;
+        }
+
         ProductCategory::create($data);
 
         return redirect()->route('admin.product-categories.index')->with('success', 'Product category created successfully.');
@@ -58,6 +63,11 @@ class ProductCategoryController extends Controller
         $data = $request->validated();
         $data['slug'] = !empty($data['slug']) ? Str::slug($data['slug']) : Str::slug($data['name']);
         $data['is_featured'] = !empty($data['is_featured']);
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['image_id'] = $media->id;
+        }
 
         $productCategory->update($data);
 

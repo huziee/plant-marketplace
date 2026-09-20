@@ -10,7 +10,7 @@
     <h2 class="fw-bold mt-2" style="font-family:'Playfair Display',serif">Create Plant Profile</h2>
 </div>
 
-<form action="{{ route('admin.plants.store') }}" method="POST">
+<form action="{{ route('admin.plants.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     
     <!-- Tabbed Navigation -->
@@ -69,28 +69,45 @@
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small">Local / Common Name</label>
-                                <input type="text" name="local_name" class="form-control" value="{{ old('local_name') }}">
+                                <label class="form-label fw-bold small">Local / Common Name (Urdu/English)</label>
+                                <input type="text" name="local_name" class="form-control" value="{{ old('local_name') }}" placeholder="e.g. Swiss Cheese Plant">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold small">Urdu Name</label>
-                                <input type="text" name="urdu_name" class="form-control" value="{{ old('urdu_name') }}">
+                                <input type="text" name="urdu_name" class="form-control" value="{{ old('urdu_name') }}" placeholder="e.g. مونسٹیرا">
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold small">Short Overview</label>
+                            <label class="form-label fw-bold small">Short Summary (Excerpt)</label>
                             <textarea name="short_description" class="form-control" rows="2">{{ old('short_description') }}</textarea>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold small">Detailed Botanical Description</label>
+                            <label class="form-label fw-bold small">Full Botanical Description</label>
                             <textarea name="description" class="form-control" rows="6">{{ old('description') }}</textarea>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
+                    <!-- Featured Image Upload -->
+                    <div class="card card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-image text-success me-1"></i> Featured Plant Image</h5>
+                        <div class="mb-3 text-center">
+                            <div class="p-3 border rounded-3 bg-light mb-2 d-flex align-items-center justify-content-center" style="min-height:160px;max-height:180px;overflow:hidden">
+                                <img id="plantImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                                <div id="plantImgPlaceholder" class="text-muted small">
+                                    <i class="fa-solid fa-cloud-arrow-up fa-2x mb-1 text-success opacity-75"></i>
+                                    <div>No image selected</div>
+                                </div>
+                            </div>
+                            <input type="file" name="image" id="plantImageInput" class="form-control form-control-sm @error('image') is-invalid @enderror" accept="image/*" onchange="previewPlantImage(this)">
+                            <div class="form-text text-muted small">JPG, PNG, WebP up to 5MB.</div>
+                            @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+
                     <div class="card card-custom">
                         <h5 class="fw-bold mb-3">Category & Status</h5>
 
@@ -329,4 +346,22 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+<script>
+function previewPlantImage(input) {
+    const preview = document.getElementById('plantImgPreview');
+    const placeholder = document.getElementById('plantImgPlaceholder');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

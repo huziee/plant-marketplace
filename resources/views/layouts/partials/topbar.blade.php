@@ -6,9 +6,9 @@
             <span><i class="fa-solid fa-leaf"></i> Healthy plants guarantee</span>
         </div>
         <div class="topbar-group">
-            <a href="{{ route('problems.index') }}"><i class="fa-solid fa-leaf"></i> Plant Care Help</a>
+            <a href="{{ route('plants.index') }}"><i class="fa-solid fa-leaf"></i> Plant Encyclopedia</a>
             <span class="topbar-sep">|</span>
-            <a href="{{ route('shop.index') }}"><i class="fa-solid fa-location-dot"></i> Find a Nursery</a>
+            <a href="{{ route('shop.index') }}"><i class="fa-solid fa-shop"></i> Plant Marketplace</a>
         </div>
     </div>
 </div>

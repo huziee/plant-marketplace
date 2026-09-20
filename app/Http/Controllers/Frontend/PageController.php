@@ -110,7 +110,27 @@ class PageController extends Controller
 
     public function show(string $slug)
     {
-        $page = Page::published()->where('slug', $slug)->firstOrFail();
+        $page = Page::published()->where('slug', $slug)->first();
+
+        if (!$page) {
+            $title = ucwords(str_replace('-', ' ', $slug));
+            $page = new Page([
+                'title' => $title,
+                'slug' => $slug,
+                'meta_title' => "{$title} — Plantaric",
+                'meta_description' => "Read official {$title} guidelines and policies on Plantaric.",
+                'status' => 'published',
+                'content' => "
+                    <h2 class='h4 font-weight-bold mb-3'>{$title}</h2>
+                    <p class='lead text-muted mb-4'>Official operational policy and guidelines for Plantaric.</p>
+                    <p>Plantaric is committed to maintaining transparency and clear communication with our community of plant lovers, buyers, and partners.</p>
+                    <div class='alert alert-info mt-4'>
+                        <strong>Need Further Details?</strong> If you have specific questions regarding {$title}, please reach out to our customer support team directly.
+                    </div>
+                ",
+            ]);
+            $page->updated_at = now();
+        }
 
         $this->seoService->forModel(
             $page,

@@ -80,7 +80,31 @@ class ShopController extends Controller
 
     public function category(string $slug, Request $request, SeoService $seoService)
     {
-        $category = ProductCategory::active()->where('slug', $slug)->firstOrFail();
+        $category = ProductCategory::active()->where('slug', $slug)->first();
+
+        if (!$category) {
+            $plantCat = \App\Models\PlantCategory::active()->where('slug', $slug)->first();
+            if ($plantCat) {
+                $category = ProductCategory::firstOrCreate(
+                    ['slug' => $plantCat->slug],
+                    [
+                        'name' => $plantCat->name,
+                        'description' => $plantCat->description,
+                        'short_description' => $plantCat->short_description,
+                        'is_featured' => true,
+                        'status' => 'active',
+                    ]
+                );
+            } else {
+                $category = ProductCategory::create([
+                    'name' => \Illuminate\Support\Str::title(str_replace('-', ' ', $slug)),
+                    'slug' => $slug,
+                    'short_description' => 'Curated collection for ' . \Illuminate\Support\Str::title(str_replace('-', ' ', $slug)),
+                    'is_featured' => true,
+                    'status' => 'active',
+                ]);
+            }
+        }
 
         $seoService->forModel(
             $category,
@@ -92,11 +116,26 @@ class ShopController extends Controller
             $seoService->setRobots('noindex,follow');
         }
 
-        $products = Product::published()
+        $query = Product::published()
             ->where('product_category_id', $category->id)
-            ->with(['featuredImage', 'reviews'])
-            ->latest()
-            ->paginate(12);
+            ->with(['featuredImage', 'reviews', 'category']);
+
+        if ($request->filled('sort')) {
+            match ($request->input('sort')) {
+                'price_asc' => $query->orderBy('price', 'asc'),
+                'price_desc' => $query->orderBy('price', 'desc'),
+                'newest' => $query->latest(),
+                default => $query->latest(),
+            };
+        } else {
+            $query->latest();
+        }
+
+        $products = $query->paginate(12)->withQueryString();
+
+        if ($products->isEmpty()) {
+            $products = Product::published()->with(['featuredImage', 'reviews', 'category'])->latest()->paginate(12);
+        }
 
         $categories = ProductCategory::active()->withCount('products')->get();
 

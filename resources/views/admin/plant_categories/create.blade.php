@@ -10,7 +10,7 @@
     <h2 class="fw-bold mt-2" style="font-family:'Playfair Display',serif">Create Plant Category</h2>
 </div>
 
-<form action="{{ route('admin.plant-categories.store') }}" method="POST">
+<form action="{{ route('admin.plant-categories.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row g-4">
         <div class="col-md-8">
@@ -64,6 +64,16 @@
         </div>
 
         <div class="col-md-4">
+            <div class="card card-custom">
+                <h5 class="fw-bold mb-3">Thumbnail Image</h5>
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Upload Category Image</label>
+                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                    <div class="form-text text-muted small">JPG, PNG, WebP up to 4MB.</div>
+                    @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+
             <div class="card card-custom">
                 <h5 class="fw-bold mb-3">Status & Options</h5>
                 

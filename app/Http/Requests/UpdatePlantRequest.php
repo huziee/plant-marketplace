@@ -50,6 +50,7 @@ class UpdatePlantRequest extends FormRequest
             'medicinal' => ['nullable', 'boolean'],
 
             'featured_image_id' => ['nullable', 'exists:media,id'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:5120'],
             'status' => ['required', Rule::in(['draft', 'published', 'archived'])],
             'is_featured' => ['nullable', 'boolean'],
             'published_at' => ['nullable', 'date'],

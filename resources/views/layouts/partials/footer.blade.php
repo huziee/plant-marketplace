@@ -25,8 +25,6 @@
             <div class="footer-col">
                 <h4>Discover</h4>
                 <a href="{{ route('plants.index') }}">Plant Encyclopedia</a>
-                <a href="{{ route('problems.index') }}">Plant Doctor</a>
-                <a href="{{ route('guides.index') }}">Care Guides</a>
                 <a href="{{ route('articles.index') }}">Articles</a>
                 <a href="{{ route('news.index') }}">Plant News</a>
             </div>

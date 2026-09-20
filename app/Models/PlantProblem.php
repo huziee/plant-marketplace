@@ -76,6 +76,13 @@ class PlantProblem extends Model
                     ->orderBy('plant_problem_post.sort_order');
     }
 
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'plant_problem_product')
+                    ->withPivot('recommendation_type', 'priority', 'notes')
+                    ->withTimestamps();
+    }
+
     public function featuredImage(): BelongsTo
     {
         return $this->belongsTo(Media::class, 'featured_image_id');

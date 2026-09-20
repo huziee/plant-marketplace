@@ -19,15 +19,15 @@
             </h1>
 
             <p class="home-hero-desc">
-              Shop healthy plants, discover trusted nurseries, and get expert advice to grow a greener, healthier tomorrow.
+              Shop healthy plants, discover expert botanical advice, and explore care articles to grow a greener, healthier tomorrow.
             </p>
 
             <div class="home-hero-actions">
               <a href="{{ route('shop.index') }}" class="home-btn-primary">
                 Shop Plants <i class="fa-solid fa-arrow-right"></i>
               </a>
-              <a href="{{ route('guides.index') }}" class="home-btn-outline">
-                <i class="fa-solid fa-book-open"></i> Explore Guides
+              <a href="{{ route('articles.index') }}" class="home-btn-outline">
+                <i class="fa-solid fa-newspaper"></i> Read Articles
               </a>
             </div>
 
@@ -37,7 +37,7 @@
                   <i class="fa-solid fa-leaf"></i>
                 </div>
                 <div class="home-stat-info">
-                  <strong>1,200+</strong>
+                  <strong>{{ !empty($plantsCount) ? number_format($plantsCount) : '1,200+' }}</strong>
                   <span>Plant varieties</span>
                 </div>
               </div>
@@ -46,11 +46,11 @@
 
               <div class="home-stat-item">
                 <div class="home-stat-icon">
-                  <i class="fa-solid fa-users"></i>
+                  <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div class="home-stat-info">
-                  <strong>80+</strong>
-                  <span>Verified nurseries</span>
+                  <strong>{{ !empty($categoriesCount) ? number_format($categoriesCount) : '24+' }}</strong>
+                  <span>Plant categories</span>
                 </div>
               </div>
 
@@ -58,11 +58,11 @@
 
               <div class="home-stat-item">
                 <div class="home-stat-icon">
-                  <i class="fa-solid fa-file-lines"></i>
+                  <i class="fa-solid fa-newspaper"></i>
                 </div>
                 <div class="home-stat-info">
-                  <strong>500+</strong>
-                  <span>Care guides</span>
+                  <strong>{{ !empty($articlesCount) ? number_format($articlesCount) : '150+' }}</strong>
+                  <span>Botanical articles</span>
                 </div>
               </div>
             </div>
@@ -150,7 +150,7 @@
 
         <div class="category-grid">
           @foreach($categories as $category)
-            <a class="category" href="{{ route('shop.index') }}">
+            <a class="category" href="{{ route('frontend.shop.category', $category['slug']) }}">
               <div class="category-img"><img src="{{ $category['image'] }}" alt="{{ $category['name'] }}" class="skeleton-img"></div>
               <h4>{{ $category['name'] }}</h4><span>{{ $category['count'] }}</span>
             </a>
@@ -183,7 +183,7 @@
           <!-- Left area with full unbroken plant pot -->
           <div class="about-spacer">
             <div class="about-plant-wrap">
-              <img src="{{ asset('images/about-plant.png') }}" alt="Snake plant in white pot" class="about-plant-img">
+              <img src="{{ asset('/images/hero/about-sec.png') }}" alt="Snake plant in white pot" class="about-plant-img">
             </div>
           </div>
 
@@ -198,8 +198,8 @@
             </div>
 
             <div class="about-text-body">
-              <p>Plantaric is your all-in-one botanical marketplace and digital plant care ecosystem. We connect plant lovers, home gardeners, and horticulture experts with healthy nursery plants, curated shop supplies, and real-time plant doctor diagnostics.</p>
-              <p>Whether you are nurturing your first indoor succulent or building a lush outdoor haven, our scientific encyclopedia, expert-written care guides, and automated health tracking empower you to cultivate thriving green spaces with confidence.</p>
+              <p>Plantaric is your all-in-one botanical marketplace and digital plant care ecosystem. We connect plant lovers, home gardeners, and horticulture experts with healthy plants, curated shop supplies, and comprehensive care guides.</p>
+              <p>Whether you are nurturing your first indoor succulent or building a lush outdoor haven, our scientific encyclopedia, expert-written articles, and automated health tracking empower you to cultivate thriving green spaces with confidence.</p>
             </div>
 
             <div class="about-action">
@@ -231,10 +231,10 @@
           <article class="promo-card alt">
             <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1000&q=85" alt="Hands gardening outdoors" class="skeleton-img">
             <div class="promo-content">
-              <span class="article-tag">Seasonal guide</span>
-              <h3>What to plant this month?</h3>
-              <p>Get a location-based planting calendar for your city.</p>
-              <a class="btn btn-light" href="{{ route('guides.index') }}">Open care guides</a>
+              <span class="article-tag">Botanical Science</span>
+              <h3>Expert Plant Articles</h3>
+              <p>Explore research-backed plant care, soil health, and botanical advice.</p>
+              <a class="btn btn-light" href="{{ route('articles.index') }}">Read articles</a>
             </div>
           </article>
         </div>
@@ -247,7 +247,7 @@
           <div>
             <span class="eyebrow">Trending now</span>
             <h2 style="margin-top:14px">Popular plants this week.</h2>
-            <p>Healthy, nursery-grown plants selected for home and office spaces.</p>
+            <p>Healthy, premium plants selected for home and office spaces.</p>
           </div>
           <a class="link-arrow" href="{{ route('plants.index') }}">Shop all plants <i class="fa-solid fa-arrow-right"></i></a>
         </div>
@@ -279,53 +279,31 @@
       </div>
     </section>
 
-    <section class="section-sm" id="problems">
-      <div class="container">
-        <div class="problem-wrap">
-          <div class="problem-head">
-            <div>
-              <span class="eyebrow" style="background:rgba(255,255,255,.1);color:#dff2ca">Plant Doctor</span>
-              <h2 style="margin-top:15px">What’s wrong with your plant?</h2>
-            </div>
-            <p>Select a plant problem to get instant symptoms, causes, and botanical treatments.</p>
-          </div>
-
-          <div class="problem-grid">
-            @foreach($featuredProblems as $prob)
-              <a href="{{ route('problems.show', $prob->slug) }}" class="problem-card text-decoration-none">
-                <i class="fa-solid fa-user-doctor"></i><span>{{ $prob->name }}</span>
-              </a>
-            @endforeach
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Phase 3 Content: Plant Care Guides -->
-    <section class="section" id="guides">
+    <!-- Phase 3 Content: Botanical Articles -->
+    <section class="section" id="articles">
       <div class="container">
         <div class="section-head">
           <div>
             <span class="eyebrow">Learn & grow</span>
-            <h2 style="margin-top:14px">Plant care guides people actually use.</h2>
-            <p>Step-by-step botanical guides and care tutorials written by Plantaric horticulturists.</p>
+            <h2 style="margin-top:14px">Plant & botanical articles.</h2>
+            <p>In-depth articles, botanical science, and expert care insights written by Plantaric horticulturists.</p>
           </div>
-          <a class="link-arrow" href="{{ route('guides.index') }}">Browse all guides <i class="fa-solid fa-arrow-right"></i></a>
+          <a class="link-arrow" href="{{ route('articles.index') }}">Browse all articles <i class="fa-solid fa-arrow-right"></i></a>
         </div>
 
         <div class="row g-4">
-          @foreach($featuredGuides as $guide)
+          @foreach($featuredArticles as $article)
             <div class="col-md-4">
               <article class="product-card h-100">
                 <div class="product-media" style="height:200px">
-                  <img src="{{ $guide->featuredImage ? asset('storage/' . $guide->featuredImage->file_path) : 'https://images.unsplash.com/photo-1545239705-1564e58b9e4a?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $guide->title }}">
-                  <span class="badge position-absolute top-0 start-0 m-3 bg-success text-white shadow-sm">Guide</span>
+                  <img src="{{ $article->featuredImage ? asset('storage/' . $article->featuredImage->file_path) : 'https://images.unsplash.com/photo-1545239705-1564e58b9e4a?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $article->title }}" class="w-100 h-100 object-fit-cover">
+                  <span class="badge position-absolute top-0 start-0 m-3 bg-success text-white shadow-sm">Article</span>
                 </div>
                 <div class="product-body d-flex flex-column">
-                  <div class="small text-muted mb-2"><i class="fa-regular fa-clock me-1"></i> {{ $guide->reading_time ?: 5 }} min read</div>
-                  <h3 class="fw-bold mb-2" style="font-size:18px"><a href="{{ route('guides.show', $guide->slug) }}" class="text-dark text-decoration-none">{{ $guide->title }}</a></h3>
-                  <p class="text-muted small mb-3 flex-grow-1">{{ Str::limit($guide->excerpt ?: strip_tags($guide->content), 100) }}</p>
-                  <a href="{{ route('guides.show', $guide->slug) }}" class="fw-bold text-success text-decoration-none mt-auto">Read Guide <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                  <div class="small text-muted mb-2"><i class="fa-regular fa-clock me-1"></i> {{ $article->reading_time ?: 5 }} min read</div>
+                  <h3 class="fw-bold mb-2" style="font-size:18px"><a href="{{ route('articles.show', $article->slug) }}" class="text-dark text-decoration-none">{{ $article->title }}</a></h3>
+                  <p class="text-muted small mb-3 flex-grow-1">{{ Str::limit($article->excerpt ?: strip_tags($article->content), 100) }}</p>
+                  <a href="{{ route('articles.show', $article->slug) }}" class="fw-bold text-success text-decoration-none mt-auto">Read Article <i class="fa-solid fa-arrow-right ms-1"></i></a>
                 </div>
               </article>
             </div>
@@ -366,7 +344,7 @@
           <div>
             <span class="eyebrow" style="background:rgba(255,255,255,.1);color:#e6f4df">Weekly plant notes</span>
             <h2 style="margin-top:14px">Grow smarter every week.</h2>
-            <p>Seasonal tips, new plant guides, nursery discoveries and special shop offers in your inbox.</p>
+            <p>Seasonal tips, new plant articles, botanical discoveries and special shop offers in your inbox.</p>
           </div>
           <form class="subscribe" id="subscribeForm" action="{{ route('newsletter.subscribe') }}" method="POST">
             @csrf

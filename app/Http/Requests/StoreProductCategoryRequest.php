@@ -19,6 +19,7 @@ class StoreProductCategoryRequest extends FormRequest
             'parent_id' => 'nullable|exists:product_categories,id',
             'description' => 'nullable|string',
             'short_description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:4096',
             'image_id' => 'nullable|exists:media,id',
             'icon' => 'nullable|string|max:100',
             'sort_order' => 'nullable|integer|min:0',

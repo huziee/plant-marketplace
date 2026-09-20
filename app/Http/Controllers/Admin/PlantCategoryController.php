@@ -41,6 +41,11 @@ class PlantCategoryController extends Controller
             $data['slug'] = Str::slug($data['name']);
         }
 
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['image_id'] = $media->id;
+        }
+
         PlantCategory::create($data);
 
         return redirect()->route('admin.plant-categories.index')->with('success', 'Plant category created successfully.');
@@ -57,6 +62,11 @@ class PlantCategoryController extends Controller
         $data = $request->validated();
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($data['name']);
+        }
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['image_id'] = $media->id;
         }
 
         $plantCategory->update($data);

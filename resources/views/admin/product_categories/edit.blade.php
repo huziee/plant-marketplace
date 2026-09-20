@@ -10,7 +10,7 @@
     <h1 class="h3 mb-0 text-gray-800 mt-2">Edit Category: {{ $productCategory->name }}</h1>
 </div>
 
-<form method="POST" action="{{ route('admin.product-categories.update', $productCategory) }}">
+<form method="POST" action="{{ route('admin.product-categories.update', $productCategory) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
@@ -42,6 +42,23 @@
         </div>
 
         <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h5 class="h6 font-weight-bold mb-3">Thumbnail Image</h5>
+                    @if($productCategory->image)
+                        <div class="mb-3 text-center">
+                            <img src="{{ asset('storage/' . $productCategory->image->file_path) }}" alt="{{ $productCategory->name }}" class="img-thumbnail rounded" style="max-height: 150px; object-fit: cover;">
+                        </div>
+                    @endif
+                    <div class="mb-3">
+                        <label class="form-label small text-muted">Upload New Image</label>
+                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                        <div class="form-text text-muted small">JPG, PNG, WebP up to 4MB.</div>
+                        @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+            </div>
+
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
                     <div class="mb-3">

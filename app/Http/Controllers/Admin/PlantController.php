@@ -54,11 +54,17 @@ class PlantController extends Controller
     public function store(StorePlantRequest $request, PlantService $plantService)
     {
         $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'plants');
+            $validated['featured_image_id'] = $media->id;
+        }
+
         $careData = $validated['care'] ?? [];
         $commonNames = $validated['common_names'] ?? [];
         $problemIds = $validated['problem_ids'] ?? [];
 
-        unset($validated['care'], $validated['common_names'], $validated['problem_ids']);
+        unset($validated['care'], $validated['common_names'], $validated['problem_ids'], $validated['image']);
 
         $plant = $plantService->createPlant($validated, $careData, $commonNames, $problemIds);
 
@@ -67,7 +73,7 @@ class PlantController extends Controller
 
     public function edit(Plant $plant)
     {
-        $plant->load('care', 'commonNames', 'images.media', 'problems');
+        $plant->load('care', 'commonNames', 'images.media', 'problems', 'featuredImage');
         $categories = PlantCategory::active()->orderBy('name')->get();
         $problems = PlantProblem::active()->orderBy('name')->get();
 
@@ -77,11 +83,17 @@ class PlantController extends Controller
     public function update(UpdatePlantRequest $request, Plant $plant, PlantService $plantService)
     {
         $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'plants');
+            $validated['featured_image_id'] = $media->id;
+        }
+
         $careData = $validated['care'] ?? [];
         $commonNames = $validated['common_names'] ?? [];
         $problemIds = $validated['problem_ids'] ?? [];
 
-        unset($validated['care'], $validated['common_names'], $validated['problem_ids']);
+        unset($validated['care'], $validated['common_names'], $validated['problem_ids'], $validated['image']);
 
         $plantService->updatePlant($plant, $validated, $careData, $commonNames, $problemIds);
 

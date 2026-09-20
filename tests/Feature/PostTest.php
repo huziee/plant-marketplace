@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\PostStatus;
+use App\Enums\PostType;
 use App\Models\AuthorProfile;
 use App\Models\ContentCategory;
 use App\Models\Plant;
@@ -113,13 +115,15 @@ class PostTest extends TestCase
             'author_id' => $this->author->id,
             'title' => 'New Botanical Garden Opens in Lahore',
             'slug' => 'new-botanical-garden-opens-in-lahore',
-            'type' => 'news',
-            'status' => 'published',
-            'published_at' => now(),
+            'type' => PostType::NEWS,
+            'status' => PostStatus::PUBLISHED,
+            'published_at' => now()->subMinutes(5),
             'content' => '<p>A major new public green space has been unveiled today.</p>',
         ]);
 
         $indexResponse = $this->get('/news');
+        dd(Post::published()->ofType(PostType::NEWS)->get());
+        $indexResponse->assertStatus(200);
         $indexResponse->assertStatus(200);
         $indexResponse->assertSee('New Botanical Garden Opens in Lahore');
 

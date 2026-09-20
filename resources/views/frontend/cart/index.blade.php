@@ -14,7 +14,7 @@
         <div class="text-center py-5">
             <i class="fa-solid fa-basket-shopping text-muted fa-4x mb-3"></i>
             <h3 class="fw-bold text-dark mb-2">Your cart is currently empty</h3>
-            <p class="text-muted mb-4">Explore our nursery store and add healthy plants, seeds, or care supplies to your cart.</p>
+            <p class="text-muted mb-4">Explore our plant marketplace and add healthy plants, seeds, or care supplies to your cart.</p>
             <a href="{{ route('shop.index') }}" class="btn btn-success btn-lg px-4">Start Shopping &rarr;</a>
         </div>
     @else

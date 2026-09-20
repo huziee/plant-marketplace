@@ -39,7 +39,8 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light">
                     <tr>
-                        <th class="ps-4">Name</th>
+                        <th class="ps-4" style="width:60px">Image</th>
+                        <th>Name</th>
                         <th>Slug</th>
                         <th>Parent</th>
                         <th>Status</th>
@@ -50,7 +51,16 @@
                 <tbody>
                     @forelse($categories as $category)
                         <tr>
-                            <td class="ps-4 fw-semibold text-dark">{{ $category->name }}</td>
+                            <td class="ps-4">
+                                @if($category->image)
+                                    <img src="{{ asset('storage/' . $category->image->file_path) }}" class="rounded" style="width:40px;height:40px;object-fit:cover">
+                                @else
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center text-muted" style="width:40px;height:40px;font-size:12px">
+                                        <i class="fa-solid fa-folder"></i>
+                                    </div>
+                                @endif
+                            </td>
+                            <td class="fw-semibold text-dark">{{ $category->name }}</td>
                             <td><code>{{ $category->slug }}</code></td>
                             <td>{{ $category->parent ? $category->parent->name : '—' }}</td>
                             <td>

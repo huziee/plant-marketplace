@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $page->meta_title ?: 'About Us — Plantaric')
-@section('meta_description', $page->meta_description ?: 'Learn about Plantaric, an all-in-one platform combining a plant marketplace, botanical encyclopedia, diagnostic plant doctor, and growing guides.')
+@section('meta_description', $page->meta_description ?: 'Learn about Plantaric, an all-in-one platform combining a plant marketplace, botanical encyclopedia, care guides, and plant care articles.')
 
 @section('content')
     @include('layouts.partials.page-hero', [
@@ -30,12 +30,8 @@
                             <span><i class="fa-solid fa-book text-success me-2"></i> Botanical Encyclopedia</span>
                             <i class="fa-solid fa-chevron-right text-muted small"></i>
                         </a>
-                        <a href="{{ route('problems.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-bold py-3">
-                            <span><i class="fa-solid fa-stethoscope text-warning me-2"></i> Plant Doctor</span>
-                            <i class="fa-solid fa-chevron-right text-muted small"></i>
-                        </a>
-                        <a href="{{ route('guides.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-bold py-3">
-                            <span><i class="fa-solid fa-graduation-cap text-primary me-2"></i> Growing Guides</span>
+                        <a href="{{ route('articles.index') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center fw-bold py-3">
+                            <span><i class="fa-solid fa-newspaper text-primary me-2"></i> Botanical Articles</span>
                             <i class="fa-solid fa-chevron-right text-muted small"></i>
                         </a>
                     </div>

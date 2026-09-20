@@ -196,6 +196,9 @@
             <a href="{{ route('admin.tags.index') }}" class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-tags"></i> Content Tags
             </a>
+            <a href="{{ route('admin.content-automation.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-automation.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-robot"></i> Content Automation
+            </a>
 
             <div class="admin-nav-header">SHOP</div>
             <a href="{{ route('admin.products.index') }}" class="admin-nav-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">

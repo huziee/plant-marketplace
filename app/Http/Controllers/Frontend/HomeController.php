@@ -48,6 +48,7 @@ class HomeController extends Controller
 
         // Query real categories with published plant count
         $dbCategories = PlantCategory::active()
+            ->with(['image'])
             ->withCount(['plants' => function ($q) {
                 $q->published();
             }])
@@ -70,7 +71,7 @@ class HomeController extends Controller
                     'name' => $cat->name,
                     'slug' => $cat->slug,
                     'count' => $cat->plants_count . ' plants',
-                    'image' => $categoryImagesMap[$cat->slug] ?? ($cat->image ? asset('storage/' . $cat->image->file_path) : asset('images/categories/indoor_plants.jpg')),
+                    'image' => $cat->image ? asset('storage/' . $cat->image->file_path) : ($categoryImagesMap[$cat->slug] ?? asset('images/categories/indoor_plants.jpg')),
                 ];
             })->toArray();
         } else {
@@ -114,7 +115,7 @@ class HomeController extends Controller
                     'reviews' => 85 + ($index * 12),
                     'light' => $plant->care?->sunlight_label ?: 'Medium Light',
                     'water' => $plant->care?->watering_label ?: 'Weekly',
-                    'image' => $tableImagesList[$index % count($tableImagesList)],
+                    'image' => $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : $tableImagesList[$index % count($tableImagesList)],
                 ];
             })->toArray();
         } else {
@@ -130,14 +131,26 @@ class HomeController extends Controller
             ];
         }
 
-        // Query real featured plant problems
-        $featuredProblems = PlantProblem::active()->where('is_featured', true)->take(6)->get();
-
         // Query real Phase 3 Content: Featured Articles, Guides, and News
         $featuredArticles = Post::published()->ofType(PostType::ARTICLE)->with(['category', 'author', 'featuredImage'])->latest('published_at')->take(3)->get();
         $featuredGuides = Post::published()->ofType(PostType::GUIDE)->with(['category', 'author', 'featuredImage'])->latest('published_at')->take(3)->get();
         $latestNews = Post::published()->ofType(PostType::NEWS)->with(['category', 'author', 'featuredImage'])->latest('published_at')->take(4)->get();
 
-        return view('frontend.home', compact('seoService', 'categories', 'trendingProducts', 'featuredProblems', 'featuredArticles', 'featuredGuides', 'latestNews'));
+        // Dynamic stats counts
+        $plantsCount = Plant::published()->count();
+        $categoriesCount = PlantCategory::active()->count();
+        $articlesCount = Post::published()->ofType(PostType::ARTICLE)->count();
+
+        return view('frontend.home', compact(
+            'seoService',
+            'categories',
+            'trendingProducts',
+            'featuredArticles',
+            'featuredGuides',
+            'latestNews',
+            'plantsCount',
+            'categoriesCount',
+            'articlesCount'
+        ));
     }
 }

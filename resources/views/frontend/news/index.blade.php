@@ -11,7 +11,7 @@
       <div class="hero-copy" style="padding:48px 42px">
         <span class="eyebrow" style="background:rgba(255,255,255,.1);color:#dff2ca"><i class="fa-regular fa-newspaper me-1"></i> Industry News</span>
         <h1 style="font-size:clamp(32px,4vw,52px)">Plant & agriculture <span>news updates.</span></h1>
-        <p>Stay informed with regional urban farming developments, nursery industry trends, new plant varieties, and agricultural technology.</p>
+        <p>Stay informed with regional urban farming developments, botanical industry trends, new plant varieties, and agricultural technology.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
         <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85" alt="Plant News" class="skeleton-img">

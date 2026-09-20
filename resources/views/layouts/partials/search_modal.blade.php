@@ -3,7 +3,7 @@
         <div class="search-modal-header">
             <div class="search-input-wrap">
                 <i class="fa-solid fa-magnifying-glass search-modal-icon"></i>
-                <input type="text" id="liveSearchInput" placeholder="Search plants, seeds, care guides, nurseries... (Press ESC to close)" autocomplete="off">
+                <input type="text" id="liveSearchInput" placeholder="Search plants, seeds, articles, plant doctor... (Press ESC to close)" autocomplete="off">
                 <button class="search-clear-btn" id="searchClearBtn"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <button class="search-modal-close" id="searchModalClose"><i class="fa-solid fa-xmark"></i></button>
@@ -35,8 +35,8 @@
                     <a href="{{ route('search.index', ['q' => 'Yellow Leaves']) }}" class="search-suggestion-item">
                         <i class="fa-solid fa-user-doctor me-2 text-warning"></i> Yellow Leaves Diagnosis <span class="badge bg-light text-dark ms-auto">Plant Doctor</span>
                     </a>
-                    <a href="{{ route('search.index', ['q' => 'Green Roots Nursery']) }}" class="search-suggestion-item">
-                        <i class="fa-solid fa-location-dot me-2 text-primary"></i> Green Roots Nursery Lahore <span class="badge bg-light text-dark ms-auto">Nursery</span>
+                    <a href="{{ route('search.index', ['q' => 'Soil Health']) }}" class="search-suggestion-item">
+                        <i class="fa-solid fa-newspaper me-2 text-primary"></i> Soil Health & Plant Growth <span class="badge bg-light text-dark ms-auto">Article</span>
                     </a>
                 </div>
             </div>

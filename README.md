@@ -2,10 +2,10 @@
   <img src="public/images/plantaric-logo.png" width="480" alt="Plantaric Logo">
 </p>
 
-<h1 align="center">Plantaric — E-Commerce Marketplace & Botanical Encyclopedia Platform</h1>
+<h1 align="center">Plantaric — E-Commerce Marketplace, Botanical Encyclopedia & Content Platform</h1>
 
 <p align="center">
-  <b>A comprehensive, production-ready Laravel 12 full-stack application combining a modern plant marketplace, botanical encyclopedia, diagnostic plant doctor, CMS legal page manager, multi-author editorial publishing platform, and RBAC admin portal.</b>
+  <b>A comprehensive, production-ready Laravel 12 full-stack application combining a modern plant marketplace, botanical encyclopedia with embedded troubleshooting diagnostics, AI-powered autonomous content automation engine, human-reviewed page CMS, multi-author editorial publishing platform, and RBAC admin portal.</b>
 </p>
 
 <p align="center">
@@ -21,14 +21,15 @@
 
 ## 🌿 System Overview
 
-**Plantaric** is an enterprise-grade, feature-packed web platform built for botanical retail stores, online plant nurseries, horticultural brands, and plant care communities. The system harmoniously integrates six major operational engines:
+**Plantaric** is an enterprise-grade, feature-packed web platform built for botanical retail stores, plant growers, horticultural brands, and plant care communities. The system harmoniously integrates six major operational engines:
 
-1. **E-Commerce Marketplace**: Full product catalog, multi-attribute variants, custom studio table photography, dynamic price/category filtering, slide-over cart drawer, discount coupon engine, real-time shipping calculation, multi-step checkout, wishlist persistence, customer reviews with verified badges, and order tracking.
-2. **Botanical Encyclopedia**: Detailed species index complete with scientific taxonomy, plant families, native origins, toxicity alerts (pet & child safety), watering/light/soil matrices, and seasonal care guides (Spring, Summer, Autumn, Winter).
-3. **Plant Doctor Diagnostic Portal**: Interactive symptom-to-treatment lookup system mapping leaf discoloration, pests, fungal infections, and environmental stress to multi-tier remedies (Organic, Chemical, Cultural adjustments).
-4. **Editorial Publishing System**: Rich multi-author blogging suite for botanical articles, step-by-step growing guides, and plant news with JSON-LD microdata schema markup (`Article`, `NewsArticle`, `Product`, `Organization`).
-5. **Page CMS & Trust Documentation Engine**: Dynamic page builder for legal policies and corporate documentation featuring a system-page protection lock, honeypot anti-spam protection on contact inquiries, and admin message management.
-6. **Admin Operations Portal (RBAC)**: Comprehensive administration center with role-based access control (`admin`, `editor`, `author`), order fulfillment pipeline, inventory movement audit log, review moderation, media library, and key-value system settings.
+1. **E-Commerce Marketplace**: Full product catalog, multi-attribute variants, category thumbnail uploads, dynamic price/category filtering, slide-over cart drawer, discount coupon engine, real-time shipping calculation, multi-step checkout, wishlist persistence, customer reviews with star statistics & verified badges, Google Merchant Center feed integration, and order tracking.
+2. **Botanical Encyclopedia**: Detailed species index complete with scientific taxonomy, plant families, native origins, toxicity alerts (pet & child safety), watering/light/soil matrices, seasonal care guides, and featured image management with admin live image previews.
+3. **Embedded Plant Health & Troubleshooting**: Integrated diagnostic lookup embedded directly into plant encyclopedia detail pages (`/plants/{slug}`), mapping leaf discoloration, pests, fungal infections, and environmental stress to symptoms, root causes, step-by-step remedies, and recommended shop treatment products with direct purchase links.
+4. **Editorial Publishing System**: Rich multi-author blogging suite for botanical articles and plant news with JSON-LD microdata schema markup (`Article`, `NewsArticle`, `Product`, `Organization`).
+5. **AI-Powered Autonomous Content Automation Engine**: Dual-stream API discovery pipeline integrating OpenAlex Academic Research API and GDELT Global News Project API, candidate deduplication fingerprints, LLM synthesis engine for structured markdown posts, automated readability & quality scoring, and CLI scheduler commands.
+6. **Page CMS & Trust Documentation Engine**: Dynamic page builder for legal policies and corporate documentation featuring human editorial review, system-page protection lock, fail-safe database fallbacks, honeypot anti-spam protection on contact inquiries, custom meta title/description SEO tags, and admin message management.
+7. **Admin Operations Portal (RBAC)**: Comprehensive administration center with role-based access control (`admin`, `editor`, `author`), order fulfillment pipeline, inventory movement audit log, review moderation statistics, central media library, category & plant thumbnail uploader, content automation pipeline management, and key-value system settings.
 
 ---
 
@@ -42,26 +43,35 @@ graph TD
     subgraph Frontend Subsystems
         Frontend --> Shop[Shop Catalog & Product Pages]
         Frontend --> CartCheckout[Cart Drawer & Multi-Step Checkout]
-        Frontend --> PlantDB[Botanical Encyclopedia]
-        Frontend --> PlantDoc[Plant Doctor Diagnostics]
-        Frontend --> Content[Articles, Guides & Newsroom]
+        Frontend --> PlantDB[Botanical Encyclopedia & Troubleshooting]
+        Frontend --> Content[Articles & Newsroom]
         Frontend --> Account[Customer Dashboard & Orders]
         Frontend --> Modals[Quick View & Search Modals]
+    end
+
+    subgraph AI Content Automation Suite
+        OpenAlex[OpenAlex Scientific API] --> Discovery[Article & News Discovery Engine]
+        GDELT[GDELT News Project API] --> Discovery
+        Discovery --> Fingerprint[Candidate Fingerprinting & Deduplication]
+        Fingerprint --> LLMGen[LLM Synthesis & Content Quality Shield]
+        LLMGen --> AutoPost[Automated Post Creation & Citations]
     end
 
     subgraph Admin Operations
         AdminPanel --> Inventory[Inventory Movement & Stock Ledger]
         AdminPanel --> OrderMgmt[Order Status & Fulfillment Pipeline]
         AdminPanel --> CouponEngine[Coupon & Promotional Discount Rules]
-        AdminPanel --> ContentMgmt[Post & Encyclopedia Editors + Cloning]
-        AdminPanel --> ReviewMod[Review Moderation Queue]
+        AdminPanel --> ContentMgmt[Post & Encyclopedia Editors + Image Upload]
+        AdminPanel --> AutoMgmt[Content Automation Pipeline & Settings]
+        AdminPanel --> ReviewMod[Review Moderation & Star Stats]
         AdminPanel --> CMSInbox[Page CMS & Contact Inbox]
         AdminPanel --> SystemSettings[Dynamic Key-Value Settings Engine]
     end
 
-    subgraph Database Layer (43 Eloquent Models)
-        Shop & CartCheckout & PlantDB & PlantDoc & Content & Account & Modals --> DB[(MySQL / SQLite Database)]
-        Inventory & OrderMgmt & CouponEngine & ContentMgmt & ReviewMod & CMSInbox & SystemSettings --> DB
+    subgraph Database Layer (46 Eloquent Models)
+        Shop & CartCheckout & PlantDB & Content & Account & Modals --> DB[(MySQL / SQLite Database)]
+        Inventory & OrderMgmt & CouponEngine & ContentMgmt & AutoMgmt & ReviewMod & CMSInbox & SystemSettings --> DB
+        AutoPost --> DB
     end
 ```
 
@@ -73,46 +83,39 @@ graph TD
 
 | Feature | Technical Description & Implementation |
 | :--- | :--- |
-| **Product Catalog (`/shop`)** | Searchable product grid with category multi-select, interactive price range sliders, in-stock availability toggles, and sorting options (Price Low-to-High, High-to-Low, Latest, Top Rated). |
+| **Product Catalog (`/shop`)** | Searchable product grid with category multi-select, interactive price range sliders, in-stock availability toggles, category thumbnails, and sorting options (Price Low-to-High, High-to-Low, Latest, Top Rated). |
+| **Category Thumbnails & Uploads** | Category cards render custom uploaded thumbnail images across frontend shop sidebars, header dropdowns, and admin category management. |
 | **Multi-Attribute Product Variants** | Support for complex SKU variations (e.g., Pot Color, Size, Package Weight) backed by `ProductVariant`, `ProductAttribute`, and `ProductAttributeValue` models. |
-| **Studio Photography & Visual Assets** | 4K ultra-realistic studio photography for indoor plants on wooden tables (`public/images/products/*_table.jpg`) paired with HD category covers (`public/images/categories/*.jpg`). |
+| **Studio Photography & Visual Assets** | Studio photography for indoor plants paired with HD category covers (`public/images/categories/*.jpg`). |
 | **Slide-Over Cart Drawer & Full Cart** | Slide-over cart drawer (`drawer.blade.php`) and full `/cart` page with AJAX quantity updates, subtotal auto-calculation, line-item removal, and persistent session/database cart container (`Cart`, `CartItem`). |
 | **Discount Coupon Engine** | Percentage-based or fixed-amount promo codes supporting minimum order thresholds, maximum discount caps, per-user usage caps, expiration dates, and real-time validation (`coupons`, `coupon_usages`). |
-| **Dynamic Shipping Calculation** | Configurable shipping providers (Flat Rate, Express Delivery, Free Shipping Thresholds, Nursery Pickup) dynamically updated during checkout (`shipping_methods`). |
+| **Dynamic Shipping Calculation** | Configurable shipping providers (Flat Rate, Express Delivery, Free Shipping Thresholds, Store Pickup) dynamically updated during checkout (`shipping_methods`). |
 | **Multi-Step Checkout (`/checkout`)** | Saved customer address auto-population, dynamic fee breakdown, order generation with unique tracking codes (`PLN-YYYYMMDD-XXXX`), and automatic stock decrementing. |
-| **Product Reviews & Verified Ratings** | 1–5 star rating system, text feedback, customer verified buyer badges, and an admin approval workflow (`product_reviews`). |
+| **Product Reviews & Rating Stats** | 1–5 star rating system, customer verified buyer badges, summary rating cards with rating breakdowns, and an admin moderation workflow (`product_reviews`). |
 | **AJAX Customer Wishlist** | Instant wishlist bookmarking with session/user persistence and dedicated customer account wishlist view (`wishlists`). |
+| **Google Merchant Center Feed** | E-commerce shopping feed integration fields on products (`gtin`, `mpn`, `google_product_category`, `condition`, `age_group`, `gender`) for Google Shopping syndication. |
 | **Quick View Modal** | Instant product quick-view modal (`quick_view_modal.blade.php`) allowing customers to preview variants, stock, and add items to cart without leaving the page. |
 
 ---
 
-### 🪴 2. Botanical Encyclopedia (`/plants`)
+### 🪴 2. Botanical Encyclopedia & Embedded Health Diagnostics (`/plants`)
 
 | Feature | Technical Description & Implementation |
 | :--- | :--- |
 | **Species Directory** | Comprehensive plant catalog with scientific taxonomy (Family, Genus, Species), geographic origin, growth rate, mature height, and pet/child toxicity warnings (`plants`, `plant_categories`). |
+| **Featured Image Upload & Live Preview** | Admin plant profiles (`/admin/plants/create`, `/admin/plants/edit`) support file upload with real-time JavaScript live image preview and thumbnail display across plant encyclopedia grids and homepage cards. |
 | **Granular Care Matrix** | Environment care specifications (`plant_cares`): ☀️ Light intensity & orientation, 💧 Watering frequency & humidity target %, 🧪 Soil mixture & pH range, 🌡️ Min/max temperature tolerance, 🌿 Fertilizer type & feeding cycle, ✂️ Pruning & repotting frequency. |
+| **Embedded Health & Troubleshooting** | Inlined diagnostic remedies embedded directly on each plant page (`/plants/{slug}`), showcasing symptoms, root causes, step-by-step treatments, and recommended treatment shop supplies with direct purchase links. |
 | **Common & Regional Names Index** | Multi-alias directory (`plant_common_names`) allowing lookup by regional names (e.g., *Monstera deliciosa* vs. *Swiss Cheese Plant* or *Split-Leaf Philodendron*). |
 | **Seasonal Care Routines** | Specialized seasonal maintenance guidelines for Spring, Summer, Autumn, and Winter growth cycles (`plant_seasons`). |
 
 ---
 
-### 🩺 3. Plant Doctor Diagnostic Portal (`/plant-problems`)
+### 📰 3. Multi-Author Editorial Engine (`/articles`, `/news`)
 
 | Feature | Technical Description & Implementation |
 | :--- | :--- |
-| **Visual Symptom Diagnostic Index** | Diagnostic engine indexing leaf discoloration, yellowing, pest infestations, root rot, fungal spots, and wilting symptoms (`plant_problems`, `plant_problem_symptoms`). |
-| **Pathogen & Root Cause Analysis** | In-depth cause classification (`plant_problem_causes`) identifying biological (fungal, insect, bacterial, viral) or environmental (overwatering, light burn) origins. |
-| **Multi-Tier Treatment Protocol** | Actionable recovery procedures (`plant_problem_treatments`) divided into Organic Remedies, Chemical Interventions, and Cultural/Environmental Adjustments. |
-| **Prevention & Vulnerable Hosts** | Long-term preventative care guidelines (`plant_problem_preventions`) linked directly to vulnerable host plant species. |
-
----
-
-### 📰 4. Multi-Author Editorial Engine (`/articles`, `/guides`, `/news`)
-
-| Feature | Technical Description & Implementation |
-| :--- | :--- |
-| **Triple-Format Publishing Suite** | Manage Botanical Articles (`/articles`), Step-by-Step Growing Tutorials (`/guides`), and Industry News (`/news`) with rich text, featured cover media, estimated reading time, and publication states (`posts`). |
+| **Editorial Publishing Suite** | Manage Botanical Articles (`/articles`) and Industry News (`/news`) with rich text, featured cover media, estimated reading time, and publication states (`posts`). |
 | **Taxonomy & Cross-Tagging System** | Flexible content categorization (`content_categories`) and tagging engine (`tags`) shared across content and product catalogs. |
 | **Author Profiles & Archives** | Dedicated author profile pages (`/authors/{user}`) showcasing author bios, avatars, social profiles, and published article indexes (`author_profiles`). |
 | **Citations & Research Sources** | Academic and authoritative reference citations (`post_sources`) attached to research articles. |
@@ -120,14 +123,30 @@ graph TD
 
 ---
 
+### 🤖 4. AI-Powered Autonomous Content Automation Engine (`/admin/content-automation`)
+
+| Feature | Technical Description & Implementation |
+| :--- | :--- |
+| **OpenAlex Academic Research Integration** | Automated ingestion of peer-reviewed botanical, horticultural, and plant biology studies from the OpenAlex API (`OpenAlexService`), capturing DOIs, publication dates, and study abstracts. |
+| **GDELT Global News Discovery** | Real-time monitoring of worldwide plant news and botanical discoveries via the GDELT Project API (`GdeltService`). |
+| **Candidate Fingerprinting & Deduplication** | Cryptographic hashing (`CandidateFingerprintService`) based on candidate source URLs and normalized titles to eliminate duplicate content discovery. |
+| **Dynamic Topic Strategy Engine** | Manage strategic seed topic keywords (`content_topics`) with configurable target publication ratios between research articles and breaking news. |
+| **AI Content Synthesis & Structuring** | LLM-driven synthesis (`ContentGenerationService`) producing publication-ready Markdown posts with structured subheadings, key takeaways, plant cross-links, tag assignments, and academic research citations (`post_sources`). |
+| **Quality & Readability Shield** | Automated content verification (`ContentQualityService`) rating readability scores, formatting compliance, structural depth, and source attribution before publishing. |
+| **Automated Post Publishing Pipeline** | Pipeline management (`PostCreationService`) auto-mapping content categories, tags, author attribution, and publication states (`draft`, `scheduled`, `published`). |
+| **Admin Control Dashboard & Manual Override** | Admin interface (`/admin/content-automation`) to inspect candidate metadata, approve/reject candidates, set API keys, customize prompt templates, and manually trigger generation. |
+| **CLI Automation Command Suite** | Artisan commands (`automation:discover-articles`, `automation:discover-news`, `automation:generate`, `automation:run`) for background cron scheduling. |
+
+---
+
 ### 📄 5. CMS Page Engine & Trust Documentation
 
 | Feature | Technical Description & Implementation |
 | :--- | :--- |
-| **Dynamic Page CMS (`/admin/pages`)** | Full CRUD page manager to compose, format, edit, and publish static site pages with custom SEO title and description meta tags (`pages`). |
+| **Dynamic Page CMS (`/admin/pages`)** | Full CRUD page manager to compose, format, edit, and publish site pages with custom SEO title, meta description, meta keywords, and social sharing image tags (`pages`). |
 | **System Page Lock Protection** | Core legal policies (`privacy-policy`, `terms-and-conditions`, `disclaimer`, `cookie-policy`, etc.) feature deletion and slug modification locks (`is_system`) to protect application routing integrity. |
-| **10 Pre-Seeded Trust Pages** | Ready-to-use templates for `/about-us`, `/contact-us`, `/privacy-policy`, `/terms-and-conditions`, `/cookie-policy`, `/disclaimer`, `/editorial-policy`, `/shipping-policy`, `/return-refund-policy`, and `/advertising-disclosure`. |
-| **Honeypot Anti-Spam Shield** | Customer contact forms incorporate a invisible honeypot field (`website`) that automatically detects and rejects automated bot spam without database pollution. |
+| **Seeded & Fail-Safe Trust Pages** | Ready-to-use human-reviewed templates for `/about-us`, `/contact-us`, `/privacy-policy`, `/terms-and-conditions`, `/cookie-policy`, `/disclaimer`, `/editorial-policy`, `/shipping-policy`, `/return-refund-policy`, and `/advertising-disclosure` with fail-safe database fallbacks in `PageController`. |
+| **Honeypot Anti-Spam Shield** | Customer contact forms incorporate an invisible honeypot field (`website`) that automatically detects and rejects automated bot spam without database pollution. |
 | **Contact Inquiry Inbox** | Admin communication center (`/admin/contact-messages`) to inspect customer submissions, manage status lifecycle (`unread`, `replied`, `archived`), and store administrative response notes (`contact_messages`). |
 | **Cookie Consent Banner** | Non-intrusive cookie notice bar (`cookie_consent.blade.php`) compliant with GDPR & ePrivacy directives. |
 
@@ -152,9 +171,10 @@ graph TD
 | **Operations Dashboard** | Real-time metric cards showing Total Revenue, Total Orders, Active Product Count, Registered Customers, and Low-Stock Warning alerts (`/admin`). |
 | **Inventory Movement Ledger** | Historical audit trail (`inventory_movements`) tracking all stock adjustments: Stock In, Sales Deductions, Customer Returns, and Manual Adjustments (`/admin/inventory`). |
 | **Order Fulfillment Pipeline** | Process orders through state changes (`Pending` ➔ `Processing` ➔ `Shipped` ➔ `Delivered` ➔ `Cancelled`) with automated status history log entries (`order_status_histories`). |
+| **Category & Plant Image Uploaders** | Integrated image uploader with live preview for plant categories and plant encyclopedia entries. |
 | **Record Duplication & Cloning** | One-click duplication for Plants (`POST /admin/plants/{id}/duplicate`) and Content Posts (`POST /admin/posts/{id}/duplicate`). |
 | **Live Article Preview** | Secret author preview engine (`GET /admin/posts/{id}/preview`) allowing authors to review draft posts before public launch. |
-| **Review Moderation Queue** | Approve, flag, or purge customer product reviews before public storefront display (`/admin/reviews`). |
+| **Review Moderation Queue & Stats** | Approve, flag, or purge customer product reviews with stat cards showing average ratings and review distribution (`/admin/reviews`). |
 | **Central Media Library** | Unified media hub (`/admin/media`) supporting multi-file image uploads, thumbnail generation, MIME type detection, alt text management, and file size tracking. |
 | **Newsletter Leads Manager** | Subscriber management directory (`newsletter_subscribers`) capturing email leads from footer and homepage subscription modules. |
 | **Dynamic Key-Value Settings Engine** | Centralized configuration center (`/admin/settings`) to dynamically control Site Name, Logo, Contact Info, Social Links, Currency Symbol, and Default SEO metadata stored in the `settings` table. |
@@ -166,24 +186,22 @@ graph TD
 | Feature | Technical Description & Implementation |
 | :--- | :--- |
 | **Automated XML Sitemaps** | Dynamic sitemap generator (`/sitemap.xml`) serving specialized sitemaps for `/sitemaps/products.xml`, `/sitemaps/plants.xml`, and `/sitemaps/posts.xml`. |
-| **URL Redirection Engine** | Database-managed 301/302 redirection table (`url_redirects`) ensuring zero broken links during permalink updates. |
+| **URL Redirection Engine** | Database-managed 301/302 redirection table (`url_redirects`) ensuring zero broken links during permalink updates, including automatic 301 redirects from legacy `/plant-problems` paths to `/plants`. |
 | **Complete Favicon & PWA Suite** | Multi-resolution ICO (16x16, 32x32, 48x48, 64x64), SVG vector icon, Apple Touch Icon (180x180), Android Chrome icons (192x192, 512x512), and `site.webmanifest`. |
 | **Branded Error Pages** | Custom responsive error views for `404 Not Found`, `403 Forbidden`, `419 Page Expired`, and `500 Internal Server Error` (`resources/views/errors/`). |
-| **Global Search Overlay** | Universal search modal (`search_modal.blade.php`) querying products, encyclopedia entries, growing guides, and articles simultaneously (`SearchController`). |
+| **Global Search Overlay** | Universal search modal (`search_modal.blade.php`) querying products, encyclopedia entries, and articles simultaneously (`SearchController`). |
 
 ---
 
-## 🗄️ Database Schema & Model Directory (43 Eloquent Models)
-
-The system database consists of **43 specialized Eloquent data models**:
+## 🗄️ Database Schema & Model Directory (46 Eloquent Models)
 
 | Group | Model Class | Database Table | Primary Purpose & Key Relationships |
 | :--- | :--- | :--- | :--- |
 | **Core & Users** | [`User`](file:///c:/laragon/www/plant-marketplace/app/Models/User.php) | `users` | User authentication, RBAC roles (`admin`, `editor`, `author`, `customer`), password hashes, and avatars. |
 | | [`AuthorProfile`](file:///c:/laragon/www/plant-marketplace/app/Models/AuthorProfile.php) | `author_profiles` | Bio, credentials, title, and social links for content authors (`belongsTo(User)`). |
 | | [`CustomerAddress`](file:///c:/laragon/www/plant-marketplace/app/Models/CustomerAddress.php) | `customer_addresses` | Saved customer billing and shipping addresses (`belongsTo(User)`). |
-| **Marketplace** | [`Product`](file:///c:/laragon/www/plant-marketplace/app/Models/Product.php) | `products` | Product catalog items, pricing, SKUs, stock levels, featured flags, and SEO attributes. |
-| | [`ProductCategory`](file:///c:/laragon/www/plant-marketplace/app/Models/ProductCategory.php) | `product_categories` | Hierarchical product categories (Indoor Plants, Outdoor Plants, Seeds, Pots, Tools). |
+| **Marketplace** | [`Product`](file:///c:/laragon/www/plant-marketplace/app/Models/Product.php) | `products` | Product catalog items, pricing, SKUs, stock levels, featured flags, Merchant Center metadata, and SEO attributes. |
+| | [`ProductCategory`](file:///c:/laragon/www/plant-marketplace/app/Models/ProductCategory.php) | `product_categories` | Hierarchical product categories (Indoor Plants, Outdoor Plants, Seeds, Pots, Tools) with thumbnail images. |
 | | [`ProductCollection`](file:///c:/laragon/www/plant-marketplace/app/Models/ProductCollection.php) | `product_collections` | Dynamic product groupings (Best Sellers, Low Light Favorites, New Arrivals). |
 | | [`ProductVariant`](file:///c:/laragon/www/plant-marketplace/app/Models/ProductVariant.php) | `product_variants` | Specific product SKU variations (size, color, pot style) with override prices and stock. |
 | | [`ProductAttribute`](file:///c:/laragon/www/plant-marketplace/app/Models/ProductAttribute.php) | `product_attributes` | Variant attribute keys (e.g., Color, Pot Diameter, Weight). |
@@ -201,22 +219,25 @@ The system database consists of **43 specialized Eloquent data models**:
 | | [`CouponUsage`](file:///c:/laragon/www/plant-marketplace/app/Models/CouponUsage.php) | `coupon_usages` | Ledger logging coupon redemptions per user and per order. |
 | | [`InventoryMovement`](file:///c:/laragon/www/plant-marketplace/app/Models/InventoryMovement.php) | `inventory_movements` | Stock ledger tracking stock ins, order sales deductions, returns, and manual adjustments. |
 | | [`Wishlist`](file:///c:/laragon/www/plant-marketplace/app/Models/Wishlist.php) | `wishlists` | User product bookmarks (`belongsTo(User)`, `belongsTo(Product)`). |
-| **Plant Encyclopedia**| [`Plant`](file:///c:/laragon/www/plant-marketplace/app/Models/Plant.php) | `plants` | Botanical species profiles, scientific taxonomy, pet safety flags, and growth traits. |
-| | [`PlantCategory`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantCategory.php) | `plant_categories` | Botanical taxonomy classifications (Succulents, Tropicals, Ferns, Palms). |
+| **Plant Encyclopedia**| [`Plant`](file:///c:/laragon/www/plant-marketplace/app/Models/Plant.php) | `plants` | Botanical species profiles, scientific taxonomy, featured image links, pet safety flags, and growth traits. |
+| | [`PlantCategory`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantCategory.php) | `plant_categories` | Botanical taxonomy classifications with thumbnail images. |
 | | [`PlantCare`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantCare.php) | `plant_cares` | Precise environmental care parameters (light, water, soil pH, fertilizer, temp range). |
 | | [`PlantCommonName`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantCommonName.php) | `plant_common_names` | Common and regional aliases for species lookups. |
 | | [`PlantImage`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantImage.php) | `plant_images` | High-resolution botanical photography assets. |
 | | [`PlantSeason`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantSeason.php) | `plant_seasons` | Seasonal growth and dormant care routines for Spring, Summer, Autumn, and Winter. |
-| **Plant Doctor** | [`PlantProblem`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblem.php) | `plant_problems` | Diagnostic entries for diseases, pests, fungal infections, and physiological stress. |
+| **Health Diagnostics**| [`PlantProblem`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblem.php) | `plant_problems` | Diagnostic entries for diseases, pests, fungal infections, and physiological stress embedded in plant profiles. |
 | | [`PlantProblemSymptom`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblemSymptom.php) | `plant_problem_symptoms` | Leaf indicators, stem damage, and root condition symptoms. |
 | | [`PlantProblemCause`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblemCause.php) | `plant_problem_causes` | Biological pathogens (insects, fungi, bacteria) and environmental causes. |
-| | [`PlantProblemTreatment`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblemTreatment.php) | `plant_problem_treatments` | Organic remedies, chemical treatments, and cultural adjustments. |
+| | [`PlantProblemTreatment`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblemTreatment.php) | `plant_problem_treatments` | Step-by-step remedies and treatment methods. |
 | | [`PlantProblemPrevention`](file:///c:/laragon/www/plant-marketplace/app/Models/PlantProblemPrevention.php) | `plant_problem_preventions` | Long-term preventative maintenance routines. |
-| **Content Engine** | [`Post`](file:///c:/laragon/www/plant-marketplace/app/Models/Post.php) | `posts` | Botanical articles, step-by-step guides, and industry news posts (`belongsTo(User)`). |
+| **Content Engine** | [`Post`](file:///c:/laragon/www/plant-marketplace/app/Models/Post.php) | `posts` | Botanical articles and industry news posts (`belongsTo(User)`). |
 | | [`ContentCategory`](file:///c:/laragon/www/plant-marketplace/app/Models/ContentCategory.php) | `content_categories` | Editorial content categories. |
 | | [`Tag`](file:///c:/laragon/www/plant-marketplace/app/Models/Tag.php) | `tags` | Tags shared across posts and marketplace products. |
 | | [`PostSource`](file:///c:/laragon/www/plant-marketplace/app/Models/PostSource.php) | `post_sources` | Research citations and reference sources for editorial articles. |
-| **Page CMS & Trust**| [`Page`](file:///c:/laragon/www/plant-marketplace/app/Models/Page.php) | `pages` | Static legal policies and corporate pages with `is_system` deletion locks. |
+| **AI Automation** | [`ContentCandidate`](file:///c:/laragon/www/plant-marketplace/app/Models/ContentCandidate.php) | `content_candidates` | Raw discovered academic research and news candidates with source URLs, metadata, and status lifecycle. |
+| | [`ContentResearchSource`](file:///c:/laragon/www/plant-marketplace/app/Models/ContentResearchSource.php) | `content_research_sources` | Academic DOIs, paper URLs, and research citations linked to generated posts. |
+| | [`ContentTopic`](file:///c:/laragon/www/plant-marketplace/app/Models/ContentTopic.php) | `content_topics` | Seed topic keywords, status flags, and research discovery scope settings. |
+| **Page CMS & Trust**| [`Page`](file:///c:/laragon/www/plant-marketplace/app/Models/Page.php) | `pages` | Static legal policies and corporate pages with `is_system` locks and SEO meta tags. |
 | | [`ContactMessage`](file:///c:/laragon/www/plant-marketplace/app/Models/ContactMessage.php) | `contact_messages` | Customer inquiry submissions with status tracking and reply notes. |
 | **System Utilities** | [`Media`](file:///c:/laragon/www/plant-marketplace/app/Models/Media.php) | `media` | Central media library records tracking uploaded file paths, sizes, and MIME types. |
 | | [`Setting`](file:///c:/laragon/www/plant-marketplace/app/Models/Setting.php) | `settings` | Dynamic key-value site configuration store. |
@@ -231,9 +252,9 @@ The system database consists of **43 specialized Eloquent data models**:
 
 | Method | Path | Controller & Action | Route Name | Description |
 | :--- | :--- | :--- | :--- | :--- |
-| `GET` | `/` | `Frontend\HomeController@index` | `frontend.home` | Homepage featuring hero banner, global search, top categories, desk plant showcase, plant doctor features, guides, and news. |
+| `GET` | `/` | `Frontend\HomeController@index` | `frontend.home` | Homepage featuring hero banner, global search, dynamic categories count, plant collection, botanical articles, and news. |
 | `GET` | `/shop` | `Frontend\ShopController@index` | `shop.index` | Storefront catalog with category multi-select, price sliders, stock filters, and sorting controls. |
-| `GET` | `/shop/category/{slug}` | `Frontend\ShopController@category` | `frontend.shop.category` | Category product showcase page. |
+| `GET` | `/shop/category/{slug}` | `Frontend\ShopController@category` | `frontend.shop.category` | Category product showcase page with category sidebar, trust pills, and promo cards. |
 | `GET` | `/shop/products/{slug}` | `Frontend\ShopController@show` | `frontend.shop.product` | Product detail page with table photos, variant selectors, stock badge, quick view support, and reviews. |
 | `GET` | `/cart` | `Frontend\CartController@index` | `frontend.cart.index` | Full shopping cart page. |
 | `POST` | `/cart/add` | `Frontend\CartController@add` | `frontend.cart.add` | Add product or variant to cart. |
@@ -242,14 +263,12 @@ The system database consists of **43 specialized Eloquent data models**:
 | `POST` | `/cart/coupon` | `Frontend\CartController@applyCoupon` | `frontend.cart.coupon` | Apply promo coupon code to cart. |
 | `DELETE` | `/cart/coupon` | `Frontend\CartController@removeCoupon` | `frontend.cart.coupon.remove` | Remove coupon from cart. |
 | `GET` | `/plants` | `Frontend\PlantController@index` | `plants.index` | Botanical Encyclopedia species directory. |
-| `GET` | `/plants/{plant:slug}` | `Frontend\PlantController@show` | `plants.show` | Detailed plant profile with light, water, soil care matrix, pet toxicity warnings, and seasonal routines. |
-| `GET` | `/plant-problems` | `Frontend\PlantProblemController@index` | `problems.index` | Plant Doctor diagnostic index. |
-| `GET` | `/plant-problems/{plantProblem:slug}` | `Frontend\PlantProblemController@show` | `problems.show` | Symptom lookup, pathogen analysis, multi-tier treatments, and prevention tips. |
+| `GET` | `/plants/{plant:slug}` | `Frontend\PlantController@show` | `plants.show` | Detailed plant profile with light/water care matrix, toxicity warnings, seasonal routines, and embedded health troubleshooting & recommended treatment products. |
+| `301` | `/plant-problems` | `Redirect` | `problems.index` | Legacy path redirected (301) to `/plants`. |
+| `301` | `/plant-problems/{slug}`| `Redirect` | `problems.show` | Legacy path redirected (301) to `/plants`. |
 | `GET` | `/articles` | `Frontend\ArticleController@index` | `articles.index` | Botanical articles archive. |
 | `GET` | `/articles/category/{slug}` | `Frontend\ContentCategoryController@show` | `content-categories.show` | Articles filtered by content category. |
 | `GET` | `/articles/{slug}` | `Frontend\ArticleController@show` | `articles.show` | Article view with author bio, citations, and JSON-LD schema. |
-| `GET` | `/guides` | `Frontend\GuideController@index` | `guides.index` | Step-by-step growing tutorials index. |
-| `GET` | `/guides/{slug}` | `Frontend\GuideController@show` | `guides.show` | Detailed growing guide tutorial. |
 | `GET` | `/news` | `Frontend\NewsController@index` | `news.index` | Plant and botanical newsroom. |
 | `GET` | `/news/{slug}` | `Frontend\NewsController@show` | `news.show` | News article detail view. |
 | `GET` | `/authors/{user}` | `Frontend\AuthorController@show` | `authors.show` | Author bio archive displaying written posts. |
@@ -259,13 +278,13 @@ The system database consists of **43 specialized Eloquent data models**:
 | `GET` | `/privacy-policy` | `Frontend\PageController@show` | `frontend.privacy` | Privacy Policy documentation. |
 | `GET` | `/terms-and-conditions` | `Frontend\PageController@show` | `frontend.terms` | Terms & Conditions agreement. |
 | `GET` | `/cookie-policy` | `Frontend\PageController@show` | `frontend.cookie-policy` | Cookie Consent & Policy document. |
-| `GET` | `/disclaimer` | `Frontend\PageController@show` | `frontend.disclaimer` | Plant Care & Medical Disclaimer. |
+| `GET` | `/disclaimer` | `Frontend\PageController@show` | `frontend.disclaimer` | Plant Care Disclaimer. |
 | `GET` | `/editorial-policy` | `Frontend\PageController@show` | `frontend.editorial-policy` | Botanical Publishing & Review Policy. |
-| `GET` | `/shipping-policy` | `Frontend\PageController@show` | `frontend.shipping-policy` | Shipping & Nursery Delivery Policy. |
+| `GET` | `/shipping-policy` | `Frontend\PageController@show` | `frontend.shipping-policy` | Plant Shipping & Delivery Policy. |
 | `GET` | `/return-refund-policy` | `Frontend\PageController@show` | `frontend.return-refund-policy` | Returns & Guarantee Policy. |
 | `GET` | `/advertising-disclosure` | `Frontend\PageController@show` | `frontend.advertising-disclosure` | Affiliate & Advertising Disclosure. |
-| `GET` | `/page/{slug}` | `Frontend\PageController@show` | `frontend.page.show` | Dynamic CMS page loader. |
-| `GET` | `/search` | `Frontend\SearchController@index` | `search.index` | Global search engine querying products, plants, guides, and articles. |
+| `GET` | `/page/{slug}` | `Frontend\PageController@show` | `frontend.page.show` | Dynamic CMS page loader with database fail-safe fallback. |
+| `GET` | `/search` | `Frontend\SearchController@index` | `search.index` | Global search engine querying products, plants, categories, and articles. |
 | `POST` | `/newsletter/subscribe` | `Frontend\NewsletterController@subscribe` | `newsletter.subscribe` | Newsletter opt-in submission. |
 | `GET` | `/sitemap.xml` | `Frontend\SitemapController@index` | `sitemap` | Master XML sitemap index. |
 | `GET` | `/sitemaps/{type}.xml` | `Frontend\SitemapController@show` | `sitemap.show` | Specialized sitemap (`products`, `plants`, `posts`). |
@@ -312,32 +331,42 @@ The system database consists of **43 specialized Eloquent data models**:
 | :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/admin` | `Admin\DashboardController@index` | `admin.dashboard` | Admin operational overview & KPI metrics. |
 | `RESOURCE` | `/admin/users` | `Admin\UserController` (`index`, `show`, `edit`, `update`) | `admin.users.*` | User management & role assignment. |
-| `RESOURCE` | `/admin/pages` | `Admin\PageController` (Full CRUD) | `admin.pages.*` | Dynamic page CMS manager with system locks. |
+| `RESOURCE` | `/admin/pages` | `Admin\PageController` (Full CRUD) | `admin.pages.*` | Dynamic page CMS manager with system locks & SEO meta fields. |
 | `GET` | `/admin/contact-messages` | `Admin\ContactMessageController@index` | `admin.contact-messages.index` | View customer inquiry messages. |
 | `GET` | `/admin/contact-messages/{message}` | `Admin\ContactMessageController@show` | `admin.contact-messages.show` | Inspect message details. |
 | `PATCH` | `/admin/contact-messages/{message}/status` | `Admin\ContactMessageController@updateStatus` | `admin.contact-messages.update-status` | Update message status (`unread`, `replied`, `archived`). |
 | `DELETE` | `/admin/contact-messages/{message}` | `Admin\ContactMessageController@destroy` | `admin.contact-messages.destroy` | Delete contact inquiry. |
-| `RESOURCE` | `/admin/products` | `Admin\ProductController` (Full CRUD) | `admin.products.*` | Product catalog CRUD. |
-| `RESOURCE` | `/admin/product-categories` | `Admin\ProductCategoryController` (Full CRUD) | `admin.product-categories.*` | Product category manager. |
+| `RESOURCE` | `/admin/products` | `Admin\ProductController` (Full CRUD) | `admin.products.*` | Product catalog CRUD & Merchant Center feeds. |
+| `RESOURCE` | `/admin/product-categories` | `Admin\ProductCategoryController` (Full CRUD) | `admin.product-categories.*` | Product category manager with thumbnail uploader. |
 | `RESOURCE` | `/admin/product-collections` | `Admin\ProductCollectionController` (`index`, `store`, `destroy`) | `admin.product-collections.*` | Curated product collections manager. |
 | `GET` | `/admin/inventory` | `Admin\InventoryController@index` | `admin.inventory.index` | Stock audit log & inventory movements. |
 | `GET` | `/admin/orders` | `Admin\OrderController@index` | `admin.orders.index` | Order management dashboard. |
 | `GET` | `/admin/orders/{order}` | `Admin\OrderController@show` | `admin.orders.show` | Order fulfillment details & line items. |
 | `POST` | `/admin/orders/{order}/status` | `Admin\OrderController@updateStatus` | `admin.orders.update-status` | Update order status (`Pending` ➔ `Processing` ➔ `Shipped` ➔ `Delivered` ➔ `Cancelled`). |
 | `RESOURCE` | `/admin/coupons` | `Admin\CouponController` (`index`, `store`, `destroy`) | `admin.coupons.*` | Discount coupon generator & manager. |
-| `GET` | `/admin/reviews` | `Admin\ProductReviewController@index` | `admin.reviews.index` | Review moderation queue. |
+| `GET` | `/admin/reviews` | `Admin\ProductReviewController@index` | `admin.reviews.index` | Review moderation queue with product thumbnail images & rating stats. |
 | `POST` | `/admin/reviews/{review}/status` | `Admin\ProductReviewController@updateStatus` | `admin.reviews.update-status` | Approve or hide product review. |
 | `DELETE` | `/admin/reviews/{review}` | `Admin\ProductReviewController@destroy` | `admin.reviews.destroy` | Delete product review. |
 | `RESOURCE` | `/admin/shipping-methods` | `Admin\ShippingMethodController` (`index`, `store`, `update`, `destroy`) | `admin.shipping-methods.*` | Shipping method & fee rules engine. |
 | `POST` | `/admin/plants/{plant}/duplicate` | `Admin\PlantController@duplicate` | `admin.plants.duplicate` | Duplicate encyclopedia plant entry. |
-| `RESOURCE` | `/admin/plants` | `Admin\PlantController` (Except `show`) | `admin.plants.*` | Encyclopedia entries manager. |
-| `RESOURCE` | `/admin/plant-categories` | `Admin\PlantCategoryController` (Except `show`) | `admin.plant-categories.*` | Plant category taxonomy manager. |
-| `RESOURCE` | `/admin/plant-problems` | `Admin\PlantProblemController` (Except `show`) | `admin.plant-problems.*` | Plant Doctor diagnostic manager. |
+| `RESOURCE` | `/admin/plants` | `Admin\PlantController` (Except `show`) | `admin.plants.*` | Encyclopedia entries manager with image upload & live preview. |
+| `RESOURCE` | `/admin/plant-categories` | `Admin\PlantCategoryController` (Except `show`) | `admin.plant-categories.*` | Plant category taxonomy manager with thumbnail uploader. |
+| `RESOURCE` | `/admin/plant-problems` | `Admin\PlantProblemController` (Except `show`) | `admin.plant-problems.*` | Plant health problem diagnostic database manager. |
 | `POST` | `/admin/posts/{post}/duplicate` | `Admin\PostController@duplicate` | `admin.posts.duplicate` | Duplicate article/guide post. |
 | `GET` | `/admin/posts/{post}/preview` | `Admin\PostController@preview` | `admin.posts.preview` | Live preview for author post drafts. |
 | `RESOURCE` | `/admin/posts` | `Admin\PostController` (Except `show`) | `admin.posts.*` | Editorial post CRUD suite. |
 | `RESOURCE` | `/admin/content-categories` | `Admin\ContentCategoryController` (Except `show`) | `admin.content-categories.*` | Editorial category manager. |
 | `RESOURCE` | `/admin/tags` | `Admin\TagController` (`index`, `store`, `update`, `destroy`) | `admin.tags.*` | Tagging taxonomy manager. |
+| `GET` | `/admin/content-automation` | `Admin\ContentAutomationController@index` | `admin.content-automation.index` | AI Content Automation queue & candidates control. |
+| `GET` | `/admin/content-automation/settings` | `Admin\ContentAutomationController@settings` | `admin.content-automation.settings` | Automation rules, API credentials & target ratios. |
+| `POST` | `/admin/content-automation/settings` | `Admin\ContentAutomationController@updateSettings` | `admin.content-automation.settings.update` | Save content automation configurations. |
+| `POST` | `/admin/content-automation/topics` | `Admin\ContentAutomationController@storeTopic` | `admin.content-automation.topics.store` | Add strategic content discovery topics. |
+| `DELETE` | `/admin/content-automation/topics/{topic}` | `Admin\ContentAutomationController@deleteTopic` | `admin.content-automation.topics.destroy` | Delete content topic seed. |
+| `GET` | `/admin/content-automation/{candidate}` | `Admin\ContentAutomationController@show` | `admin.content-automation.show` | Inspect candidate research paper/news metadata. |
+| `POST` | `/admin/content-automation/{candidate}/select` | `Admin\ContentAutomationController@select` | `admin.content-automation.select` | Approve candidate for automated drafting. |
+| `POST` | `/admin/content-automation/{candidate}/reject` | `Admin\ContentAutomationController@reject` | `admin.content-automation.reject` | Reject and purge content candidate. |
+| `POST` | `/admin/content-automation/{candidate}/generate` | `Admin\ContentAutomationController@generate` | `admin.content-automation.generate` | Trigger instant AI post generation. |
+| `POST` | `/admin/content-automation/{candidate}/retry` | `Admin\ContentAutomationController@retry` | `admin.content-automation.retry` | Reset failed candidate for retry. |
 | `GET` | `/admin/media` | `Admin\MediaController@index` | `admin.media.index` | Central media library dashboard. |
 | `POST` | `/admin/media` | `Admin\MediaController@store` | `admin.media.store` | Upload media asset. |
 | `PUT` | `/admin/media/{media}` | `Admin\MediaController@update` | `admin.media.update` | Update media alt text & title. |
@@ -346,6 +375,32 @@ The system database consists of **43 specialized Eloquent data models**:
 | `POST` | `/admin/settings` | `Admin\SettingsController@update` | `admin.settings.update` | Save system setting key-values. |
 | `GET` | `/admin/newsletter-subscribers` | `Admin\NewsletterSubscriberController@index` | `admin.subscribers.index` | View newsletter subscribers. |
 | `DELETE` | `/admin/newsletter-subscribers/{subscriber}` | `Admin\NewsletterSubscriberController@destroy` | `admin.subscribers.destroy` | Unsubscribe customer email. |
+
+---
+
+## ⚡ CLI Artisan Automation Commands
+
+The system features CLI automation commands for background cron execution:
+
+```bash
+# Discover academic research studies via OpenAlex API
+php artisan automation:discover-articles
+
+# Discover global breaking botanical news via GDELT API
+php artisan automation:discover-news
+
+# Process approved candidates and generate AI structured posts
+php artisan automation:generate
+
+# Run full discovery and generation pipeline in sequence
+php artisan automation:run
+
+# Import external research articles from seed files
+php artisan content:import-articles
+
+# Publish due scheduled articles and news
+php artisan posts:publish-scheduled
+```
 
 ---
 
@@ -396,7 +451,7 @@ The system database consists of **43 specialized Eloquent data models**:
    cp .env.example .env
    php artisan key:generate
    ```
-   *Configure your `.env` database parameters (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).*
+   *Configure your `.env` database parameters (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) and OpenAI API key if using automated content generation (`OPENAI_API_KEY`).*
 
 4. **Run Migrations & Seed Database**
    ```bash
@@ -422,6 +477,7 @@ The system database consists of **43 specialized Eloquent data models**:
 7. **Open Application**
    - **Frontend Storefront**: `http://127.0.0.1:8000` (or `http://plantaric.test`)
    - **Admin Portal**: `http://127.0.0.1:8000/admin`
+   - **Content Automation Hub**: `http://127.0.0.1:8000/admin/content-automation`
 
 ---
 
@@ -431,8 +487,8 @@ Executing `php artisan db:seed` provisions three default user accounts:
 
 | User Role | Email Address | Default Password | Granted Access Level |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `admin@plantaric.com` | `password` | Full system access, order management, settings & database administration. |
-| **Editor** | `editor@plantaric.com` | `password` | Content editing, encyclopedia entries, reviews & product management. |
+| **Administrator** | `admin@plantaric.com` | `password` | Full system access, order management, content automation, settings & database administration. |
+| **Editor** | `editor@plantaric.com` | `password` | Content editing, encyclopedia entries, content candidates approval, reviews & product management. |
 | **Customer** | `customer@plantaric.com` | `password` | Storefront shopping, cart checkout, account dashboard & order history. |
 
 ---
@@ -442,15 +498,20 @@ Executing `php artisan db:seed` provisions three default user accounts:
 ```
 plant-marketplace/
 ├── app/
+├── Console/
+│   │   └── Commands/       # 6 CLI Commands (Automation discovery, generation, scheduled publishing)
 │   ├── Helpers/            # Custom helper functions (e.g., settings helper)
 │   ├── Http/
-│   │   ├── Controllers/    # Admin, Auth & Frontend Controllers (39 Controllers)
+│   │   ├── Controllers/    # Admin, Auth & Frontend Controllers (40 Controllers)
 │   │   └── Middleware/     # Role-based authorization middleware
-│   └── Models/             # 43 Eloquent Data Models
+│   ├── Models/             # 46 Eloquent Data Models
+│   └── Services/           # Business Services & Content Automation Engine
+│       ├── ContentAutomation/ # OpenAlex, GDELT, Fingerprinting, LLM Generation & Quality Services
+│       └── SEO/            # Dynamic Meta & JSON-LD Schema Service
 ├── database/
 │   ├── factories/          # Eloquent model factories
-│   ├── migrations/         # Database migration definitions
-│   └── seeders/            # Database seeders (Pages, Plants, Products, Seeders)
+│   ├── migrations/         # 36 Database migration definitions
+│   └── seeders/            # Database seeders (Automation, Pages, Plants, Products, Seeders)
 ├── public/
 │   ├── build/              # Compiled Vite production assets
 │   ├── images/             # Product table photography, category covers & brand logos
@@ -461,15 +522,15 @@ plant-marketplace/
 │   ├── css/                # App CSS (Tailwind v4.0 & custom design tokens)
 │   ├── js/                 # JavaScript app entrypoints
 │   └── views/              # Blade template ecosystem
-│       ├── admin/          # Admin CRUD, CMS Page & Contact Inbox management views
+│       ├── admin/          # Admin CRUD, Content Automation, CMS Page & Contact views
 │       ├── auth/           # Login, registration, & password reset templates
-│       ├── components/     # Reusable UI Blade components (e.g., ad slots)
+│       ├── components/     # Reusable UI Blade components
 │       ├── errors/         # Custom HTTP error status pages (404, 403, 500, 419)
-│       ├── frontend/       # Storefront, encyclopedia, plant doctor & article views
+│       ├── frontend/       # Storefront, encyclopedia, plant health & article views
 │       └── layouts/        # Base layout HTML wrappers & partials (drawer, modals, cookie consent)
 ├── routes/
 │   ├── admin.php           # Protected Admin routes (`/admin/*`)
-│   ├── console.php         # Artisan CLI commands
+│   ├── console.php         # Artisan CLI commands & scheduled tasks
 │   └── web.php             # Public & Customer routes
 ├── storage/                # Logs, uploads & cached data
 ├── composer.json           # PHP package manifest & dev scripts
@@ -483,4 +544,3 @@ plant-marketplace/
 ## 📜 License
 
 The Plantaric application is open-source software licensed under the [MIT License](LICENSE).
-

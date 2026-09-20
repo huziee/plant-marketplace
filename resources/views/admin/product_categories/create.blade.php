@@ -10,7 +10,7 @@
     <h1 class="h3 mb-0 text-gray-800 mt-2">Create Product Category</h1>
 </div>
 
-<form method="POST" action="{{ route('admin.product-categories.store') }}">
+<form method="POST" action="{{ route('admin.product-categories.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-lg-8">
@@ -41,6 +41,17 @@
         </div>
 
         <div class="col-lg-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body">
+                    <h5 class="h6 font-weight-bold mb-3">Thumbnail Image</h5>
+                    <div class="mb-3">
+                        <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                        <div class="form-text text-muted small">JPG, PNG, WebP up to 4MB.</div>
+                        @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+            </div>
+
             <div class="card shadow-sm border-0 mb-4">
                 <div class="card-body">
                     <div class="mb-3">

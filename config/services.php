@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    'gdelt' => [
+        'url' => env('GDELT_URL', 'https://api.gdeltproject.org/api/v2/doc/doc'),
+        'max_records' => (int) env('GDELT_MAX_RECORDS', 50),
+        'timespan' => env('GDELT_TIMESPAN', '24h'),
+    ],
+
+    'openalex' => [
+        'url' => env('OPENALEX_URL', 'https://api.openalex.org'),
+        'api_key' => env('OPENALEX_API_KEY'),
+        'per_page' => (int) env('OPENALEX_PER_PAGE', 20),
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_CONTENT_MODEL', 'gpt-4o-mini'),
+        'max_tokens' => (int) env('OPENAI_MAX_OUTPUT_TOKENS', 2500),
+    ],
+
 ];

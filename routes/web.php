@@ -44,9 +44,9 @@ Route::delete('/cart/coupon', [\App\Http\Controllers\Frontend\CartController::cl
 Route::get('/plants', [PlantController::class, 'index'])->name('plants.index');
 Route::get('/plants/{plant:slug}', [PlantController::class, 'show'])->name('plants.show');
 
-// Plant Doctor / Problems Public Routes
-Route::get('/plant-problems', [PlantProblemController::class, 'index'])->name('problems.index');
-Route::get('/plant-problems/{plantProblem:slug}', [PlantProblemController::class, 'show'])->name('problems.show');
+// Plant Doctor / Problems Public Routes (Redirected to Plant Encyclopedia)
+Route::redirect('/plant-problems', '/plants', 301)->name('problems.index');
+Route::redirect('/plant-problems/{slug}', '/plants', 301)->name('problems.show');
 
 // Content Publishing Public Routes (Articles, Guides, News, Categories, Authors)
 Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Plantaric Shop — Plants, Seeds, Pots & Care')
-@section('meta_description', 'Browse nursery-grown indoor plants, outdoor shrubs, seeds, terracotta pots, fertilizers and plant care products.')
+@section('meta_description', 'Browse healthy indoor plants, outdoor shrubs, seeds, terracotta pots, fertilizers and plant care products.')
 
 @section('content')
 <!-- Shop Hero -->
@@ -9,7 +9,7 @@
   <div class="container">
     <div class="hero-grid" style="min-height:480px;background:linear-gradient(135deg, var(--green-950), var(--green-900))">
       <div class="hero-copy" style="padding:60px 48px">
-        <span class="eyebrow"><i class="fa-solid fa-store"></i> Direct From Verified Local Nurseries</span>
+        <span class="eyebrow"><i class="fa-solid fa-store"></i> Direct From Verified Plant Growers</span>
         <h1 style="font-size:clamp(38px,5vw,62px)">Shop healthy plants & <span>gardening essentials.</span></h1>
         <p>Curated indoor foliage, outdoor flowering plants, organic seeds, ceramic pots, and eco-friendly plant care products delivered safely to your home.</p>
         <div class="hero-actions">
@@ -46,14 +46,14 @@
         <div class="bg-white border p-3" style="border-radius:18px">
           <i class="fa-solid fa-store text-success fa-2x mb-2"></i>
           <h5 class="fw-bold mb-1" style="font-size:15px">Verified Local Sellers</h5>
-          <p class="text-muted small mb-0">Direct from expert local nurseries</p>
+          <p class="text-muted small mb-0">Direct from expert plant growers</p>
         </div>
       </div>
       <div class="col-md-3">
         <div class="bg-white border p-3" style="border-radius:18px">
           <i class="fa-solid fa-headset text-success fa-2x mb-2"></i>
           <h5 class="fw-bold mb-1" style="font-size:15px">Free Care Advice</h5>
-          <p class="text-muted small mb-0">Talk to our plant doctor team</p>
+          <p class="text-muted small mb-0">Get expert plant care guidance</p>
         </div>
       </div>
     </div>
@@ -75,8 +75,14 @@
         <div class="col-md-4 col-lg-2.4">
           <a href="{{ route('frontend.shop.category', $cat->slug) }}" class="text-decoration-none">
             <div class="category text-start h-100 p-4">
-              <div class="float-icon mb-3" style="width:48px;height:48px;font-size:20px">
-                <i class="fa-solid {{ $cat->icon ?: 'fa-leaf' }}"></i>
+              <div class="category-img mb-3 overflow-hidden rounded-3" style="height:120px">
+                @if($cat->image)
+                  <img src="{{ asset('storage/' . $cat->image->file_path) }}" alt="{{ $cat->name }}" class="w-100 h-100 object-fit-cover">
+                @else
+                  <div class="bg-light d-flex align-items-center justify-content-center h-100 text-success rounded-3">
+                    <i class="fa-solid {{ $cat->icon ?: 'fa-leaf' }} fa-2x"></i>
+                  </div>
+                @endif
               </div>
               <h4 class="fw-bold mb-1" style="font-size:17px">{{ $cat->name }}</h4>
               <p class="text-muted small mb-2">{{ Str::limit($cat->short_description ?: $cat->description, 50) }}</p>

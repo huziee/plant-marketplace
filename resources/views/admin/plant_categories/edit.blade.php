@@ -10,7 +10,7 @@
     <h2 class="fw-bold mt-2" style="font-family:'Playfair Display',serif">Edit Category: {{ $plantCategory->name }}</h2>
 </div>
 
-<form action="{{ route('admin.plant-categories.update', $plantCategory->id) }}" method="POST">
+<form action="{{ route('admin.plant-categories.update', $plantCategory->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row g-4">
@@ -66,6 +66,21 @@
         </div>
 
         <div class="col-md-4">
+            <div class="card card-custom">
+                <h5 class="fw-bold mb-3">Thumbnail Image</h5>
+                @if($plantCategory->image)
+                    <div class="mb-3 text-center">
+                        <img src="{{ asset('storage/' . $plantCategory->image->file_path) }}" alt="{{ $plantCategory->name }}" class="img-thumbnail rounded" style="max-height: 150px; object-fit: cover;">
+                    </div>
+                @endif
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Upload New Image</label>
+                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                    <div class="form-text text-muted small">JPG, PNG, WebP up to 4MB.</div>
+                    @error('image') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+            </div>
+
             <div class="card card-custom">
                 <h5 class="fw-bold mb-3">Status & Options</h5>
                 
