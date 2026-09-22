@@ -131,4 +131,71 @@ class CustomerAccountController extends Controller
 
         return back()->with('success', 'Password changed successfully!');
     }
+
+    public function editProfile(\App\Services\SEO\SeoService $seoService)
+    {
+        $seoService->setTitle('My Profile & Account Settings')
+                   ->setRobots('noindex,nofollow');
+
+        $user = auth()->user()->load('authorProfile');
+
+        return view('frontend.account.profile', compact('user', 'seoService'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $rules = [
+            'first_name' => ['required', 'string', 'max:100'],
+            'last_name' => ['required', 'string', 'max:100'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'phone' => ['nullable', 'string', 'max:30'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ];
+
+        if (in_array($user->role, ['admin', 'editor', 'author'], true)) {
+            $rules['job_title'] = ['nullable', 'string', 'max:150'];
+            $rules['bio'] = ['nullable', 'string', 'max:1000'];
+            $rules['website'] = ['nullable', 'url', 'max:255'];
+            $rules['linkedin'] = ['nullable', 'string', 'max:255'];
+            $rules['facebook'] = ['nullable', 'string', 'max:255'];
+            $rules['instagram'] = ['nullable', 'string', 'max:255'];
+        }
+
+        $validated = $request->validate($rules);
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            }
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $avatarPath;
+        }
+
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->email = $validated['email'];
+        $user->phone = $validated['phone'] ?? null;
+        $user->save();
+
+        if (in_array($user->role, ['admin', 'editor', 'author'], true)) {
+            $authorData = [
+                'job_title' => $request->input('job_title'),
+                'bio' => $request->input('bio'),
+                'website' => $request->input('website'),
+                'linkedin' => $request->input('linkedin'),
+                'facebook' => $request->input('facebook'),
+                'instagram' => $request->input('instagram'),
+            ];
+
+            if ($user->authorProfile) {
+                $user->authorProfile->update($authorData);
+            } else {
+                $user->authorProfile()->create($authorData);
+            }
+        }
+
+        return redirect()->route('frontend.account.profile')->with('success', 'Profile updated successfully!');
+    }
 }

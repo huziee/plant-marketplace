@@ -40,9 +40,9 @@
                             <td><code>/{{ $page->slug }}</code></td>
                             <td>
                                 @if($page->is_system)
-                                    <span class="badge bg-primary-subtle text-primary">System Trust/Legal</span>
+                                    <span class="badge bg-success-subtle text-success border border-success"><i class="fa-solid fa-lock me-1"></i> Static Theme View</span>
                                 @else
-                                    <span class="badge bg-secondary-subtle text-secondary">Custom Page</span>
+                                    <span class="badge bg-secondary-subtle text-secondary">Custom Editable Page</span>
                                 @endif
                             </td>
                             <td>

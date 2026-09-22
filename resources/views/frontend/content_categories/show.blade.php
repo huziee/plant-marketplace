@@ -21,7 +21,7 @@
         <div class="col-md-6 col-lg-4">
           <article class="product-card h-100">
             <div class="product-media" style="height:220px">
-              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $post->title }}">
+              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $post->title }}">
               <span class="badge position-absolute top-0 start-0 m-3 bg-dark text-white shadow-sm">{{ $post->type->label() }}</span>
             </div>
             <div class="product-body d-flex flex-column">

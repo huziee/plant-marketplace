@@ -44,7 +44,7 @@
                             </div>
                             <div>
                                 <h3 class="h6 font-weight-bold mb-1">Customer Helpline</h3>
-                                <p class="text-muted small mb-0">{{ setting('contact_phone', '+1 (800) 555-7526') }}</p>
+                                <p class="text-muted small mb-0">{{ setting('contact_phone', '+93 330 4789990') }}</p>
                                 <small class="text-muted">Mon–Fri: 9:00 AM – 6:00 PM EST</small>
                             </div>
                         </div>

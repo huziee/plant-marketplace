@@ -18,7 +18,8 @@ class PostCreationService
 {
     public function __construct(
         protected PostService $postService,
-        protected SettingsService $settingsService
+        protected SettingsService $settingsService,
+        protected ResearchReferenceFormatter $referenceFormatter
     ) {}
 
     /**
@@ -30,8 +31,15 @@ class PostCreationService
         $category = $this->resolveCategory($payload['category_slug'] ?? null, $candidate->topic);
         $tagIds = $this->resolveTags($payload['tags'] ?? []);
 
-        $autoPublish = (bool) $this->settingsService->get('automation.auto_publish', false);
-        $status = $autoPublish ? PostStatus::PUBLISHED->value : PostStatus::DRAFT->value;
+        $autoPublishSetting = (bool) $this->settingsService->get('automation.auto_publish', false);
+        $isHighRiskTopic = $this->isHighRiskTopic($payload['title'] . ' ' . ($payload['body'] ?? ''));
+
+        // High risk topics strictly require editorial review regardless of auto_publish setting
+        if ($isHighRiskTopic || !$autoPublishSetting) {
+            $status = PostStatus::REVIEW->value;
+        } else {
+            $status = PostStatus::PUBLISHED->value;
+        }
 
         $postType = ($candidate->content_type === 'news') ? PostType::NEWS->value : PostType::ARTICLE->value;
 
@@ -44,7 +52,7 @@ class PostCreationService
             'excerpt' => $payload['excerpt'] ?? null,
             'content' => $payload['body'],
             'status' => $status,
-            'published_at' => $autoPublish ? now() : null,
+            'published_at' => ($status === PostStatus::PUBLISHED->value) ? now() : null,
             'seo_title' => $payload['seo_title'] ?? $payload['title'],
             'meta_description' => $payload['meta_description'] ?? ($payload['excerpt'] ?? null),
             'focus_keyword' => $payload['focus_keyword'] ?? null,
@@ -54,7 +62,7 @@ class PostCreationService
         $post = $this->postService->createPost($postData, $authorUser);
 
         // Update candidate post_id and status
-        $finalCandidateStatus = $autoPublish ? 'published' : 'generated';
+        $finalCandidateStatus = ($status === PostStatus::PUBLISHED->value) ? 'published' : 'generated';
         $candidate->update([
             'post_id' => $post->id,
             'status' => $finalCandidateStatus,
@@ -64,7 +72,36 @@ class PostCreationService
         ContentResearchSource::where('content_candidate_id', $candidate->id)
             ->update(['post_id' => $post->id]);
 
+        // Sync references into post_sources table
+        $this->referenceFormatter->syncPostSources($candidate, $post);
+
+        // Attach linked plants to plant_post pivot
+        if (!empty($payload['linked_plant_ids']) && is_array($payload['linked_plant_ids'])) {
+            $post->plants()->syncWithoutDetaching($payload['linked_plant_ids']);
+        }
+
         return $post;
+    }
+
+    /**
+     * Check if post content touches high-risk topics (pesticides, pet toxicity, severe plant diseases).
+     */
+    protected function isHighRiskTopic(string $text): bool
+    {
+        $highRiskKeywords = [
+            'pesticide', 'insecticide', 'fungicide', 'chemical spray',
+            'toxic to dogs', 'toxic to cats', 'poisonous', 'toxicity',
+            'blight outbreak', 'quarantine', 'hazardous', 'ingestion',
+        ];
+
+        $lower = strtolower($text);
+        foreach ($highRiskKeywords as $keyword) {
+            if (str_contains($lower, $keyword)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

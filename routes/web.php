@@ -67,14 +67,13 @@ use App\Http\Controllers\Frontend\PageController;
 Route::get('/about-us', [PageController::class, 'about'])->name('frontend.about');
 Route::get('/contact-us', [PageController::class, 'contact'])->name('frontend.contact');
 Route::post('/contact-us', [PageController::class, 'submitContact'])->middleware('throttle:5,1')->name('frontend.contact.submit');
-Route::get('/privacy-policy', function() { return app(PageController::class)->show('privacy-policy'); })->name('frontend.privacy');
-Route::get('/terms-and-conditions', function() { return app(PageController::class)->show('terms-and-conditions'); })->name('frontend.terms');
-Route::get('/cookie-policy', function() { return app(PageController::class)->show('cookie-policy'); })->name('frontend.cookie-policy');
-Route::get('/disclaimer', function() { return app(PageController::class)->show('disclaimer'); })->name('frontend.disclaimer');
-Route::get('/editorial-policy', function() { return app(PageController::class)->show('editorial-policy'); })->name('frontend.editorial-policy');
-Route::get('/shipping-policy', function() { return app(PageController::class)->show('shipping-policy'); })->name('frontend.shipping-policy');
-Route::get('/return-refund-policy', function() { return app(PageController::class)->show('return-refund-policy'); })->name('frontend.return-refund-policy');
-Route::get('/advertising-disclosure', function() { return app(PageController::class)->show('advertising-disclosure'); })->name('frontend.advertising-disclosure');
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('frontend.privacy');
+Route::get('/terms-and-conditions', [PageController::class, 'terms'])->name('frontend.terms');
+Route::redirect('/cookie-policy', '/privacy-policy#cookies', 301)->name('frontend.cookie-policy');
+Route::redirect('/disclaimer', '/terms-and-conditions#disclaimer', 301)->name('frontend.disclaimer');
+Route::get('/editorial-policy', [PageController::class, 'editorialPolicy'])->name('frontend.editorial-policy');
+Route::get('/shipping-policy', [PageController::class, 'shippingPolicy'])->name('frontend.shipping-policy');
+Route::get('/return-refund-policy', [PageController::class, 'returnPolicy'])->name('frontend.return-refund-policy');
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('frontend.page.show');
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
@@ -118,8 +117,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [\App\Http\Controllers\Frontend\CheckoutController::class, 'process'])->name('frontend.checkout.process');
     Route::get('/checkout/success/{order_number}', [\App\Http\Controllers\Frontend\CheckoutController::class, 'success'])->name('frontend.checkout.success');
 
-    // Customer Account Area
+    // Customer & User Account Area
     Route::get('/account/dashboard', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'dashboard'])->name('frontend.account.dashboard');
+    Route::get('/account/profile', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'editProfile'])->name('frontend.account.profile');
+    Route::put('/account/profile', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'updateProfile'])->name('frontend.account.profile.update');
     Route::get('/account/orders', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'orders'])->name('frontend.account.orders');
     Route::get('/account/orders/{order_number}', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'showOrder'])->name('frontend.account.orders.show');
     Route::post('/account/orders/{order_number}/cancel', [\App\Http\Controllers\Frontend\CustomerAccountController::class, 'cancelOrder'])->name('frontend.account.orders.cancel');

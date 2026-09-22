@@ -11,7 +11,8 @@ class PageController extends Controller
 {
     public function index()
     {
-        $pages = Page::orderBy('is_system', 'desc')->orderBy('title')->get();
+        // System/policy pages are static theme templates; Admin CMS manages custom dynamic pages only.
+        $pages = Page::where('is_system', false)->orderBy('title')->get();
         return view('admin.pages.index', compact('pages'));
     }
 
@@ -34,6 +35,7 @@ class PageController extends Controller
 
         $validated['slug'] = $validated['slug'] ? Str::slug($validated['slug']) : Str::slug($validated['title']);
         $validated['show_in_footer'] = $request->has('show_in_footer');
+        $validated['is_system'] = false;
 
         $page = Page::create($validated);
 
@@ -42,11 +44,19 @@ class PageController extends Controller
 
     public function edit(Page $page)
     {
+        if ($page->is_system) {
+            return redirect()->route('admin.pages.index')->with('error', 'Core company and policy pages are fully static theme templates and cannot be edited from the admin panel.');
+        }
+
         return view('admin.pages.edit', compact('page'));
     }
 
     public function update(Request $request, Page $page)
     {
+        if ($page->is_system) {
+            return redirect()->route('admin.pages.index')->with('error', 'Core company and policy pages are fully static theme templates and cannot be edited from the admin panel.');
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
@@ -57,10 +67,8 @@ class PageController extends Controller
             'show_in_footer' => 'boolean',
         ]);
 
-        if (!$page->is_system && !empty($validated['slug'])) {
+        if (!empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['slug']);
-        } else {
-            unset($validated['slug']); // Keep original system slug
         }
 
         $validated['show_in_footer'] = $request->has('show_in_footer');

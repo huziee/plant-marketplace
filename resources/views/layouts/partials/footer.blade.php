@@ -33,14 +33,11 @@
                 <a href="{{ route('frontend.about') }}">About Us</a>
                 <a href="{{ route('frontend.contact') }}">Contact Us</a>
                 <a href="{{ route('frontend.editorial-policy') }}">Editorial Policy</a>
-                <a href="{{ route('frontend.advertising-disclosure') }}">Advertising Disclosure</a>
             </div>
             <div class="footer-col">
                 <h4>Policies</h4>
                 <a href="{{ route('frontend.privacy') }}">Privacy Policy</a>
                 <a href="{{ route('frontend.terms') }}">Terms & Conditions</a>
-                <a href="{{ route('frontend.cookie-policy') }}">Cookie Policy</a>
-                <a href="{{ route('frontend.disclaimer') }}">Plant Care Disclaimer</a>
                 <a href="{{ route('frontend.shipping-policy') }}">Shipping Policy</a>
                 <a href="{{ route('frontend.return-refund-policy') }}">Return & Refund Policy</a>
             </div>
@@ -48,7 +45,6 @@
 
         <div class="footer-bottom">
             <span>© {{ date('Y') }} Plantaric. All rights reserved.</span>
-            <span>Designed for E-Commerce · Botanical Care · Search Indexing · AdSense</span>
         </div>
     </div>
 </footer>

@@ -28,7 +28,7 @@ class ContentQualityService
             return ['valid' => false, 'reason' => "Generated body length (" . mb_strlen(strip_tags($body)) . " chars) is below minimum threshold ({$minChars} chars)."];
         }
 
-        // Check for AI prompt leakage or meta references
+        // Check for AI prompt leakage or meta references & robotic buzzwords
         $aiForbiddenPhrases = [
             'as an ai',
             'i am an ai',
@@ -38,9 +38,19 @@ class ContentQualityService
             'here is your article',
             'here is the news',
             'system prompt',
-            'openai',
-            'openalex',
-            'gdelt',
+            'openai model',
+            'openai chatgpt',
+            'openalex database',
+            'gdelt feed',
+            'delve into',
+            'tapestry of',
+            'testament to',
+            'in conclusion',
+            'game-changer',
+            'nestled in',
+            'realm of',
+            'in today\'s fast-paced',
+            'unlock the secrets',
         ];
 
         $lowerBody = strtolower($body);
@@ -57,9 +67,10 @@ class ContentQualityService
             return ['valid' => false, 'reason' => 'Code fence or JSON artifacts present in generated body.'];
         }
 
-        // Check for raw URLs embedded in body text
-        if (preg_match('/https?:\/\/[^\s"\'>]+/', $body)) {
-            return ['valid' => false, 'reason' => 'Raw third-party URLs detected in generated body.'];
+        // Check for raw unlinked URLs embedded in body text (ignore href="..." attributes)
+        $cleanBodyForUrlCheck = preg_replace('/href=[\'"][^\'"]+[\'"]/', '', $body);
+        if (preg_match('/https?:\/\/[^\s"\'>]+/', $cleanBodyForUrlCheck)) {
+            return ['valid' => false, 'reason' => 'Raw unlinked third-party URLs detected in generated body.'];
         }
 
         return ['valid' => true, 'reason' => null];

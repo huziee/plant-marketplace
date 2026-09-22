@@ -16,6 +16,9 @@
                 <a href="{{ route('frontend.account.dashboard') }}" class="list-group-item list-group-item-action py-3">
                     <i class="fa-solid fa-gauge me-2"></i> Dashboard
                 </a>
+                <a href="{{ route('frontend.account.profile') }}" class="list-group-item list-group-item-action py-3">
+                    <i class="fa-regular fa-id-card me-2"></i> My Profile
+                </a>
                 <a href="{{ route('frontend.account.orders') }}" class="list-group-item list-group-item-action py-3">
                     <i class="fa-solid fa-box me-2"></i> My Orders
                 </a>

@@ -15,7 +15,9 @@ class ContentGenerationService
 
     public function __construct(
         protected ContentQualityService $qualityService,
-        protected SettingsService $settingsService
+        protected SettingsService $settingsService,
+        protected ResearchReferenceFormatter $referenceFormatter,
+        protected ContentInternalLinkingService $internalLinkingService
     ) {
         $this->apiKey = (string) config('services.openai.api_key', env('OPENAI_API_KEY'));
         $this->model = (string) $this->settingsService->get('automation.openai_model', config('services.openai.model', 'gpt-4o-mini'));
@@ -80,7 +82,7 @@ class ContentGenerationService
                 return ['success' => false, 'error' => 'Invalid JSON from OpenAI.'];
             }
 
-            // Quality and Originality validation
+            // 1. Quality and Originality validation on pure AI generated payload
             $validation = $this->qualityService->validate($parsed, $candidate->content_type);
             if (!$validation['valid']) {
                 $candidate->update([
@@ -89,6 +91,11 @@ class ContentGenerationService
                 ]);
                 return ['success' => false, 'error' => $validation['reason']];
             }
+
+            // 2. Post-processing: Inject internal links to Plantaric Encyclopedia & Categories
+            $linkingResult = $this->internalLinkingService->injectInternalLinks($parsed['body'] ?? '');
+            $parsed['body'] = $linkingResult['html'];
+            $parsed['linked_plant_ids'] = $linkingResult['linked_plant_ids'];
 
             $candidate->update([
                 'status' => 'generated',
@@ -115,16 +122,22 @@ class ContentGenerationService
     protected function buildSystemPrompt(string $contentType): string
     {
         return <<<PROMPT
-You are a senior botanical expert and editorial writer for "Plantaric", a premier online botanical encyclopedia, plant marketplace, and horticultural journal.
+You are a senior botanical writer and editor for "Plantaric", an online botanical encyclopedia, plant marketplace, and gardening journal.
 
-WRITING MANDATES:
-1. Write a completely NEW, ORIGINAL, informative, and engaging publication in clean HTML format. Use semantic tags like <p>, <h2>>, <h3>, <ul>, <li>, <strong>, and <em>.
-2. Rely strictly on the supplied factual research context for evidence and data.
-3. ABSOLUTELY DO NOT copy sentences or closely paraphrase third-party structures.
-4. ABSOLUTELY DO NOT mention external service names ("GDELT", "OpenAlex", "OpenAI"), third-party journalists, researcher author names, academic publishers, or external URLs in the public post text.
-5. Content MUST be written from the authoritative voice of the "Plantaric Editorial Team".
-6. Do NOT fabricate specific unsupported numbers, studies, or claims not present in the research context.
-7. Return ONLY a valid JSON object matching the exact requested schema.
+TONE & VOICE MANDATES:
+1. WRITING STYLE: Practical, engaging, informative, and authoritative—write like a master gardener sharing real-world guidance with a plant enthusiast.
+2. NATURAL FLOW: Vary sentence lengths dynamically. Blend concise points with clear explanations. Use natural, conversational transitions.
+3. PROBLEM-SOLUTION HOOK: Start directly with a relatable real-world garden challenge, specific diagnostic observation, or practical botanical insight. DO NOT start with generic fluff (e.g. "Plants have been important throughout history...").
+4. PRACTICAL VALUE: Provide concrete gardening instructions, step-by-step diagnostic checklists, light/moisture test methods, and environmental ranges (Temperature, Humidity, Soil pH) where relevant.
+5. BOOTSTRAP 5 HTML STYLING: Format body in semantic HTML (<p>, <h2>, <h3>, <ul>, <li>, <strong>, <em>). For callouts and pro-tips, use Bootstrap 5 markup:
+   <div class="bg-light p-4 rounded-3 border-start border-4 border-success my-4"><strong>Pro Tip:</strong> ...</div>
+   DO NOT use Tailwind CSS classes (such as bg-emerald-50 or rounded-r).
+6. ABSOLUTE FORBIDDEN BUZZWORDS (DO NOT USE):
+   - "delve", "tapestry", "testament", "nestled", "beacon", "game-changer", "paradigm shift"
+   - "in conclusion", "it's essential to remember", "in today's fast-paced world", "realm of"
+   - "furthermore", "moreover", "unlock the secrets", "dive deep into"
+7. NO AI LEAKAGE: Never reference system prompts, OpenAI, GDELT, OpenAlex, or external algorithms. Do not claim certified personal titles like "Certified Master Horticulturist" in prose.
+8. RETURN ONLY a valid JSON object matching the requested output schema.
 PROMPT;
     }
 
@@ -137,19 +150,19 @@ PROMPT;
         $typeLabel = strtoupper($candidate->content_type);
 
         return <<<PROMPT
-Generate a high-quality {$typeLabel} publication based on the following research context.
+Generate a practical, human-toned, highly useful {$typeLabel} publication based on the provided research context.
 
 RESEARCH CONTEXT:
 {$contextJson}
 
 REQUIRED JSON OUTPUT FORMAT:
 {
-  "title": "Engaging, SEO-optimized title",
+  "title": "Engaging, action-oriented title highlighting practical value",
   "slug": "url-friendly-slug-phrase",
-  "excerpt": "Compelling 2-3 sentence summary for post card previews",
-  "body": "Full article body in HTML format with <h2>, <h3>, <p>, <ul>, <li>",
+  "excerpt": "Relatable 2-3 sentence summary hooking the reader with practical problem-solving value",
+  "body": "Full article body in clean semantic HTML with <h2>, <h3>, <p>, <ul>, <li>, and Bootstrap 5 callout boxes (<div class=\"bg-light p-4 rounded-3 border-start border-4 border-success my-4\"><strong>Pro Tip:</strong> ...</div>)",
   "seo_title": "SEO title under 60 chars",
-  "meta_description": "Meta description under 160 chars",
+  "meta_description": "Meta description under 160 chars highlighting direct practical value",
   "focus_keyword": "Primary keyword phrase",
   "category_slug": "Suggested category slug (e.g. plant-health, soil-and-growing, indoor-plants, horticulture, agriculture, botanical-news)",
   "tags": ["Tag 1", "Tag 2", "Tag 3"]

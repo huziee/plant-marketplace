@@ -14,7 +14,7 @@
         <p>Identify yellow leaves, root rot, spider mites, underwatering, and fungal diseases with expert step-by-step treatment guidance.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
-        <img src="https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=1200&q=85" alt="Plant Doctor" class="skeleton-img">
+        <img src="{{ asset('images/placeholders/doctor_banner.jpg') }}" alt="Plant Doctor" class="skeleton-img">
       </div>
     </div>
   </div>

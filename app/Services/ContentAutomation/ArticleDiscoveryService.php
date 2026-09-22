@@ -54,6 +54,11 @@ class ArticleDiscoveryService
                 continue;
             }
 
+            if ($this->fingerprintService->isDuplicateTopic("Guide to {$topicItem->topic}")) {
+                Log::info("Skipping topic '{$topicItem->topic}' as a similar published article already exists on Plantaric.");
+                continue;
+            }
+
             // Search OpenAlex
             $works = $this->openAlexService->searchWorks($topicItem->search_query, 15);
             if (empty($works)) {

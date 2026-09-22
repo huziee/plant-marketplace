@@ -172,83 +172,98 @@
                 <i class="fa-solid fa-chart-line"></i> Dashboard
             </a>
 
-            <div class="admin-nav-header">PLANTS & CARE</div>
-            <a href="{{ route('admin.plants.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plants.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-leaf"></i> All Plants
-            </a>
-            <a href="{{ route('admin.plant-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-categories.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-layer-group"></i> Categories
-            </a>
-            <a href="{{ route('admin.plant-problems.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-problems.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-doctor"></i> Plant Problems
-            </a>
+            @if(auth()->user()->isEditor())
+                <div class="admin-nav-header">PLANTS & CARE</div>
+                <a href="{{ route('admin.plants.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plants.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-leaf"></i> All Plants
+                </a>
+                <a href="{{ route('admin.plant-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-categories.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-layer-group"></i> Categories
+                </a>
+                <a href="{{ route('admin.plant-problems.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-problems.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-doctor"></i> Plant Problems
+                </a>
+            @endif
 
-            <div class="admin-nav-header">CONTENT & PAGES</div>
-            <a href="{{ route('admin.posts.index') }}" class="admin-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
-                <i class="fa-regular fa-newspaper"></i> All Content & Posts
-            </a>
-            <a href="{{ route('admin.pages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-file-contract"></i> Pages & Policy CMS
-            </a>
-            <a href="{{ route('admin.content-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-categories.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-folder-tree"></i> Content Categories
-            </a>
-            <a href="{{ route('admin.tags.index') }}" class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-tags"></i> Content Tags
-            </a>
-            <a href="{{ route('admin.content-automation.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-automation.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-robot"></i> Content Automation
-            </a>
+            @if(auth()->user()->isAuthor())
+                <div class="admin-nav-header">CONTENT & PAGES</div>
+                <a href="{{ route('admin.posts.index') }}" class="admin-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
+                    <i class="fa-regular fa-newspaper"></i> All Content & Posts
+                </a>
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.pages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-file-contract"></i> Pages & Policy CMS
+                    </a>
+                @endif
+                @if(auth()->user()->isEditor())
+                    <a href="{{ route('admin.content-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-categories.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-folder-tree"></i> Content Categories
+                    </a>
+                    <a href="{{ route('admin.tags.index') }}" class="admin-nav-item {{ request()->routeIs('admin.tags.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-tags"></i> Content Tags
+                    </a>
+                    <a href="{{ route('admin.content-automation.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-automation.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-robot"></i> Content Automation
+                    </a>
+                @endif
+            @endif
 
-            <div class="admin-nav-header">SHOP</div>
-            <a href="{{ route('admin.products.index') }}" class="admin-nav-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-box-open"></i> Products Catalog
-            </a>
-            <a href="{{ route('admin.product-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.product-categories.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-tags"></i> Product Categories
-            </a>
-            <a href="{{ route('admin.orders.index') }}" class="admin-nav-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-cart-shopping"></i> Customer Orders
-            </a>
-            <a href="{{ route('admin.inventory.index') }}" class="admin-nav-item {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-warehouse"></i> Inventory Movements
-            </a>
-            <a href="{{ route('admin.coupons.index') }}" class="admin-nav-item {{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-ticket"></i> Coupons & Discounts
-            </a>
-            <a href="{{ route('admin.reviews.index') }}" class="admin-nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-star"></i> Product Reviews
-            </a>
-            <a href="{{ route('admin.shipping-methods.index') }}" class="admin-nav-item {{ request()->routeIs('admin.shipping-methods.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-truck"></i> Shipping Methods
-            </a>
-            <a href="{{ route('admin.product-collections.index') }}" class="admin-nav-item {{ request()->routeIs('admin.product-collections.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-layer-group"></i> Collections
-            </a>
+            @if(auth()->user()->isAdmin() || auth()->user()->isNurseryOwner())
+                <div class="admin-nav-header">SHOP & MARKETPLACE</div>
+                <a href="{{ route('admin.products.index') }}" class="admin-nav-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-box-open"></i> Products Catalog
+                </a>
+                <a href="{{ route('admin.product-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.product-categories.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-tags"></i> Product Categories
+                </a>
+                <a href="{{ route('admin.orders.index') }}" class="admin-nav-item {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-cart-shopping"></i> Customer Orders
+                </a>
+                <a href="{{ route('admin.inventory.index') }}" class="admin-nav-item {{ request()->routeIs('admin.inventory.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-warehouse"></i> Inventory Movements
+                </a>
+                <a href="{{ route('admin.coupons.index') }}" class="admin-nav-item {{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-ticket"></i> Coupons & Discounts
+                </a>
+                <a href="{{ route('admin.reviews.index') }}" class="admin-nav-item {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-star"></i> Product Reviews
+                </a>
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.shipping-methods.index') }}" class="admin-nav-item {{ request()->routeIs('admin.shipping-methods.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-truck"></i> Shipping Methods
+                    </a>
+                @endif
+                <a href="{{ route('admin.product-collections.index') }}" class="admin-nav-item {{ request()->routeIs('admin.product-collections.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-layer-group"></i> Collections
+                </a>
+            @endif
 
-            <div class="admin-nav-header">NURSERIES</div>
-            <a href="#" class="admin-nav-item text-muted opacity-50" onclick="alert('Nursery Marketplace will be implemented in Phase 4'); return false;">
-                <i class="fa-solid fa-location-dot"></i> Nursery Sellers
-            </a>
-
-            <div class="admin-nav-header">MARKETING & INQUIRIES</div>
-            <a href="{{ route('admin.contact-messages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-inbox"></i> Contact Messages
-            </a>
-            <a href="{{ route('admin.subscribers.index') }}" class="admin-nav-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
-                <i class="fa-regular fa-envelope"></i> Subscribers
-            </a>
+            @if(auth()->user()->isEditor())
+                <div class="admin-nav-header">MARKETING & INQUIRIES</div>
+                <a href="{{ route('admin.contact-messages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.contact-messages.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-inbox"></i> Contact Messages
+                </a>
+                <a href="{{ route('admin.subscribers.index') }}" class="admin-nav-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+                    <i class="fa-regular fa-envelope"></i> Subscribers
+                </a>
+            @endif
 
             <div class="admin-nav-header">SYSTEM</div>
-            <a href="{{ route('admin.users.index') }}" class="admin-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-users"></i> Users
-            </a>
-            <a href="{{ route('admin.media.index') }}" class="admin-nav-item {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
-                <i class="fa-regular fa-images"></i> Media Library
-            </a>
-            <a href="{{ route('admin.settings.index') }}" class="admin-nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-gear"></i> Settings
-            </a>
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.users.index') }}" class="admin-nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users"></i> Users
+                </a>
+            @endif
+            @if(auth()->user()->isAuthor())
+                <a href="{{ route('admin.media.index') }}" class="admin-nav-item {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
+                    <i class="fa-regular fa-images"></i> Media Library
+                </a>
+            @endif
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.settings.index') }}" class="admin-nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            @endif
         </div>
     </aside>
 
@@ -270,7 +285,7 @@
                 </div>
             </button>
             <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius:14px;padding:10px">
-                <li><a class="dropdown-item" href="{{ route('admin.users.show', auth()->id()) }}"><i class="fa-regular fa-user me-2"></i> Profile</a></li>
+                <li><a class="dropdown-item fw-bold" href="{{ route('frontend.account.profile') }}"><i class="fa-regular fa-user me-2"></i> My Profile</a></li>
                 <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}"><i class="fa-solid fa-gear me-2"></i> Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>

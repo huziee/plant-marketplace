@@ -38,7 +38,7 @@
       <!-- Left Column: Image Gallery -->
       <div class="col-lg-6">
         <div class="rounded-4 overflow-hidden shadow-sm border mb-3 bg-white" style="height:440px">
-          <img id="mainPlantImg" src="{{ $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=1000&q=85' }}" alt="{{ $plant->name }}" class="w-100 h-100 object-fit-cover skeleton-img">
+          <img id="mainPlantImg" src="{{ $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $plant->name }}" class="w-100 h-100 object-fit-cover skeleton-img">
         </div>
 
         @if($plant->images->count() > 0)
@@ -226,7 +226,7 @@
                       @foreach($problem->products as $prod)
                         <div class="col-md-6 col-lg-4">
                           <div class="d-flex align-items-center p-2 border rounded-3 bg-white hover-shadow transition">
-                            <img src="{{ $prod->featuredImage ? asset('storage/' . $prod->featuredImage->file_path) : 'https://images.unsplash.com/photo-1585336261026-8f5786372966?auto=format&fit=crop&w=200&q=80' }}" alt="{{ $prod->name }}" class="rounded-2 me-3" style="width:60px;height:60px;object-fit:cover">
+                            <img src="{{ $prod->featuredImage ? asset('storage/' . $prod->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $prod->name }}" class="rounded-2 me-3" style="width:60px;height:60px;object-fit:cover">
                             <div class="flex-grow-1 overflow-hidden">
                               <h6 class="fw-bold mb-0 text-truncate" style="font-size:14px"><a href="{{ route('shop.show', $prod->slug) }}" class="text-dark text-decoration-none">{{ $prod->name }}</a></h6>
                               <div class="text-success fw-bold small">Rs. {{ number_format($prod->price, 0) }}</div>
@@ -253,7 +253,7 @@
           @foreach($relatedPlants as $rel)
             <article class="product-card">
               <div class="product-media">
-                <img src="{{ $rel->featuredImage ? asset('storage/' . $rel->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $rel->name }}">
+                <img src="{{ $rel->featuredImage ? asset('storage/' . $rel->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $rel->name }}">
                 <span class="badge text-capitalize" style="background:var(--green-900);color:white">{{ $rel->difficulty }} Care</span>
               </div>
               <div class="product-body">

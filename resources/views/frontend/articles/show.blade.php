@@ -105,6 +105,11 @@
         </div>
       @endif
 
+      <!-- Botanical Advice Disclaimer Notice -->
+      <div class="p-3 bg-light rounded-4 border mb-5 text-muted small">
+        <i class="fa-solid fa-circle-info text-success me-2"></i> <strong>Botanical Care Disclaimer:</strong> Content, guides, and diagnostic advice on Plantaric are published for general educational purposes. Please consult our <a href="{{ route('frontend.terms') }}#disclaimer" class="text-success text-decoration-underline fw-bold">Terms & Conditions</a> for full botanical disclaimers.
+      </div>
+
       <!-- Social Share Buttons -->
       <div class="d-flex align-items-center gap-2 p-3 bg-white border rounded-4 shadow-sm mb-5">
         <span class="fw-bold me-2 text-dark small">Share Article:</span>
@@ -122,7 +127,7 @@
             @foreach($post->plants as $p)
               <div class="col-md-6">
                 <div class="p-3 bg-white border rounded-4 d-flex align-items-center gap-3">
-                  <img src="{{ $p->featuredImage ? asset('storage/' . $p->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=300&q=85' }}" class="rounded-3" style="width:64px;height:64px;object-fit:cover">
+                  <img src="{{ $p->featuredImage ? asset('storage/' . $p->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" class="rounded-3" style="width:64px;height:64px;object-fit:cover">
                   <div>
                     <h5 class="fw-bold mb-1"><a href="{{ route('plants.show', $p->slug) }}" class="text-dark text-decoration-none">{{ $p->name }}</a></h5>
                     <span class="small text-muted fst-italic">{{ $p->scientific_name }}</span>

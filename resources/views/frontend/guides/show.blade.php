@@ -58,7 +58,7 @@
             @foreach($post->plants as $p)
               <div class="col-md-6">
                 <div class="p-3 bg-white border rounded-4 d-flex align-items-center gap-3">
-                  <img src="{{ $p->featuredImage ? asset('storage/' . $p->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=300&q=85' }}" class="rounded-3" style="width:64px;height:64px;object-fit:cover">
+                  <img src="{{ $p->featuredImage ? asset('storage/' . $p->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" class="rounded-3" style="width:64px;height:64px;object-fit:cover">
                   <div>
                     <h5 class="fw-bold mb-1"><a href="{{ route('plants.show', $p->slug) }}" class="text-dark text-decoration-none">{{ $p->name }}</a></h5>
                     <span class="small text-muted fst-italic">{{ $p->scientific_name }}</span>

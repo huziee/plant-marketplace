@@ -30,10 +30,10 @@
                                 <div class="text-muted text-truncate" style="font-size:12px">{{ auth()->user()->email }}</div>
                                 <span class="badge bg-success-subtle text-success mt-1" style="font-size:10px;text-transform:uppercase">{{ auth()->user()->role }}</span>
                             </li>
-                            @if(auth()->user()->isAdmin())
+                            @if(auth()->user()->canAccessAdmin())
                                 <li><a class="dropdown-item fw-bold" href="{{ route('admin.dashboard') }}" style="border-radius:8px"><i class="fa-solid fa-chart-line text-success me-2"></i> Admin Panel</a></li>
                             @endif
-                            <li><a class="dropdown-item fw-bold" href="#" style="border-radius:8px" onclick="alert('Account settings module will be expanded in Phase 2'); return false;"><i class="fa-regular fa-user me-2"></i> My Profile</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{ route('frontend.account.profile') }}" style="border-radius:8px"><i class="fa-regular fa-user me-2"></i> My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">

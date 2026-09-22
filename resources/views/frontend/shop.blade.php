@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="hero-image" style="min-height:480px">
-        <img src="https://images.unsplash.com/photo-1463936575829-25148e1db1b8?auto=format&fit=crop&w=1200&q=85" alt="Plantaric Shop Collection" class="skeleton-img">
+        <img src="{{ asset('images/placeholders/shop_banner.jpg') }}" alt="Plantaric Shop Collection" class="skeleton-img">
       </div>
     </div>
   </div>

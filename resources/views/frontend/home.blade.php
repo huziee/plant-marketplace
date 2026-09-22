@@ -219,7 +219,7 @@
       <div class="container">
         <div class="promo-grid">
           <article class="promo-card">
-            <img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1200&q=85" alt="Green indoor plant leaves" class="skeleton-img">
+            <img src="{{ asset('images/home/promo_beginner.jpg') }}" alt="Green indoor plant leaves" class="skeleton-img">
             <div class="promo-content">
               <span class="article-tag">Easy-care collection</span>
               <h3>Plants for beginners.</h3>
@@ -229,7 +229,7 @@
           </article>
 
           <article class="promo-card alt">
-            <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1000&q=85" alt="Hands gardening outdoors" class="skeleton-img">
+            <img src="{{ asset('images/home/promo_articles.jpg') }}" alt="Hands gardening outdoors" class="skeleton-img">
             <div class="promo-content">
               <span class="article-tag">Botanical Science</span>
               <h3>Expert Plant Articles</h3>
@@ -296,7 +296,7 @@
             <div class="col-md-4">
               <article class="product-card h-100">
                 <div class="product-media" style="height:200px">
-                  <img src="{{ $article->featuredImage ? asset('storage/' . $article->featuredImage->file_path) : 'https://images.unsplash.com/photo-1545239705-1564e58b9e4a?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $article->title }}" class="w-100 h-100 object-fit-cover">
+                  <img src="{{ $article->featuredImage ? asset('storage/' . $article->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $article->title }}" class="w-100 h-100 object-fit-cover">
                   <span class="badge position-absolute top-0 start-0 m-3 bg-success text-white shadow-sm">Article</span>
                 </div>
                 <div class="product-body d-flex flex-column">
@@ -326,7 +326,7 @@
         <div class="news-grid">
           @foreach($latestNews as $newsItem)
             <article class="news-card">
-              <img src="{{ $newsItem->featuredImage ? asset('storage/' . $newsItem->featuredImage->file_path) : 'https://images.unsplash.com/photo-1524486361537-8ad15938e1a3?auto=format&fit=crop&w=800&q=80' }}" alt="{{ $newsItem->title }}" class="skeleton-img">
+              <img src="{{ $newsItem->featuredImage ? asset('storage/' . $newsItem->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $newsItem->title }}" class="skeleton-img">
               <div class="news-body">
                 <small>{{ $newsItem->category?->name ?: 'Industry News' }} &bull; {{ $newsItem->published_at ? $newsItem->published_at->format('M d, Y') : now()->format('M d, Y') }}</small>
                 <h3><a href="{{ route('news.show', $newsItem->slug) }}" class="text-dark text-decoration-none">{{ $newsItem->title }}</a></h3>

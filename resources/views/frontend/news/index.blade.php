@@ -14,7 +14,7 @@
         <p>Stay informed with regional urban farming developments, botanical industry trends, new plant varieties, and agricultural technology.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
-        <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1200&q=85" alt="Plant News" class="skeleton-img">
+        <img src="{{ asset('images/placeholders/news_banner.jpg') }}" alt="Plant News" class="skeleton-img">
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@
         <div class="col-md-6 col-lg-4">
           <article class="product-card h-100">
             <div class="product-media" style="height:220px">
-              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $post->title }}">
+              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $post->title }}">
               <span class="badge position-absolute top-0 start-0 m-3 bg-dark text-white shadow-sm">NEWS</span>
             </div>
             <div class="product-body d-flex flex-column">

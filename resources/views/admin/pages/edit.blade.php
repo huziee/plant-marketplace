@@ -34,11 +34,23 @@
                     @endif
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Page Content (HTML Supported) <span class="text-danger">*</span></label>
-                    <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="20" required>{{ old('content', $page->content) }}</textarea>
-                    @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                </div>
+                @if($page->is_system)
+                    <div class="alert alert-info border-0 rounded-4 shadow-sm p-4 mb-3" style="background:#e0f2fe;color:#0369a1;">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fa-solid fa-lock fa-2x"></i>
+                            <div>
+                                <strong class="d-block text-dark" style="font-size:1.05rem;">Core Static System Page (Protected)</strong>
+                                <span class="small" style="line-height:1.5;">The content for this essential company/policy page is rendered using static Blade theme templates to preserve design integrity. Content editing from the admin panel is disabled. You can manage SEO Title, Meta Description, and Footer visibility below.</span>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Page Content (HTML Supported) <span class="text-danger">*</span></label>
+                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="20" required>{{ old('content', $page->content) }}</textarea>
+                        @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                @endif
             </div>
         </div>
 

@@ -14,7 +14,7 @@
         <p>Explore detailed care guides, watering frequencies, sunlight levels, soil requirements, and growing instructions for hundreds of indoor and outdoor plant species.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
-        <img src="https://images.unsplash.com/photo-1545239705-1564e58b9e4a?auto=format&fit=crop&w=1200&q=85" alt="Plant Encyclopedia" class="skeleton-img">
+        <img src="{{ asset('images/placeholders/plant_placeholder.jpg') }}" alt="Plant Encyclopedia" class="skeleton-img">
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@
       @forelse($plants as $plant)
         <article class="product-card">
           <div class="product-media">
-            <img src="{{ $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $plant->name }}" class="skeleton-img">
+            <img src="{{ $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $plant->name }}" class="skeleton-img">
             <span class="badge text-capitalize" style="background:var(--green-900);color:white">{{ $plant->difficulty }} Care</span>
             <button class="wish"><i class="fa-regular fa-heart"></i></button>
           </div>

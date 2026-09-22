@@ -14,7 +14,7 @@
         <p>In-depth guides, plant care insights, indoor foliage tips, and organic gardening strategies written by Plantaric horticulturists.</p>
       </div>
       <div class="hero-image" style="min-height:380px">
-        <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1200&q=85" alt="Gardening Articles" class="skeleton-img">
+        <img src="{{ asset('images/placeholders/news_banner.jpg') }}" alt="Gardening Articles" class="skeleton-img">
       </div>
     </div>
   </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="col-lg-6">
           <div class="rounded-4 overflow-hidden shadow-sm" style="height:320px">
-            <img src="{{ $featuredArticle->featuredImage ? asset('storage/' . $featuredArticle->featuredImage->file_path) : 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=85' }}" alt="{{ $featuredArticle->title }}" class="w-100 h-100 object-fit-cover">
+            <img src="{{ $featuredArticle->featuredImage ? asset('storage/' . $featuredArticle->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $featuredArticle->title }}" class="w-100 h-100 object-fit-cover">
           </div>
         </div>
       </div>
@@ -71,7 +71,7 @@
         <div class="col-md-6 col-lg-4">
           <article class="product-card h-100">
             <div class="product-media" style="height:220px">
-              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $post->title }}">
+              <img src="{{ $post->featuredImage ? asset('storage/' . $post->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $post->title }}">
               @if($post->category)
                 <span class="badge position-absolute top-0 start-0 m-3 bg-white text-dark shadow-sm">{{ $post->category->name }}</span>
               @endif

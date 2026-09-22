@@ -99,6 +99,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return in_array($this->role, ['admin', 'editor', 'author'], true);
     }
 
+    public function isNurseryOwner(): bool
+    {
+        return $this->role === 'nursery_owner';
+    }
+
+    public function canAccessAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'editor', 'author', 'nursery_owner'], true);
+    }
+
     public function hasRole(string|array $roles): bool
     {
         if (is_array($roles)) {

@@ -54,4 +54,36 @@ class CandidateFingerprintService
 
         return $scheme . '://' . $host . rtrim($path, '/') . ($queryString ? '?' . $queryString : '');
     }
+
+    /**
+     * Check if a proposed candidate title or topic is a duplicate of an existing published post.
+     */
+    public function isDuplicateTopic(string $title): bool
+    {
+        $targetSlug = Str::slug($title);
+        if (empty($targetSlug)) {
+            return false;
+        }
+
+        // Exact slug check
+        $existsExact = \App\Models\Post::where('slug', $targetSlug)->exists();
+        if ($existsExact) {
+            return true;
+        }
+
+        // Similar title check against last 100 posts
+        $recentPosts = \App\Models\Post::select('title', 'slug')
+            ->latest()
+            ->take(100)
+            ->get();
+
+        foreach ($recentPosts as $post) {
+            similar_text(strtolower($title), strtolower($post->title), $percent);
+            if ($percent >= 80) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

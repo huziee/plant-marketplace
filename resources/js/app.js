@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cart.items.forEach((item) => {
                     const imgUrl = item.product?.featured_image?.file_path 
                         ? `/storage/${item.product.featured_image.file_path}` 
-                        : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85';
+                        : '/images/placeholders/plant_placeholder.jpg';
 
                     html += `
                         <div class="cart-item-row" data-cart-id="${item.id}">

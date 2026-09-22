@@ -13,56 +13,53 @@ class PageSeeder extends Seeder
             [
                 'title' => 'About Us',
                 'slug' => 'about-us',
-                'meta_title' => 'About Plantaric — E-Commerce Plant Marketplace & Botanical Knowledge',
-                'meta_description' => 'Learn about Plantaric, an all-in-one platform combining a plant marketplace, botanical encyclopedia, and growing guides.',
+                'meta_title' => 'About Plantaric — Discover Plants. Grow Knowledge. Embrace Nature.',
+                'meta_description' => 'Welcome to Plantaric, your online destination for plant discovery, gardening knowledge, botanical care, and plant marketplace.',
                 'status' => 'published',
                 'show_in_footer' => true,
                 'is_system' => true,
                 'content' => '
-                    <h2 class="h4 font-weight-bold mb-3">Helping People Grow Better</h2>
-                    <p class="lead text-muted mb-4">Plantaric brings reliable botanical information, interactive plant health care guides, educational growing guides, and a curated e-commerce marketplace together in one unified platform.</p>
+                    <h2>Welcome to Plantaric</h2>
+                    <p class="lead">Growing Knowledge. Nurturing Nature. Inspiring Greener Living.</p>
+                    <p>Welcome to Plantaric, your online destination for plant discovery, gardening knowledge, and botanical care.</p>
+                    <p>At Plantaric, we believe that understanding plants is the first step toward growing healthier gardens and creating greener living spaces. Whether you are caring for your first indoor plant, exploring sustainable gardening practices, or looking for practical solutions to common plant problems, our goal is to make reliable plant knowledge accessible to everyone.</p>
+                    <p>Plantaric brings together educational articles, plant care guides, botanical information, gardening news, and a plant marketplace in one convenient platform.</p>
+                    <p>We aim to help plant enthusiasts, home gardeners, and agriculture learners make informed decisions about the plants they grow and the environments they create.</p>
 
-                    <hr class="my-4">
+                    <h3>Our Story</h3>
+                    <p>Plantaric was created with a simple idea: plant care should be easier to understand and more accessible to everyone.</p>
+                    <p>Finding reliable gardening information can sometimes be challenging. Different plants have different requirements, and advice that works for one growing environment may not work for another.</p>
+                    <p>We developed Plantaric to bring useful botanical knowledge, practical gardening guidance, and plant discovery together in one place.</p>
+                    <p>From understanding soil health and watering techniques to exploring indoor plants and sustainable agriculture, our platform focuses on helping readers develop the knowledge they need to grow with confidence.</p>
+                    <p>As Plantaric continues to develop, our focus remains on providing helpful resources that support plant lovers at every stage of their gardening journey.</p>
 
-                    <h3 class="h5 font-weight-bold mb-3">Our Story</h3>
-                    <p>Plantaric was created to make plant care and botanical commerce straightforward for everyone. Many plant enthusiasts struggle with conflicting advice, unidentifiable leaf issues, or difficulty finding healthy plants suited to their specific home environments. Plantaric bridges this gap by offering a single, trustworthy space to discover plants, learn proper care routines, troubleshoot problem symptoms, and shop quality botanical supplies.</p>
+                    <h3>What You\'ll Find on Plantaric</h3>
+                    <ul>
+                        <li><strong>Plant Encyclopedia:</strong> Discover information about different plant species, their characteristics, growing conditions, and care requirements. Our plant encyclopedia helps readers understand the basics of plant selection and maintenance, including sunlight, watering, soil preferences, and common growing challenges.</li>
+                        <li><strong>Gardening Articles & Guides:</strong> Explore educational articles covering a wide range of plant and gardening topics. Our content includes soil health, plant nutrition, indoor gardening, sustainable growing practices, pest management, and seasonal plant care. We focus on presenting information in clear, practical language that readers can understand and apply in their own gardens.</li>
+                        <li><strong>Plant Care & Growing Knowledge:</strong> Every plant has unique requirements, and understanding those needs can make a meaningful difference in its growth. Plantaric provides information to help readers recognize common plant problems, understand environmental factors, and explore appropriate care practices. From yellowing leaves to soil conditions and watering mistakes, our goal is to make plant care knowledge easier to access.</li>
+                        <li><strong>Plant Marketplace:</strong> Plantaric also provides an online marketplace where visitors can explore plants and gardening-related products. Our marketplace is designed to connect plant discovery with practical growing needs, allowing visitors to explore botanical products alongside educational resources.</li>
+                        <li><strong>Botanical News & Insights:</strong> Stay informed about developments in gardening, agriculture, plant science, and environmental sustainability. Through our news and informational content, we aim to share useful developments that help readers understand the changing world of plants and agriculture.</li>
+                    </ul>
 
-                    <h3 class="h5 font-weight-bold mt-4 mb-3">What Plantaric Offers</h3>
-                    <div class="row g-3 my-2">
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-light">
-                                <h4 class="h6 font-weight-bold text-success mb-2">🌿 Plant Marketplace</h4>
-                                <p class="small text-muted mb-0">Discover healthy plants, textured ceramic pots, organic soil mixes, fertilizers, and essential gardening tools.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-light">
-                                <h4 class="h6 font-weight-bold text-success mb-2">📖 Botanical Encyclopedia</h4>
-                                <p class="small text-muted mb-0">Explore detailed plant species directories complete with scientific taxonomy, light & watering matrices, soil pH, humidity, and pet toxicity alerts.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-light">
-                                <h4 class="h6 font-weight-bold text-success mb-2">🌱 Care & Troubleshooting</h4>
-                                <p class="small text-muted mb-0">Diagnostic symptom lookup for plant diseases, leaf discoloration, fungal spots, pests, root rot, and cultural growth stress.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="p-3 border rounded-3 bg-light">
-                                <h4 class="h6 font-weight-bold text-success mb-2">📚 Articles & Guides</h4>
-                                <p class="small text-muted mb-0">Step-by-step growing tutorials, seasonal care calendars, and expert horticultural advice written by plant specialists.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3>Our Mission</h3>
+                    <p>Our mission is to make plant knowledge accessible, practical, and valuable for everyone.</p>
+                    <p>We strive to support a growing community of plant enthusiasts by providing educational resources, encouraging responsible gardening practices, and making botanical information easier to understand.</p>
+                    <p>Whether someone is growing a small indoor collection or managing a larger outdoor garden, we want Plantaric to be a helpful resource throughout their journey.</p>
 
-                    <h3 class="h5 font-weight-bold mt-4 mb-3">Our Mission</h3>
-                    <blockquote class="p-3 bg-light border-start border-4 border-success fst-italic my-3">
-                        "To make botanical knowledge easier to understand, empower growers with diagnostic care tools, and help plant lovers make confident, informed decisions for their indoor and outdoor gardens."
-                    </blockquote>
+                    <h3>Our Commitment to Quality Information</h3>
+                    <p>We understand that readers rely on accurate information when making decisions about plant health, gardening practices, and growing conditions.</p>
+                    <p>That is why we aim to develop content that is informative, clearly written, and grounded in relevant botanical and agricultural knowledge.</p>
+                    <p>Our editorial process may involve research, publicly available educational resources, digital tools, and AI-assisted content development. We aim to review and improve published material for clarity, relevance, and factual accuracy.</p>
+                    <p>As gardening practices and scientific understanding continue to evolve, we may update our content to reflect new information and improve the experience for our readers.</p>
+                    <p>For additional information about how our content is developed, please visit our <a href="/editorial-policy">Editorial Policy</a>.</p>
 
-                    <div class="alert alert-info mt-4">
-                        <strong>Important Note:</strong> Plantaric is designed to provide general educational information and care guidance. Our content and diagnostic tools are not intended to replace professional agricultural extension services, commercial veterinary care, or certified pesticide advice.
-                    </div>
+                    <h3>Growing a Greener Future Together</h3>
+                    <p>At Plantaric, we believe that even small steps toward understanding and caring for plants can contribute to healthier homes, greener communities, and a greater appreciation for nature.</p>
+                    <p>Our vision is to build a platform where knowledge, discovery, and gardening come together to inspire people to grow.</p>
+                    <p>Whether you are beginning your first gardening project or expanding your botanical knowledge, we welcome you to explore, learn, and grow with Plantaric.</p>
+
+                    <p><strong>Plantaric — Discover Plants. Grow Knowledge. Embrace Nature.</strong></p>
                 ',
             ],
             [
@@ -120,8 +117,14 @@ class PageSeeder extends Seeder
                     <h3 class="h5 font-weight-bold mt-4 mb-2">6. Sharing Information with Third Parties</h3>
                     <p>We may share necessary data with trusted service providers (payment processors, shipping couriers, hosting providers, email delivery services, and advertising or analytics partners) strictly to perform operational functions on our behalf. We do not sell customer contact lists to third-party advertisers.</p>
 
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">7. Cookies and Tracking Technologies</h3>
-                    <p>Plantaric uses cookies and similar session technologies to support website functionality, maintain login sessions, preserve cart contents, store user preferences, measure performance, and support advertising. Please review our <a href="' . route('frontend.cookie-policy') . '">Cookie Policy</a> for detailed information.</p>
+                    <h3 id="cookies" class="h5 font-weight-bold mt-4 mb-2">7. Cookies and Tracking Technologies</h3>
+                    <p>Plantaric uses cookies and similar session technologies to provide core website functionality, maintain secure login sessions, preserve cart contents, store user preferences, measure website performance, and support online advertising.</p>
+                    <ul>
+                        <li><strong>Essential Cookies:</strong> Support core operations such as authentication, cart storage, checkout processing, and CSRF protection. Disabling essential cookies may impair site functionality.</li>
+                        <li><strong>Preference & Analytics Cookies:</strong> Store user preferences (e.g. shipping location or filter choices) and gather aggregated usage metrics to help us continuously improve Plantaric.</li>
+                        <li><strong>Advertising & Google AdSense Cookies:</strong> Third-party partners, including Google AdSense, use cookies to serve relevant ads based on prior website visits. Visitors can manage ad preferences via <a href="https://myadcenter.google.com/" target="_blank" rel="noopener">Google\'s My Ad Center</a>.</li>
+                    </ul>
+                    <p>You can manage or block optional cookies through your web browser settings without losing access to our free botanical encyclopedia resources.</p>
 
                     <h3 class="h5 font-weight-bold mt-4 mb-2">8. Data Security & Retention</h3>
                     <p>We implement standard technical and organizational safeguards (HTTPS encryption, CSRF protection, secure hashed passwords) designed to protect personal information. We retain personal data for as long as necessary to provide our services, fulfill transactions, maintain business records, and satisfy legal accounting requirements.</p>
@@ -152,7 +155,7 @@ class PageSeeder extends Seeder
                     <p>Users may browse Plantaric\'s publicly available educational content without registering an account. Certain features—including placing orders, managing wishlists, submitting product reviews, and accessing order history—require account registration. Users agree to provide accurate registration information and maintain account security.</p>
 
                     <h3 class="h5 font-weight-bold mt-4 mb-2">3. Botanical and Educational Content</h3>
-                    <p>Plantaric provides botanical information for educational and informational purposes. Our content includes plant identification, scientific classification, watering recommendations, sunlight requirements, soil information, seasonal maintenance, and plant health troubleshooting. Individual plant requirements may vary depending on climate and micro-environment. Please review our <a href="' . route('frontend.disclaimer') . '">Plant Care Disclaimer</a> for additional details.</p>
+                    <p>Plantaric provides botanical information for educational and informational purposes. Our content includes plant identification, scientific classification, watering recommendations, sunlight requirements, soil information, seasonal maintenance, and plant health troubleshooting. Individual plant requirements may vary depending on climate and micro-environment. Please review Section 12 below for our complete Botanical & Plant Care Disclaimer.</p>
 
                     <h3 class="h5 font-weight-bold mt-4 mb-2">4. Product Listings</h3>
                     <p>Plantaric offers plants, seeds, gardening accessories, pots, and related products for purchase. Living plants naturally vary in appearance, size, leaf patterns, and color. Some product illustrations may be digitally produced or AI-assisted; such images should not be interpreted as a guarantee of the exact appearance of the delivered plant.</p>
@@ -175,79 +178,17 @@ class PageSeeder extends Seeder
                     <h3 class="h5 font-weight-bold mt-4 mb-2">10. Prohibited Activities</h3>
                     <p>Users must not attempt to compromise website security, access other users\' accounts, submit fraudulent orders or reviews, distribute malware, engage in spam, or interfere with normal website operations.</p>
 
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">11. Contact</h3>
+                    <h3 id="disclaimer" class="h5 font-weight-bold mt-4 mb-2">11. Botanical & Plant Care Disclaimer</h3>
+                    <p>The botanical care guides, encyclopedia entries, and health troubleshooting tips published on Plantaric are provided strictly for general educational purposes:</p>
+                    <ul>
+                        <li><strong>General Guidelines:</strong> Care parameters (watering frequency, light intensity, soil pH, fertilization) are general reference points. Actual plant growth depends on your specific climate and micro-environment.</li>
+                        <li><strong>Diagnostic Lookup:</strong> Symptom lookup tools and care recommendations serve as helpful educational aids, not absolute laboratory diagnostic guarantees.</li>
+                        <li><strong>Plant Toxicity & Safety:</strong> Toxicity ratings for pets and humans are compiled from standard botanical literature. In case of accidental ingestion or severe exposure, consult medical or veterinary professionals immediately.</li>
+                    </ul>
+
+                    <h3 class="h5 font-weight-bold mt-4 mb-2">12. Contact</h3>
                     <p>For questions regarding these Terms & Conditions, contact:</p>
                     <p class="mb-0"><strong>Plantaric Legal Team</strong><br>Email: <a href="mailto:support@plantaric.com">support@plantaric.com</a><br>Website: <a href="https://plantaric.com">plantaric.com</a></p>
-                ',
-            ],
-            [
-                'title' => 'Cookie Policy',
-                'slug' => 'cookie-policy',
-                'meta_title' => 'Cookie Policy | Plantaric',
-                'meta_description' => 'Learn how Plantaric uses cookies to support shopping, website functionality, preferences, analytics, and advertisements.',
-                'status' => 'published',
-                'show_in_footer' => true,
-                'is_system' => true,
-                'content' => '
-                    <p class="text-muted small mb-4">Last Updated: September 20, 2026</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">1. Introduction</h3>
-                    <p>Plantaric uses cookies and similar technologies to provide website functionality, improve user experience, and support selected third-party services. This Cookie Policy explains what cookies are, how they are used, and how visitors can manage their preferences.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">2. What Are Cookies?</h3>
-                    <p>Cookies are small text files stored on your device when you visit a website. They help websites remember information such as login sessions, shopping cart contents, and user preferences.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">3. Essential Cookies</h3>
-                    <p>Essential cookies support core website functionality, such as maintaining secure login sessions, preserving shopping cart contents, processing checkout requests, and protecting against CSRF security threats. Disabling essential cookies may prevent some features from functioning correctly.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">4. Preference & Analytics Cookies</h3>
-                    <p>Preference cookies remember user-selected settings (e.g. shipping filters or currency choices). Analytics cookies help us measure visitor engagement, page views, and site performance to continuously improve user experience.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">5. Advertising Cookies</h3>
-                    <p>Plantaric may use Google AdSense and other advertising services to display advertisements. Google and its advertising partners may use cookies to serve advertisements and measure campaign performance. Visitors can manage personalized Google advertising through <a href="https://myadcenter.google.com/" target="_blank" rel="noopener">Google\'s My Ad Center</a>.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">6. Managing Cookie Preferences</h3>
-                    <p>You can manage or disable cookies through your web browser settings and cookie consent banners. Rejecting optional cookies will not prevent access to publicly available botanical resources.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">7. Contact</h3>
-                    <p>For questions about our use of cookies, email us at <a href="mailto:privacy@plantaric.com">privacy@plantaric.com</a>.</p>
-                ',
-            ],
-            [
-                'title' => 'Plant Care Disclaimer',
-                'slug' => 'disclaimer',
-                'meta_title' => 'Plant Care Disclaimer | Plantaric',
-                'meta_description' => 'Understand the educational nature of Plantaric\'s botanical information, plant care recommendations, and plant health troubleshooting resources.',
-                'status' => 'published',
-                'show_in_footer' => true,
-                'is_system' => true,
-                'content' => '
-                    <p class="text-muted small mb-4">Last Updated: September 20, 2026</p>
-
-                    <div class="alert alert-warning mb-4">
-                        <strong>Educational Notice:</strong> The information provided on Plantaric—including botanical encyclopedia entries, troubleshooting care guides, and botanical articles—is published strictly for general educational and informational purposes.
-                    </div>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">1. Educational Purpose</h3>
-                    <p>Plantaric provides botanical information, plant care guidance, and gardening resources for general educational purposes. Our platform is designed to help users understand plant characteristics, growing environments, maintenance requirements, and common health problems. The information provided does not guarantee specific plant growth, recovery, or survival outcomes.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">2. Plant Care Recommendations</h3>
-                    <p>Recommendations concerning watering, sunlight, humidity, temperature, soil composition, fertilization, and repotting are general parameters. Individual plant requirements may differ depending on climate, season, soil conditions, container size, plant maturity, and indoor environment.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">3. Plant Health and Troubleshooting</h3>
-                    <p>Plantaric\'s Botanical Encyclopedia includes diagnostic information for common plant issues (yellowing leaves, browning, wilting, pest infestations, fungal spots, and root damage). Suggested causes and remedies are intended to assist plant owners in identifying potential problems, but do not constitute an infallible laboratory diagnosis.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">4. Plant Toxicity and Safety</h3>
-                    <p>Some plants may be toxic to pets, children, or adults if ingested or improperly handled. Toxicity ratings are educational summaries based on standard botanical references. If a person or animal is suspected of ingesting a harmful plant, seek appropriate medical or veterinary assistance immediately.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">5. Pest Control and Chemical Treatments</h3>
-                    <p>When applying pesticides, fungicides, neem oil remedies, or chemical fertilizers mentioned in care guides, users should carefully read manufacturer label instructions and follow local environmental regulations.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">6. AI-Assisted Botanical Information</h3>
-                    <p>Certain illustrations and educational materials may be prepared with the assistance of artificial intelligence. Users should independently verify information when making decisions involving safety-sensitive matters.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">7. Contact</h3>
-                    <p>For questions regarding our botanical disclaimer, contact <a href="mailto:support@plantaric.com">support@plantaric.com</a>.</p>
                 ',
             ],
             [
@@ -358,34 +299,9 @@ class PageSeeder extends Seeder
                     <p>For return assistance, contact <a href="mailto:support@plantaric.com">support@plantaric.com</a>.</p>
                 ',
             ],
-            [
-                'title' => 'Advertising & Affiliate Disclosure',
-                'slug' => 'advertising-disclosure',
-                'meta_title' => 'Advertising Disclosure | Plantaric',
-                'meta_description' => 'Learn how advertising and commercial partnerships help support Plantaric\'s botanical education, gardening articles, and plant care resources.',
-                'status' => 'published',
-                'show_in_footer' => true,
-                'is_system' => true,
-                'content' => '
-                    <p class="text-muted small mb-4">Last Updated: September 20, 2026</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">1. Introduction</h3>
-                    <p>Plantaric is committed to transparency regarding commercial activities supporting our platform. We provide botanical care resources, plant identification tools, and gardening articles alongside our e-commerce marketplace.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">2. Display Advertising & Google AdSense</h3>
-                    <p>Plantaric may display advertisements served by Google AdSense and other third-party advertising partners. These advertisements help support the continued operation of our free botanical encyclopedia. The display of an advertisement does not constitute an endorsement by Plantaric of the advertised product or service.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">3. Affiliate Relationships</h3>
-                    <p>Some links to tools, soils, or gardening supplies may contain affiliate tracking codes. If you purchase a product through an affiliate link, Plantaric may receive a small commission at no extra cost to you.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">4. Product Recommendations</h3>
-                    <p>Links within our Botanical Encyclopedia may direct readers to relevant plant care items or supplies available in our online shop. We present these commercial links transparently.</p>
-
-                    <h3 class="h5 font-weight-bold mt-4 mb-2">5. Contact</h3>
-                    <p>For advertising or sponsorship inquiries, contact <a href="mailto:advertising@plantaric.com">advertising@plantaric.com</a>.</p>
-                ',
-            ],
         ];
+
+        Page::whereIn('slug', ['cookie-policy', 'disclaimer', 'advertising-disclosure'])->delete();
 
         foreach ($pages as $pageData) {
             Page::updateOrCreate(

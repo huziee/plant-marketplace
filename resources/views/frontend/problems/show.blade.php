@@ -122,7 +122,7 @@
             @foreach($plantProblem->plants as $affectedPlant)
               <article class="product-card">
                 <div class="product-media">
-                  <img src="{{ $affectedPlant->featuredImage ? asset('storage/' . $affectedPlant->featuredImage->file_path) : 'https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85' }}" alt="{{ $affectedPlant->name }}">
+                  <img src="{{ $affectedPlant->featuredImage ? asset('storage/' . $affectedPlant->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $affectedPlant->name }}">
                 </div>
                 <div class="product-body">
                   <h4 class="fw-bold mb-1" style="font-size:16px"><a href="{{ route('plants.show', $affectedPlant->slug) }}">{{ $affectedPlant->name }}</a></h4>
