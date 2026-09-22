@@ -7,7 +7,6 @@ use App\Models\ContentCategory;
 use App\Models\Page;
 use App\Models\Plant;
 use App\Models\PlantCategory;
-use App\Models\PlantProblem;
 use App\Models\Post;
 
 class SitemapService
@@ -21,9 +20,7 @@ class SitemapService
             url('/sitemaps/pages.xml'),
             url('/sitemaps/plants.xml'),
             url('/sitemaps/plant-categories.xml'),
-            url('/sitemaps/plant-problems.xml'),
             url('/sitemaps/articles.xml'),
-            url('/sitemaps/guides.xml'),
             url('/sitemaps/news.xml'),
             url('/sitemaps/content-categories.xml'),
             url('/sitemaps/products.xml'),
@@ -53,13 +50,16 @@ class SitemapService
         $urls = [
             ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/plants'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
-            ['loc' => url('/plant-problems'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/articles'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
-            ['loc' => url('/guides'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/news'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/shop'), 'priority' => '0.8', 'changefreq' => 'daily', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/about-us'), 'priority' => '0.7', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
             ['loc' => url('/contact-us'), 'priority' => '0.7', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/privacy-policy'), 'priority' => '0.5', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/terms-and-conditions'), 'priority' => '0.5', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/editorial-policy'), 'priority' => '0.6', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/shipping-policy'), 'priority' => '0.5', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
+            ['loc' => url('/return-refund-policy'), 'priority' => '0.5', 'changefreq' => 'monthly', 'lastmod' => now()->toIso8601String()],
         ];
 
         // Published CMS Pages
@@ -117,32 +117,9 @@ class SitemapService
         return $this->buildUrlSet($urls);
     }
 
-    public function generateProblems(): string
-    {
-        $problems = PlantProblem::active()
-            ->where('robots_index', true)
-            ->get();
-
-        $urls = $problems->map(function ($prob) {
-            return [
-                'loc' => url("/plant-problems/{$prob->slug}"),
-                'lastmod' => $prob->updated_at->toIso8601String(),
-                'priority' => '0.8',
-                'changefreq' => 'weekly',
-            ];
-        })->toArray();
-
-        return $this->buildUrlSet($urls);
-    }
-
     public function generateArticles(): string
     {
         return $this->generatePostsByType(PostType::ARTICLE);
-    }
-
-    public function generateGuides(): string
-    {
-        return $this->generatePostsByType(PostType::GUIDE);
     }
 
     public function generateNews(): string

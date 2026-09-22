@@ -180,9 +180,7 @@
                 <a href="{{ route('admin.plant-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-categories.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-layer-group"></i> Categories
                 </a>
-                <a href="{{ route('admin.plant-problems.index') }}" class="admin-nav-item {{ request()->routeIs('admin.plant-problems.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-user-doctor"></i> Plant Problems
-                </a>
+
             @endif
 
             @if(auth()->user()->isAuthor())
