@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="google-site-verification" content="E0nPIq7_x8bVTUUoeoxShCNUI2i7Hejx0ztV-pU-EcI" />
     @php
         $currentSeo = $seoService ?? app(\App\Services\SEO\SeoService::class);
         $legacyTitle = trim(View::yieldContent('title'));
