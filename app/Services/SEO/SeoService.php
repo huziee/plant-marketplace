@@ -218,24 +218,25 @@ class SeoService
 
     public function renderTags(): string
     {
-        $title = e($this->getTitle());
+        $rawTitle = htmlspecialchars_decode($this->getTitle(), ENT_QUOTES);
+        $title = e($rawTitle);
         $description = e($this->getDescription());
         $canonicalUrl = e($this->getCanonical());
         $robots = e($this->getRobots());
 
-        $ogTitle = e($this->ogTitle ?? $this->getTitle());
+        $ogTitle = e(htmlspecialchars_decode($this->ogTitle ?? $this->getTitle(), ENT_QUOTES));
         $ogDescription = e($this->ogDescription ?? $this->getDescription());
         $ogUrl = e($this->ogUrl ?? $this->getCanonical());
         $ogImage = e($this->ogImage ?? setting('og_image', asset('images/plantaric-og.jpg')));
         $ogType = e($this->ogType);
 
         $twitterCard = e($this->twitterCard);
-        $twitterTitle = e($this->twitterTitle ?? $ogTitle);
+        $twitterTitle = e(htmlspecialchars_decode($this->twitterTitle ?? $ogTitle, ENT_QUOTES));
         $twitterDescription = e($this->twitterDescription ?? $ogDescription);
         $twitterImage = e($this->twitterImage ?? $ogImage);
 
         $html = [];
-        $html[] = "<title>{$title}</title>";
+        $html[] = "<title>{$rawTitle}</title>";
         $html[] = "<meta name=\"description\" content=\"{$description}\">";
         $html[] = "<link rel=\"canonical\" href=\"{$canonicalUrl}\">";
         $html[] = "<meta name=\"robots\" content=\"{$robots}\">";
