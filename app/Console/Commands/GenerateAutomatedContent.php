@@ -22,10 +22,19 @@ class GenerateAutomatedContent extends Command
         if ($candidateId) {
             $candidates = ContentCandidate::where('id', $candidateId)->get();
         } else {
-            $candidates = ContentCandidate::whereIn('status', ['discovered', 'selected', 'ready'])
+            $articles = ContentCandidate::where('content_type', 'article')
+                ->whereIn('status', ['discovered', 'selected', 'ready'])
                 ->orderBy('created_at', 'asc')
                 ->take($limit)
                 ->get();
+
+            $news = ContentCandidate::where('content_type', 'news')
+                ->whereIn('status', ['discovered', 'selected', 'ready'])
+                ->orderBy('created_at', 'asc')
+                ->take($limit)
+                ->get();
+
+            $candidates = $articles->concat($news);
         }
 
         if ($candidates->isEmpty()) {
