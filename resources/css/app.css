@@ -2386,3 +2386,71 @@ body.js-scroll-effects footer.footer-visible .footer-grid {
     width: 90px;
   }
 }
+
+/* Content Body & Article HTML Typography & Layout Styles */
+.content-body,
+.entry-content {
+  overflow: hidden;
+}
+
+.content-body p,
+.entry-content p {
+  margin-bottom: 1.5rem;
+}
+
+.content-body img,
+.entry-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.content-body img[style*="float: left"],
+.content-body img.align-left,
+.entry-content img[style*="float: left"],
+.entry-content img.align-left {
+  float: left !important;
+  margin: 8px 24px 20px 0 !important;
+  max-width: 48% !important;
+}
+
+.content-body img[style*="float: right"],
+.content-body img.align-right,
+.entry-content img[style*="float: right"],
+.entry-content img.align-right {
+  float: right !important;
+  margin: 8px 0 20px 24px !important;
+  max-width: 48% !important;
+}
+
+.content-body figure,
+.entry-content figure {
+  margin-bottom: 1.5rem;
+}
+
+.content-body blockquote,
+.entry-content blockquote {
+  border-left: 4px solid var(--green-700);
+  padding: 14px 20px;
+  margin: 24px 0;
+  background: var(--green-50);
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .content-body img[style*="float: left"],
+  .content-body img[style*="float: right"],
+  .content-body img.align-left,
+  .content-body img.align-right,
+  .entry-content img[style*="float: left"],
+  .entry-content img[style*="float: right"],
+  .entry-content img.align-left,
+  .entry-content img.align-right {
+    float: none !important;
+    display: block !important;
+    margin: 16px auto !important;
+    max-width: 100% !important;
+  }
+}

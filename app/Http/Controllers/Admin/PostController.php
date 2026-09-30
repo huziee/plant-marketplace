@@ -169,4 +169,20 @@ class PostController extends Controller
             'isPreview' => true,
         ]);
     }
+
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:5120',
+        ]);
+
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('posts_content', 'public');
+            return response()->json([
+                'location' => asset('storage/' . $path)
+            ]);
+        }
+
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
 }

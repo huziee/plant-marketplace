@@ -95,8 +95,8 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label class="form-label fw-bold">Main Content Body (HTML Supported) <span class="text-danger">*</span></label>
-                        <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="18" required>{{ old('content', $post->content) }}</textarea>
+                        <label class="form-label fw-bold">Main Content Body <span class="text-danger">*</span></label>
+                        <textarea name="content" id="postContentEditor" class="form-control @error('content') is-invalid @enderror" rows="18">{{ old('content', $post->content) }}</textarea>
                         @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
@@ -327,8 +327,61 @@
     </div>
 </form>
 
-@push('scripts')
+@push('admin_scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2/tinymce.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    tinymce.init({
+        selector: '#postContentEditor',
+        height: 520,
+        plugins: 'image link media table code lists advlist visualblocks wordcount fullscreen preview autolink help',
+        toolbar: 'undo redo | blocks | bold italic underline forecolor | alignleft aligncenter alignright alignjustify | numlist bullist | image media table link | code fullscreen preview',
+        image_title: true,
+        automatic_uploads: true,
+        file_picker_types: 'image',
+        images_upload_handler: function (blobInfo, progress) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '{{ route("admin.posts.upload-image") }}');
+                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+
+                xhr.upload.onprogress = (e) => {
+                    progress(e.loaded / e.total * 100);
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        reject('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    const json = JSON.parse(xhr.responseText);
+                    if (!json || typeof json.location != 'string') {
+                        reject('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    resolve(json.location);
+                };
+
+                xhr.onerror = () => {
+                    reject('Image upload failed. Transport error code: ' + xhr.status);
+                };
+
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                xhr.send(formData);
+            });
+        },
+        style_formats: [
+            { title: 'Align Left (Text Wraps Right)', selector: 'img', styles: { 'float': 'left', 'margin': '0 24px 20px 0', 'max-width': '48%' } },
+            { title: 'Align Right (Text Wraps Left)', selector: 'img', styles: { 'float': 'right', 'margin': '0 0 20px 24px', 'max-width': '48%' } },
+            { title: 'Center Full Width', selector: 'img', styles: { 'display': 'block', 'margin': '0 auto 20px auto', 'max-width': '100%' } },
+        ],
+        content_style: 'body { font-family: "DM Sans", sans-serif; font-size: 16px; color: #222; line-height: 1.7; } img { max-width: 100%; height: auto; border-radius: 8px; } img[style*="float: left"] { float: left; margin: 0 24px 20px 0; max-width: 48%; } img[style*="float: right"] { float: right; margin: 0 0 20px 24px; max-width: 48%; }'
+    });
+});
+
 function previewMediaImage(input, previewId, placeholderId) {
     const preview = document.getElementById(previewId);
     const placeholder = document.getElementById(placeholderId);

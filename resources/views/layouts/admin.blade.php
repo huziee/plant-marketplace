@@ -317,5 +317,6 @@
         });
     </script>
     @stack('admin_scripts')
+    @stack('scripts')
 </body>
 </html>

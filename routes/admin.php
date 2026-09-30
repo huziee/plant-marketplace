@@ -32,6 +32,7 @@ Route::middleware(['auth', 'role:admin,editor,author,nursery_owner'])
         Route::middleware('role:admin,editor,author')->group(function () {
             Route::post('posts/{post}/duplicate', [PostController::class, 'duplicate'])->name('posts.duplicate');
             Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
+            Route::post('posts/upload-image', [PostController::class, 'uploadImage'])->name('posts.upload-image');
             Route::resource('posts', PostController::class)->except(['show']);
 
 
