@@ -227,7 +227,7 @@ class SeoService
         $ogTitle = e(htmlspecialchars_decode($this->ogTitle ?? $this->getTitle(), ENT_QUOTES));
         $ogDescription = e($this->ogDescription ?? $this->getDescription());
         $ogUrl = e($this->ogUrl ?? $this->getCanonical());
-        $ogImage = e($this->ogImage ?? setting('og_image', asset('images/plantaric-og.jpg')));
+        $ogImage = e($this->ogImage ?? setting('og_image', asset('images/plantaric-og.png')));
         $ogType = e($this->ogType);
 
         $twitterCard = e($this->twitterCard);
@@ -241,16 +241,20 @@ class SeoService
         $html[] = "<link rel=\"canonical\" href=\"{$canonicalUrl}\">";
         $html[] = "<meta name=\"robots\" content=\"{$robots}\">";
 
-        // Open Graph
+        // Open Graph (WhatsApp, Facebook, LinkedIn)
         $html[] = "<meta property=\"og:title\" content=\"{$ogTitle}\">";
         $html[] = "<meta property=\"og:description\" content=\"{$ogDescription}\">";
         $html[] = "<meta property=\"og:url\" content=\"{$ogUrl}\">";
         $html[] = "<meta property=\"og:image\" content=\"{$ogImage}\">";
+        $html[] = "<meta property=\"og:image:secure_url\" content=\"{$ogImage}\">";
+        $html[] = "<meta property=\"og:image:type\" content=\"image/png\">";
+        $html[] = "<meta property=\"og:image:width\" content=\"512\">";
+        $html[] = "<meta property=\"og:image:height\" content=\"512\">";
         $html[] = "<meta property=\"og:type\" content=\"{$ogType}\">";
         $html[] = "<meta property=\"og:site_name\" content=\"" . e(setting('site_name', 'Plantaric')) . "\">";
 
         // Twitter
-        $html[] = "<meta name=\"twitter:card\" content=\"{$twitterCard}\">";
+        $html[] = "<meta name=\"twitter:card\" content=\"summary_large_image\">";
         $html[] = "<meta name=\"twitter:title\" content=\"{$twitterTitle}\">";
         $html[] = "<meta name=\"twitter:description\" content=\"{$twitterDescription}\">";
         $html[] = "<meta name=\"twitter:image\" content=\"{$twitterImage}\">";
