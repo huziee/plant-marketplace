@@ -10,7 +10,7 @@
     <h2 class="fw-bold mt-2" style="font-family:'Playfair Display',serif">Create Plant Problem</h2>
 </div>
 
-<form action="{{ route('admin.plant-problems.store') }}" method="POST">
+<form action="{{ route('admin.plant-problems.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row g-4">
         <div class="col-md-8">
@@ -73,6 +73,20 @@
         </div>
 
         <div class="col-md-4">
+            <!-- Featured Image Upload Card -->
+            <div class="card card-custom mb-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-image text-danger me-1"></i> Problem Featured Image</h5>
+                <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 150px; max-height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <img id="probImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                    <div id="probImgPlaceholder" class="text-muted small">
+                        <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-danger opacity-75"></i>
+                        <div>Click below to select problem photo</div>
+                    </div>
+                </div>
+                <input type="file" name="image" class="form-control form-control-sm @error('image') is-invalid @enderror" accept="image/*" onchange="previewProbImage(this)">
+                @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+            </div>
+
             <div class="card card-custom">
                 <h5 class="fw-bold mb-3">Status & Severity</h5>
                 
@@ -105,4 +119,22 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+<script>
+function previewProbImage(input) {
+    const preview = document.getElementById('probImgPreview');
+    const placeholder = document.getElementById('probImgPlaceholder');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

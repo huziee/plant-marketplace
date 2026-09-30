@@ -13,37 +13,31 @@
 
 <!-- Metrics Row -->
 <div class="row g-3 mb-4">
-    <div class="col-md-4 col-lg-2">
+    <div class="col-md-4 col-lg">
         <div class="card-custom text-center p-3 mb-0">
             <div class="text-muted" style="font-size:12px;font-weight:700">TOTAL USERS</div>
             <div style="font-size:28px;font-weight:800;color:var(--green-950)">{{ $stats['total_users'] }}</div>
         </div>
     </div>
-    <div class="col-md-4 col-lg-2">
+    <div class="col-md-4 col-lg">
         <div class="card-custom text-center p-3 mb-0">
             <div class="text-muted" style="font-size:12px;font-weight:700">CUSTOMERS</div>
             <div style="font-size:28px;font-weight:800;color:var(--green-700)">{{ $stats['customers'] }}</div>
         </div>
     </div>
-    <div class="col-md-4 col-lg-2">
+    <div class="col-md-4 col-lg">
         <div class="card-custom text-center p-3 mb-0">
             <div class="text-muted" style="font-size:12px;font-weight:700">NURSERY OWNERS</div>
             <div style="font-size:28px;font-weight:800;color:var(--green-900)">{{ $stats['nursery_owners'] }}</div>
         </div>
     </div>
-    <div class="col-md-4 col-lg-2">
+    <div class="col-md-4 col-lg">
         <div class="card-custom text-center p-3 mb-0">
             <div class="text-muted" style="font-size:12px;font-weight:700">EDITORS / AUTHORS</div>
             <div style="font-size:28px;font-weight:800;color:var(--green-800)">{{ $stats['content_creators'] }}</div>
         </div>
     </div>
-    <div class="col-md-4 col-lg-2">
-        <div class="card-custom text-center p-3 mb-0">
-            <div class="text-muted" style="font-size:12px;font-weight:700">MEDIA FILES</div>
-            <div style="font-size:28px;font-weight:800;color:var(--green-950)">{{ $stats['media_files'] }}</div>
-        </div>
-    </div>
-    <div class="col-md-4 col-lg-2">
+    <div class="col-md-4 col-lg">
         <div class="card-custom text-center p-3 mb-0">
             <div class="text-muted" style="font-size:12px;font-weight:700">SUBSCRIBERS</div>
             <div style="font-size:28px;font-weight:800;color:var(--green-700)">{{ $stats['subscribers'] }}</div>
@@ -110,8 +104,8 @@
                 <a href="{{ route('admin.users.index') }}" class="btn btn-light text-start border p-2 px-3 fw-bold" style="border-radius:12px;font-size:14px">
                     <i class="fa-solid fa-user-gear me-2 text-success"></i> Manage Users
                 </a>
-                <a href="{{ route('admin.media.index') }}" class="btn btn-light text-start border p-2 px-3 fw-bold" style="border-radius:12px;font-size:14px">
-                    <i class="fa-regular fa-image me-2 text-primary"></i> Upload Media
+                <a href="{{ route('admin.posts.index') }}" class="btn btn-light text-start border p-2 px-3 fw-bold" style="border-radius:12px;font-size:14px">
+                    <i class="fa-solid fa-newspaper me-2 text-primary"></i> Manage Articles & News
                 </a>
                 <a href="{{ route('admin.settings.index') }}" class="btn btn-light text-start border p-2 px-3 fw-bold" style="border-radius:12px;font-size:14px">
                     <i class="fa-solid fa-sliders me-2 text-warning"></i> Website Settings

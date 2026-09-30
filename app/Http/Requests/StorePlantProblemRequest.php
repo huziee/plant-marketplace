@@ -21,7 +21,7 @@ class StorePlantProblemRequest extends FormRequest
             'short_description' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],
             'severity' => ['required', Rule::in(['low', 'medium', 'high'])],
-            'featured_image_id' => ['nullable', 'exists:media,id'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:5120'],
             'status' => ['required', Rule::in(['active', 'inactive'])],
             'is_featured' => ['nullable', 'boolean'],
             'seo_title' => ['nullable', 'string', 'max:255'],

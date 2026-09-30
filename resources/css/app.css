@@ -747,7 +747,7 @@ nav {
   padding: 14px;
   box-shadow: var(--shadow-sm);
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr auto;
+  grid-template-columns: 1.8fr 1fr auto;
   gap: 10px;
   align-items: center;
 }
@@ -821,7 +821,7 @@ nav {
 .category-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   transition: .35s;
 }
 
@@ -897,7 +897,7 @@ nav {
 /* Product cards */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -925,7 +925,7 @@ nav {
 .product-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   transition: .4s;
 }
 
@@ -1465,6 +1465,7 @@ nav {
   background: white;
   border-radius: 16px;
   padding: 7px;
+  color: #101010;
 }
 
 .subscribe input {

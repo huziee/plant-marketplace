@@ -21,7 +21,7 @@ class StoreContentCategoryRequest extends FormRequest
             'type' => 'required|in:article,guide,news,all',
             'status' => 'required|in:active,inactive',
             'sort_order' => 'nullable|integer',
-            'featured_image_id' => 'nullable|exists:media,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
         ];
     }
 }

@@ -112,17 +112,6 @@
             <input name="q" id="mainSearch" type="text" placeholder="Search plants, care guides, articles..." />
           </label>
           <label class="field">
-            <i class="fa-solid fa-location-dot"></i>
-            <select name="city">
-              <option value="">Choose your city</option>
-              <option>Lahore</option>
-              <option>Karachi</option>
-              <option>Islamabad</option>
-              <option>Rawalpindi</option>
-              <option>Faisalabad</option>
-            </select>
-          </label>
-          <label class="field">
             <i class="fa-solid fa-layer-group"></i>
             <select name="category">
               <option value="">All categories</option>
@@ -258,7 +247,7 @@
               <div class="product-media">
                 <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="skeleton-img">
                 <span class="badge">{{ $product['badge'] }}</span>
-                <button class="wish"><i class="fa-regular fa-heart"></i></button>
+
               </div>
               <div class="product-body">
                 <div class="d-flex align-items-center gap-2 mb-1">

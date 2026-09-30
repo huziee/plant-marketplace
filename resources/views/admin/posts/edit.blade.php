@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<form action="{{ route('admin.posts.update', $post->id) }}" method="POST">
+<form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -169,22 +169,46 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label fw-bold">Featured Header Image</label>
-                        <select name="featured_image_id" class="form-select">
-                            <option value="">-- None --</option>
-                            @foreach($mediaFiles as $media)
-                                <option value="{{ $media->id }}" {{ old('featured_image_id', $post->featured_image_id) == $media->id ? 'selected' : '' }}>{{ $media->file_name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 160px; max-height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            @if($post->featuredImage)
+                                <img id="featuredImgPreview" src="{{ asset('storage/' . $post->featuredImage->file_path) }}" alt="Featured Image" class="rounded w-100 h-100 object-fit-cover">
+                                <div id="featuredImgPlaceholder" class="text-muted small d-none">
+                                    <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-success opacity-75"></i>
+                                    <div>Click below to select featured image</div>
+                                </div>
+                            @else
+                                <img id="featuredImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                                <div id="featuredImgPlaceholder" class="text-muted small">
+                                    <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-success opacity-75"></i>
+                                    <div>Click below to select featured image</div>
+                                </div>
+                            @endif
+                        </div>
+                        <input type="file" name="featured_image" class="form-control @error('featured_image') is-invalid @enderror" accept="image/*" onchange="previewMediaImage(this, 'featuredImgPreview', 'featuredImgPlaceholder')">
+                        <div class="form-text text-muted small">Select a new file to replace existing featured header image.</div>
+                        @error('featured_image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Open Graph Share Image</label>
-                        <select name="og_image_id" class="form-select">
-                            <option value="">-- Same as Featured Image --</option>
-                            @foreach($mediaFiles as $media)
-                                <option value="{{ $media->id }}" {{ old('og_image_id', $post->og_image_id) == $media->id ? 'selected' : '' }}>{{ $media->file_name }}</option>
-                            @endforeach
-                        </select>
+                        <label class="form-label fw-bold">Open Graph Share Image (Optional)</label>
+                        <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 160px; max-height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            @if($post->ogImage)
+                                <img id="ogImgPreview" src="{{ asset('storage/' . $post->ogImage->file_path) }}" alt="OG Image" class="rounded w-100 h-100 object-fit-cover">
+                                <div id="ogImgPlaceholder" class="text-muted small d-none">
+                                    <i class="fa-solid fa-share-nodes fa-2x mb-2 text-info opacity-75"></i>
+                                    <div>Click below to select OG image</div>
+                                </div>
+                            @else
+                                <img id="ogImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                                <div id="ogImgPlaceholder" class="text-muted small">
+                                    <i class="fa-solid fa-share-nodes fa-2x mb-2 text-info opacity-75"></i>
+                                    <div>Click below to select OG social share image</div>
+                                </div>
+                            @endif
+                        </div>
+                        <input type="file" name="og_image" class="form-control @error('og_image') is-invalid @enderror" accept="image/*" onchange="previewMediaImage(this, 'ogImgPreview', 'ogImgPlaceholder')">
+                        <div class="form-text text-muted small">Recommended size 1200x630px for Facebook/Twitter cards.</div>
+                        @error('og_image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>
@@ -302,4 +326,22 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+<script>
+function previewMediaImage(input, previewId, placeholderId) {
+    const preview = document.getElementById(previewId);
+    const placeholder = document.getElementById(placeholderId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

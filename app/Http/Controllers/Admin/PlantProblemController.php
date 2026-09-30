@@ -45,7 +45,12 @@ class PlantProblemController extends Controller
         $treatments = $validated['treatments'] ?? [];
         $preventions = $validated['preventions'] ?? [];
 
-        unset($validated['symptoms'], $validated['causes'], $validated['treatments'], $validated['preventions']);
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'problems');
+            $validated['featured_image_id'] = $media->id;
+        }
+
+        unset($validated['symptoms'], $validated['causes'], $validated['treatments'], $validated['preventions'], $validated['image']);
 
         $problemService->createProblem($validated, $symptoms, $causes, $treatments, $preventions);
 
@@ -54,7 +59,7 @@ class PlantProblemController extends Controller
 
     public function edit(PlantProblem $plantProblem)
     {
-        $plantProblem->load('symptoms', 'causes', 'treatments', 'preventions');
+        $plantProblem->load('symptoms', 'causes', 'treatments', 'preventions', 'featuredImage');
 
         return view('admin.plant_problems.edit', compact('plantProblem'));
     }
@@ -67,7 +72,12 @@ class PlantProblemController extends Controller
         $treatments = $validated['treatments'] ?? [];
         $preventions = $validated['preventions'] ?? [];
 
-        unset($validated['symptoms'], $validated['causes'], $validated['treatments'], $validated['preventions']);
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'problems');
+            $validated['featured_image_id'] = $media->id;
+        }
+
+        unset($validated['symptoms'], $validated['causes'], $validated['treatments'], $validated['preventions'], $validated['image']);
 
         $problemService->updateProblem($plantProblem, $validated, $symptoms, $causes, $treatments, $preventions);
 

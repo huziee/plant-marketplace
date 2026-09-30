@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContentCategoryRequest;
 use App\Http\Requests\UpdateContentCategoryRequest;
 use App\Models\ContentCategory;
-use App\Models\Media;
 use Illuminate\Http\Request;
 
 class ContentCategoryController extends Controller
@@ -24,14 +23,20 @@ class ContentCategoryController extends Controller
     public function create()
     {
         $parents = ContentCategory::whereNull('parent_id')->get();
-        $mediaFiles = Media::latest()->take(30)->get();
 
-        return view('admin.content_categories.create', compact('parents', 'mediaFiles'));
+        return view('admin.content_categories.create', compact('parents'));
     }
 
     public function store(StoreContentCategoryRequest $request)
     {
-        $category = ContentCategory::create($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['featured_image_id'] = $media->id;
+        }
+
+        $category = ContentCategory::create($data);
 
         return redirect()->route('admin.content-categories.index')
             ->with('success', "Content Category '{$category->name}' created successfully.");
@@ -39,15 +44,22 @@ class ContentCategoryController extends Controller
 
     public function edit(ContentCategory $contentCategory)
     {
+        $contentCategory->load('featuredImage');
         $parents = ContentCategory::whereNull('parent_id')->where('id', '!=', $contentCategory->id)->get();
-        $mediaFiles = Media::latest()->take(30)->get();
 
-        return view('admin.content_categories.edit', compact('contentCategory', 'parents', 'mediaFiles'));
+        return view('admin.content_categories.edit', compact('contentCategory', 'parents'));
     }
 
     public function update(UpdateContentCategoryRequest $request, ContentCategory $contentCategory)
     {
-        $contentCategory->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('image'), $request->user()?->id, 'public', 'categories');
+            $data['featured_image_id'] = $media->id;
+        }
+
+        $contentCategory->update($data);
 
         return redirect()->route('admin.content-categories.index')
             ->with('success', "Content Category '{$contentCategory->name}' updated successfully.");

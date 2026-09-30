@@ -184,15 +184,10 @@
             @endif
 
             @if(auth()->user()->isAuthor())
-                <div class="admin-nav-header">CONTENT & PAGES</div>
+                <div class="admin-nav-header">EDITORIAL & CONTENT SUITE</div>
                 <a href="{{ route('admin.posts.index') }}" class="admin-nav-item {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                     <i class="fa-regular fa-newspaper"></i> All Content & Posts
                 </a>
-                @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.pages.index') }}" class="admin-nav-item {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
-                        <i class="fa-solid fa-file-contract"></i> Pages & Policy CMS
-                    </a>
-                @endif
                 @if(auth()->user()->isEditor())
                     <a href="{{ route('admin.content-categories.index') }}" class="admin-nav-item {{ request()->routeIs('admin.content-categories.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-folder-tree"></i> Content Categories
@@ -234,6 +229,9 @@
                 <a href="{{ route('admin.product-collections.index') }}" class="admin-nav-item {{ request()->routeIs('admin.product-collections.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-layer-group"></i> Collections
                 </a>
+                <a href="{{ route('admin.merchant-feeds.index') }}" class="admin-nav-item {{ request()->routeIs('admin.merchant-feeds.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-rss"></i> Merchant Feeds
+                </a>
             @endif
 
             @if(auth()->user()->isEditor())
@@ -252,11 +250,7 @@
                     <i class="fa-solid fa-users"></i> Users
                 </a>
             @endif
-            @if(auth()->user()->isAuthor())
-                <a href="{{ route('admin.media.index') }}" class="admin-nav-item {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-images"></i> Media Library
-                </a>
-            @endif
+
             @if(auth()->user()->isAdmin())
                 <a href="{{ route('admin.settings.index') }}" class="admin-nav-item {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-gear"></i> Settings

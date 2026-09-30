@@ -252,10 +252,7 @@
                                     <span class="badge position-absolute top-0 start-0 m-2 px-2 py-1 bg-success-subtle text-success border border-success" style="font-size:10px; border-radius:6px">{{ ucfirst($product->product_type?->value ?: 'Plant') }}</span>
                                 @endif
 
-                                <!-- Wishlist Heart Button -->
-                                <button class="btn btn-sm btn-white position-absolute top-0 end-0 m-2 rounded-circle shadow-sm border-0 d-flex align-items-center justify-content-center" style="width:30px;height:30px;background:#ffffff;color:#6b7280" aria-label="Wishlist">
-                                    <i class="fa-regular fa-heart" style="font-size:12px"></i>
-                                </button>
+
 
                                 <a href="{{ route('frontend.shop.product', $product->slug) }}">
                                     <img src="{{ $product->featuredImage ? asset('storage/' . $product->featuredImage->file_path) : asset('images/products/monstera_table.jpg') }}" alt="{{ $product->name }}" class="w-100 h-100 object-fit-cover p-2">

@@ -26,7 +26,6 @@ Route::middleware(['auth', 'role:admin,editor,author,nursery_owner'])
             Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
             Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
             Route::resource('shipping-methods', \App\Http\Controllers\Admin\ShippingMethodController::class)->only(['index', 'store', 'update', 'destroy']);
-            Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
         });
 
         // Content Publishing & Editorial Suite (Accessible to admin, editor, author)
@@ -35,11 +34,7 @@ Route::middleware(['auth', 'role:admin,editor,author,nursery_owner'])
             Route::get('posts/{post}/preview', [PostController::class, 'preview'])->name('posts.preview');
             Route::resource('posts', PostController::class)->except(['show']);
 
-            // Media Library
-            Route::get('media', [MediaController::class, 'index'])->name('media.index');
-            Route::post('media', [MediaController::class, 'store'])->name('media.store');
-            Route::put('media/{media}', [MediaController::class, 'update'])->name('media.update');
-            Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
+
         });
 
         // Botanical & Editorial Management (Accessible to admin & editor)
@@ -88,5 +83,9 @@ Route::middleware(['auth', 'role:admin,editor,author,nursery_owner'])
             Route::post('reviews/{review}/status', [\App\Http\Controllers\Admin\ProductReviewController::class, 'updateStatus'])->name('reviews.update-status');
             Route::delete('reviews/{review}', [\App\Http\Controllers\Admin\ProductReviewController::class, 'destroy'])->name('reviews.destroy');
             Route::resource('product-collections', \App\Http\Controllers\Admin\ProductCollectionController::class)->only(['index', 'store', 'destroy']);
+            
+            // Merchant Feeds & Product Sync Suite
+            Route::get('merchant-feeds', [\App\Http\Controllers\Admin\MerchantFeedController::class, 'index'])->name('merchant-feeds.index');
+            Route::post('merchant-feeds/sync-google', [\App\Http\Controllers\Admin\MerchantFeedController::class, 'syncGoogle'])->name('merchant-feeds.sync-google');
         });
     });

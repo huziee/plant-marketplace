@@ -68,7 +68,7 @@
           <div class="product-media">
             <img src="{{ $plant->featuredImage ? asset('storage/' . $plant->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $plant->name }}" class="skeleton-img">
             <span class="badge text-capitalize" style="background:var(--green-900);color:white">{{ $plant->difficulty }} Care</span>
-            <button class="wish"><i class="fa-regular fa-heart"></i></button>
+
           </div>
           <div class="product-body">
             <div class="d-flex align-items-center gap-2 mb-2">

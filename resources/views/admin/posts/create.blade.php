@@ -11,7 +11,7 @@
     <a href="{{ route('admin.posts.index') }}" class="btn btn-outline-secondary" style="border-radius:12px"><i class="fa-solid fa-arrow-left me-1"></i> Back to Content</a>
 </div>
 
-<form action="{{ route('admin.posts.store') }}" method="POST">
+<form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <!-- Navigation Tabs -->
@@ -138,22 +138,30 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <label class="form-label fw-bold">Featured Header Image</label>
-                        <select name="featured_image_id" class="form-select">
-                            <option value="">-- None --</option>
-                            @foreach($mediaFiles as $media)
-                                <option value="{{ $media->id }}">{{ $media->file_name }} ({{ $media->alt_text ?: 'No ALT' }})</option>
-                            @endforeach
-                        </select>
+                        <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 160px; max-height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img id="featuredImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                            <div id="featuredImgPlaceholder" class="text-muted small">
+                                <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-success opacity-75"></i>
+                                <div>Click below to select featured image</div>
+                            </div>
+                        </div>
+                        <input type="file" name="featured_image" class="form-control @error('featured_image') is-invalid @enderror" accept="image/*" onchange="previewMediaImage(this, 'featuredImgPreview', 'featuredImgPlaceholder')">
+                        <div class="form-text text-muted small">JPG, PNG, WebP up to 5MB.</div>
+                        @error('featured_image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="col-md-6">
-                        <label class="form-label fw-bold">Open Graph Share Image</label>
-                        <select name="og_image_id" class="form-select">
-                            <option value="">-- Same as Featured Image --</option>
-                            @foreach($mediaFiles as $media)
-                                <option value="{{ $media->id }}">{{ $media->file_name }}</option>
-                            @endforeach
-                        </select>
+                        <label class="form-label fw-bold">Open Graph Share Image (Optional)</label>
+                        <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 160px; max-height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <img id="ogImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                            <div id="ogImgPlaceholder" class="text-muted small">
+                                <i class="fa-solid fa-share-nodes fa-2x mb-2 text-info opacity-75"></i>
+                                <div>Click below to select OG social share image</div>
+                            </div>
+                        </div>
+                        <input type="file" name="og_image" class="form-control @error('og_image') is-invalid @enderror" accept="image/*" onchange="previewMediaImage(this, 'ogImgPreview', 'ogImgPlaceholder')">
+                        <div class="form-text text-muted small">Recommended size 1200x630px for Facebook/Twitter cards.</div>
+                        @error('og_image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                     </div>
                 </div>
             </div>
@@ -260,4 +268,22 @@
         </div>
     </div>
 </form>
+
+@push('scripts')
+<script>
+function previewMediaImage(input, previewId, placeholderId) {
+    const preview = document.getElementById(previewId);
+    const placeholder = document.getElementById(placeholderId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

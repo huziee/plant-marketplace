@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\ContentCategory;
-use App\Models\Media;
 use App\Models\Plant;
 use App\Models\PlantProblem;
 use App\Models\Post;
@@ -70,14 +69,25 @@ class PostController extends Controller
         $problems = PlantProblem::active()->select('id', 'name')->get();
         $posts = Post::published()->select('id', 'title')->get();
         $authors = User::whereIn('role', ['admin', 'editor', 'author'])->get();
-        $mediaFiles = Media::latest()->take(30)->get();
 
-        return view('admin.posts.create', compact('categories', 'tags', 'plants', 'problems', 'posts', 'authors', 'mediaFiles'));
+        return view('admin.posts.create', compact('categories', 'tags', 'plants', 'problems', 'posts', 'authors'));
     }
 
     public function store(StorePostRequest $request)
     {
-        $post = $this->postService->createPost($request->validated(), $request->user());
+        $validated = $request->validated();
+
+        if ($request->hasFile('featured_image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('featured_image'), $request->user()?->id, 'public', 'posts');
+            $validated['featured_image_id'] = $media->id;
+        }
+
+        if ($request->hasFile('og_image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('og_image'), $request->user()?->id, 'public', 'posts');
+            $validated['og_image_id'] = $media->id;
+        }
+
+        $post = $this->postService->createPost($validated, $request->user());
 
         return redirect()->route('admin.posts.index')
             ->with('success', "Post '{$post->title}' created successfully.");
@@ -85,7 +95,7 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $post->load(['tags', 'plants', 'problems', 'relatedPosts', 'sources']);
+        $post->load(['tags', 'plants', 'problems', 'relatedPosts', 'sources', 'featuredImage', 'ogImage']);
 
         $categories = ContentCategory::active()->get();
         $tags = Tag::active()->get();
@@ -93,14 +103,25 @@ class PostController extends Controller
         $problems = PlantProblem::active()->select('id', 'name')->get();
         $posts = Post::where('id', '!=', $post->id)->select('id', 'title')->get();
         $authors = User::whereIn('role', ['admin', 'editor', 'author'])->get();
-        $mediaFiles = Media::latest()->take(30)->get();
 
-        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'plants', 'problems', 'posts', 'authors', 'mediaFiles'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'plants', 'problems', 'posts', 'authors'));
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $this->postService->updatePost($post, $request->validated(), $request->user());
+        $validated = $request->validated();
+
+        if ($request->hasFile('featured_image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('featured_image'), $request->user()?->id, 'public', 'posts');
+            $validated['featured_image_id'] = $media->id;
+        }
+
+        if ($request->hasFile('og_image')) {
+            $media = app(\App\Services\MediaService::class)->upload($request->file('og_image'), $request->user()?->id, 'public', 'posts');
+            $validated['og_image_id'] = $media->id;
+        }
+
+        $this->postService->updatePost($post, $validated, $request->user());
 
         return redirect()->route('admin.posts.index')
             ->with('success', "Post '{$post->title}' updated successfully.");

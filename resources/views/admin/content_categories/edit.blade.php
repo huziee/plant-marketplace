@@ -12,7 +12,7 @@
 </div>
 
 <div class="card-custom">
-    <form action="{{ route('admin.content-categories.update', $contentCategory->id) }}" method="POST">
+    <form action="{{ route('admin.content-categories.update', $contentCategory->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row g-3">
@@ -56,6 +56,28 @@
             </div>
 
             <div class="col-md-12">
+                <label class="form-label fw-bold">Category Cover Image</label>
+                <div class="border rounded-3 p-3 bg-light text-center mb-2" style="min-height: 140px; max-height: 180px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    @if($contentCategory->featuredImage)
+                        <img id="catImgPreview" src="{{ asset('storage/' . $contentCategory->featuredImage->file_path) }}" alt="Category Image" class="rounded w-100 h-100 object-fit-cover">
+                        <div id="catImgPlaceholder" class="text-muted small d-none">
+                            <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-success opacity-75"></i>
+                            <div>Click below to upload category cover image</div>
+                        </div>
+                    @else
+                        <img id="catImgPreview" src="" alt="Preview" class="rounded w-100 h-100 object-fit-cover d-none">
+                        <div id="catImgPlaceholder" class="text-muted small">
+                            <i class="fa-solid fa-cloud-arrow-up fa-2x mb-2 text-success opacity-75"></i>
+                            <div>Click below to upload category cover image</div>
+                        </div>
+                    @endif
+                </div>
+                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*" onchange="previewCatImage(this)">
+                <div class="form-text text-muted small">Select a new image file to replace current cover image.</div>
+                @error('image') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-12">
                 <label class="form-label fw-bold">Category Description</label>
                 <textarea name="description" class="form-control" rows="3">{{ old('description', $contentCategory->description) }}</textarea>
             </div>
@@ -66,4 +88,22 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+function previewCatImage(input) {
+    const preview = document.getElementById('catImgPreview');
+    const placeholder = document.getElementById('catImgPlaceholder');
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            if (placeholder) placeholder.classList.add('d-none');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+@endpush
 @endsection

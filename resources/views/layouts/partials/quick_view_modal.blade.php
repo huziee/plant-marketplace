@@ -61,9 +61,7 @@
                     <button class="btn btn-primary flex-grow-1 py-3 fw-bold add-btn" id="qvAddBtn" style="border-radius:14px;background:var(--green-900)">
                         <i class="fa-solid fa-plus me-1"></i> Add To Cart
                     </button>
-                    <button class="wish icon-btn" style="width:50px;height:50px;border-radius:14px">
-                        <i class="fa-regular fa-heart"></i>
-                    </button>
+
                 </div>
             </div>
         </div>

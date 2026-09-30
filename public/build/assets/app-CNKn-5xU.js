@@ -26,7 +26,7 @@ function Tt(e,t){return function(){return e.apply(t,arguments)}}const{toString:s
                         <i class="fa-solid fa-bag-shopping fa-3x mb-3 text-secondary opacity-50"></i>
                         <p class="mb-0">Your cart is currently empty.</p>
                         <a href="/shop" class="btn btn-sm btn-outline-success mt-3" style="border-radius:12px;font-weight:700">Explore Shop</a>
-                    </div>`),c&&c.classList.add("d-none");else{if(i){let _='<div class="cart-items-list">';h.items.forEach(A=>{const k=A.product?.featured_image?.file_path?`/storage/${A.product.featured_image.file_path}`:"https://images.unsplash.com/photo-1614594575810-7a6f1ee5f7f4?auto=format&fit=crop&w=700&q=85";_+=`
+                    </div>`),c&&c.classList.add("d-none");else{if(i){let _='<div class="cart-items-list">';h.items.forEach(A=>{const k=A.product?.featured_image?.file_path?`/storage/${A.product.featured_image.file_path}`:"/images/placeholders/plant_placeholder.jpg";_+=`
                         <div class="cart-item-row" data-cart-id="${A.id}">
                             <img src="${k}" alt="${A.product?.name||"Plant"}" class="cart-item-img">
                             <div class="flex-grow-1">

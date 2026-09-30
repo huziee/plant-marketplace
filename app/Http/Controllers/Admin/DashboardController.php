@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\PostStatus;
 use App\Enums\PostType;
 use App\Http\Controllers\Controller;
-use App\Models\Media;
 use App\Models\NewsletterSubscriber;
 use App\Models\Plant;
 use App\Models\PlantCategory;
@@ -33,8 +32,6 @@ class DashboardController extends Controller
             'published_guides' => Post::published()->ofType(PostType::GUIDE)->count(),
             'published_news' => Post::published()->ofType(PostType::NEWS)->count(),
             'draft_posts' => Post::where('status', PostStatus::DRAFT->value)->count(),
-            'scheduled_posts' => Post::where('status', PostStatus::SCHEDULED->value)->count(),
-            'media_files' => Media::count(),
             'subscribers' => NewsletterSubscriber::where('status', 'active')->count(),
         ];
 

@@ -79,9 +79,10 @@ Route::get('/page/{slug}', [PageController::class, 'show'])->name('frontend.page
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
-// Sitemaps
+// Sitemaps & Merchant Feeds
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/sitemaps/{type}.xml', [SitemapController::class, 'show'])->name('sitemap.show');
+Route::get('/feeds/google-merchant.xml', [\App\Http\Controllers\Frontend\GoogleMerchantFeedController::class, 'feed'])->name('feeds.google-merchant');
 
 /*
 |--------------------------------------------------------------------------
