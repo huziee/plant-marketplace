@@ -933,7 +933,8 @@ nav {
   transform: scale(1.05);
 }
 
-.badge {
+.product-media .badge,
+.product-card .badge {
   position: absolute;
   left: 14px;
   top: 14px;
@@ -942,6 +943,7 @@ nav {
   padding: 7px 10px;
   font-size: 11px;
   font-weight: 700;
+  z-index: 2;
 }
 
 .wish {
@@ -2452,5 +2454,49 @@ body.js-scroll-effects footer.footer-visible .footer-grid {
     display: block !important;
     margin: 16px auto !important;
     max-width: 100% !important;
+  }
+}
+
+/* Global Mobile Layout & Breadcrumb Responsiveness */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.breadcrumb-item {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.breadcrumb-item.active {
+  word-break: break-word;
+  white-space: normal;
+}
+
+.content-body,
+.entry-content {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.content-body table,
+.entry-content table {
+  display: block;
+  width: 100% !important;
+  overflow-x: auto;
+}
+
+.content-body iframe,
+.entry-content iframe,
+.content-body video,
+.entry-content video {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 576px) {
+  .breadcrumb {
+    flex-wrap: wrap;
+    font-size: 12px;
   }
 }

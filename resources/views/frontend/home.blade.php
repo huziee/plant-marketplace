@@ -109,11 +109,11 @@
         <form action="{{ route('search.index') }}" method="GET" class="search-box">
           <label class="field">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input name="q" id="mainSearch" type="text" placeholder="Search plants, care guides, articles..." />
+            <input name="q" id="mainSearch" type="text" aria-label="Search plants and articles" placeholder="Search plants, care guides, articles..." />
           </label>
           <label class="field">
             <i class="fa-solid fa-layer-group"></i>
-            <select name="category">
+            <select name="category" aria-label="Select category">
               <option value="">All categories</option>
               <option>Indoor Plants</option>
               <option>Outdoor Plants</option>
@@ -140,7 +140,7 @@
         <div class="category-grid">
           @foreach($categories as $category)
             <a class="category" href="{{ route('frontend.shop.category', $category['slug']) }}">
-              <div class="category-img"><img src="{{ $category['image'] }}" alt="{{ $category['name'] }}" class="skeleton-img"></div>
+              <div class="category-img"><img src="{{ $category['image'] }}" alt="{{ $category['name'] }}" class="skeleton-img" loading="lazy"></div>
               <h4>{{ $category['name'] }}</h4><span>{{ $category['count'] }}</span>
             </a>
           @endforeach
@@ -172,7 +172,7 @@
           <!-- Left area with full unbroken plant pot -->
           <div class="about-spacer">
             <div class="about-plant-wrap">
-              <img src="{{ asset('/images/hero/about-sec.png') }}" alt="Snake plant in white pot" class="about-plant-img">
+              <img src="{{ asset('/images/hero/about-sec.png') }}" alt="Snake plant in white pot" class="about-plant-img" loading="lazy">
             </div>
           </div>
 
@@ -200,7 +200,7 @@
 
       <!-- Bottom right floating leaves -->
       <div class="about-floating-leaves" aria-hidden="true">
-        <img src="{{ asset('images/floating-leaves.png') }}" alt="Floating leaves decorative accent">
+        <img src="{{ asset('images/floating-leaves.png') }}" alt="Floating leaves decorative accent" loading="lazy">
       </div>
     </section>
 
@@ -208,7 +208,7 @@
       <div class="container">
         <div class="promo-grid">
           <article class="promo-card">
-            <img src="{{ asset('images/home/promo_beginner.jpg') }}" alt="Green indoor plant leaves" class="skeleton-img">
+            <img src="{{ asset('images/home/promo_beginner.jpg') }}" alt="Green indoor plant leaves" class="skeleton-img" loading="lazy">
             <div class="promo-content">
               <span class="article-tag">Easy-care collection</span>
               <h3>Plants for beginners.</h3>
@@ -218,7 +218,7 @@
           </article>
 
           <article class="promo-card alt">
-            <img src="{{ asset('images/home/promo_articles.jpg') }}" alt="Hands gardening outdoors" class="skeleton-img">
+            <img src="{{ asset('images/home/promo_articles.jpg') }}" alt="Hands gardening outdoors" class="skeleton-img" loading="lazy">
             <div class="promo-content">
               <span class="article-tag">Botanical Science</span>
               <h3>Expert Plant Articles</h3>
@@ -245,7 +245,7 @@
           @foreach($trendingProducts as $product)
             <article class="product-card">
               <div class="product-media">
-                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="skeleton-img">
+                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="skeleton-img" loading="lazy">
                 <span class="badge">{{ $product['badge'] }}</span>
 
               </div>
@@ -285,7 +285,7 @@
             <div class="col-md-4">
               <article class="product-card h-100">
                 <div class="product-media" style="height:200px">
-                  <img src="{{ $article->featuredImage ? asset('storage/' . $article->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $article->title }}" class="w-100 h-100 object-fit-cover">
+                  <img src="{{ $article->featuredImage ? asset('storage/' . $article->featuredImage->file_path) : asset('images/placeholders/plant_placeholder.jpg') }}" alt="{{ $article->title }}" class="w-100 h-100 object-fit-cover" loading="lazy">
                   <span class="badge position-absolute top-0 start-0 m-3 bg-success text-white shadow-sm">Article</span>
                 </div>
                 <div class="product-body d-flex flex-column">
@@ -315,7 +315,7 @@
         <div class="news-grid">
           @foreach($latestNews as $newsItem)
             <article class="news-card">
-              <img src="{{ $newsItem->featuredImage ? asset('storage/' . $newsItem->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $newsItem->title }}" class="skeleton-img">
+              <img src="{{ $newsItem->featuredImage ? asset('storage/' . $newsItem->featuredImage->file_path) : asset('images/placeholders/news_banner.jpg') }}" alt="{{ $newsItem->title }}" class="skeleton-img" loading="lazy">
               <div class="news-body">
                 <small>{{ $newsItem->category?->name ?: 'Industry News' }} &bull; {{ $newsItem->published_at ? $newsItem->published_at->format('M d, Y') : now()->format('M d, Y') }}</small>
                 <h3><a href="{{ route('news.show', $newsItem->slug) }}" class="text-dark text-decoration-none">{{ $newsItem->title }}</a></h3>
@@ -337,7 +337,7 @@
           </div>
           <form class="subscribe" id="subscribeForm" action="{{ route('newsletter.subscribe') }}" method="POST">
             @csrf
-            <input type="email" id="emailInput" name="email" placeholder="Enter your email address" required>
+            <input type="email" id="emailInput" name="email" aria-label="Newsletter email address" placeholder="Enter your email address" required>
             <button type="submit">Join newsletter</button>
           </form>
         </div>

@@ -1,6 +1,6 @@
 <div class="quick-view-overlay" id="quickViewModal">
     <div class="quick-view-container">
-        <button class="quick-view-close" id="quickViewClose"><i class="fa-solid fa-xmark"></i></button>
+        <button class="quick-view-close" id="quickViewClose" aria-label="Close Quick View Modal"><i class="fa-solid fa-xmark"></i></button>
 
         <div class="row g-4 align-items-center">
             <div class="col-md-6">

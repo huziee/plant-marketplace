@@ -1,7 +1,7 @@
 <aside class="drawer" id="drawer">
     <div class="drawer-head">
         <h3 id="drawerTitle" style="font-family:'Playfair Display',serif;font-weight:700">Your Cart</h3>
-        <button class="drawer-close" id="drawerClose"><i class="fa-solid fa-xmark"></i></button>
+        <button class="drawer-close" id="drawerClose" aria-label="Close Cart Drawer"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     <!-- Free Shipping Progress Bar -->

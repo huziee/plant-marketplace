@@ -3,10 +3,10 @@
         <div class="search-modal-header">
             <div class="search-input-wrap">
                 <i class="fa-solid fa-magnifying-glass search-modal-icon"></i>
-                <input type="text" id="liveSearchInput" placeholder="Search plants, seeds, articles, plant doctor... (Press ESC to close)" autocomplete="off">
-                <button class="search-clear-btn" id="searchClearBtn"><i class="fa-solid fa-xmark"></i></button>
+                <input type="text" id="liveSearchInput" aria-label="Search query" placeholder="Search plants, seeds, articles, plant doctor... (Press ESC to close)" autocomplete="off">
+                <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear Search Input"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <button class="search-modal-close" id="searchModalClose"><i class="fa-solid fa-xmark"></i></button>
+            <button class="search-modal-close" id="searchModalClose" aria-label="Close Search Modal"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
         <div class="search-modal-body">

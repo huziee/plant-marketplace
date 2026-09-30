@@ -21,7 +21,7 @@
                 @auth
                     <!-- Authenticated User Dropdown -->
                     <div class="dropdown">
-                        <button class="icon-btn dropdown-toggle border-0" type="button" id="userHeaderDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="padding:0">
+                        <button class="icon-btn dropdown-toggle border-0" type="button" id="userHeaderDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User Account Menu" style="padding:0">
                             <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="rounded-circle" style="width:36px;height:36px;object-fit:cover">
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius:18px;padding:12px;min-width:220px;margin-top:10px">
